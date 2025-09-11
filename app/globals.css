@@ -1,26 +1,50 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.navbar {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+.swiper-button-prev {
+  width: 50px !important;
+  height: 50px !important;
+  background-color: white !important;
+  border-radius: 50%;
+  color: black !important;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.swiper-button-prev::after {
+  font-size: 35px !important;
+}
+.swiper-button-next {
+  width: 50px !important;
+  height: 50px !important;
+  background-color: white !important;
+  border-radius: 50%;
+  color: black !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.swiper-button-next::after {
+  font-size: 35px !important;
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+::-webkit-scrollbar {
+  display: none;
+}
+.MuiDialogContent-root {
+  background-color: rgb(88, 87, 87) !important;
+}
+.card {
+  border-radius: 0px 20px;
+}
+.MuiDialogContent-root {
+  padding: 20px !important;
+  overflow-x: hidden;
+}
+.MuiButtonBase-root {
+  cursor: pointer;
+}
+.MuiDialogContent-dividers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  height: 2000px;
 }
