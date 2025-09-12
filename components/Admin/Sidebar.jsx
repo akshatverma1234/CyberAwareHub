@@ -55,10 +55,12 @@ const Sidebar = () => {
             </Button>
           </Link>
 
-          <Button className="w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group">
-            <FaRegImages className="text-[18px] group-hover:text-blue-400 transition-colors" />
-            <span>Home Slides</span>
-          </Button>
+          <Link href="/admin/caseStudies">
+            <Button className="w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group">
+              <FaRegImages className="text-[18px] group-hover:text-blue-400 transition-colors" />
+              <span>CaseStudies</span>
+            </Button>
+          </Link>
 
           <Button className="w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group">
             <span>Products</span>
@@ -70,7 +72,6 @@ const Sidebar = () => {
           </Button>
         </div>
 
-        {/* Settings Section */}
         <div className="pt-6 mt-6 border-t border-gray-700">
           <p className="text-xs font-semibold text-gray-900 uppercase tracking-wider px-3 mb-3">
             Account
@@ -83,11 +84,10 @@ const Sidebar = () => {
         </div>
       </nav>
 
-      {/* Footer */}
       <div className="absolute bottom-4 left-3 right-3">
-        <div className="bg-gray-700 rounded-lg p-3 text-center">
-          <p className="text-xs text-gray-400">Admin Dashboard</p>
-          <p className="text-xs text-gray-500">v1.0.0</p>
+        <div className="bg-gray-300 rounded-lg p-3 text-center">
+          <p className="text-xs text-gray-800">Admin Dashboard</p>
+          <p className="text-xs text-gray-800">v1.0.0</p>
         </div>
       </div>
     </div>

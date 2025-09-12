@@ -8,7 +8,7 @@ const StorySchema = new mongoose.Schema(
     impact: { type: String, required: true },
     lesson: { type: String, required: true },
     author: { type: String, default: "Anonymous" },
-    // approved: { type: Boolean, default: false },
+    approved: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

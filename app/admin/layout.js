@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Sidebar from "@/components/Admin/Sidebar";
+import AppProvider from "../../context/AppContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +26,9 @@ export default async function AdminLayout({ children }) {
       >
         <Sidebar />
 
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen">
+          <AppProvider>{children}</AppProvider>
+        </main>
       </body>
     </html>
   );
