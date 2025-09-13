@@ -25,6 +25,31 @@ export async function GET(req, { params }) {
     );
   }
 }
+export async function PATCH(req, { params }) {
+  await connectDB();
+
+  try {
+    const { id } = params;
+    const body = await req.json();
+
+    const updated = await CaseStudy.findByIdAndUpdate(id, body, { new: true });
+
+    if (!updated) {
+      return NextResponse.json(
+        { error: "Case study not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(updated, { status: 200 });
+  } catch (err) {
+    console.error("Error updating case study:", err);
+    return NextResponse.json(
+      { error: "Failed to update case study" },
+      { status: 500 }
+    );
+  }
+}
 
 export async function DELETE(req, { params }) {
   await connectDB();

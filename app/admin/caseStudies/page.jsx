@@ -1,9 +1,47 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import { Button, CircularProgress } from "@mui/material";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import { MdOutlineEdit } from "react-icons/md";
+import axios from "axios";
+import { MyContext } from "@/context/AdminAppContext";
+import ConfirmDialog from "@/components/Admin/ConfirmDialog/ConfirmDialog";
+
+const columns = [
+  { id: "title", label: "Title", minWidth: 150 },
+  { id: "summary", label: "Summary", minWidth: 200 },
+  { id: "createdDate", label: "Created", minWidth: 130 },
+  { id: "actions", label: "Actions", minWidth: 180 },
+];
 
 const CaseStudies = () => {
   const [caseStudies, setCaseStudies] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [updatingIds, setUpdatingIds] = useState(new Set());
+  const [error, setError] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const context = useContext(MyContext);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
   useEffect(() => {
     fetch("/api/admin/caseStudies")
@@ -15,23 +53,29 @@ const CaseStudies = () => {
       .catch((err) => console.error("Error loading case studies:", err));
   }, []);
 
-  const deleteCaseStudy = async (id) => {
-    try {
-      if (confirm("Delete this case study?")) {
-        const res = await fetch(`/api/admin/caseStudies/${id}`, {
-          method: "DELETE",
-        });
+  const handleDeleteClick = (id) => {
+    setSelectedId(id);
+    setConfirmOpen(true);
+  };
+  const deleteCaseStudy = async () => {
+    if (!selectedId) return;
 
-        if (res.ok) {
-          setCaseStudies((prev) => prev.filter((c) => c._id !== id));
-          alert("✅ Case study deleted!");
-        } else {
-          const errorData = await res.json();
-          alert(`❌ Failed to delete: ${errorData.error || "Unknown error"}`);
-        }
+    try {
+      setIsLoading(true);
+      const res = await fetch(`/api/admin/caseStudies/${selectedId}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        setCaseStudies((prev) => prev.filter((c) => c._id !== selectedId));
+        context.openAlertBox("success", "CaseStudy deleted successfully");
       }
     } catch (error) {
       console.error("Error deleting case study:", error);
+    } finally {
+      setIsLoading(false);
+      setConfirmOpen(false);
+      setSelectedId(null);
     }
   };
 
@@ -40,49 +84,129 @@ const CaseStudies = () => {
       <div className="min-h-screen bg-[#f5f5f6] flex">
         <div className="flex-1 ml-[18%] p-8">
           <h1 className="text-3xl font-bold mb-4">Case Studies</h1>
-          <Link
-            href="/admin/caseStudies/new"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-          >
-            ➕ Add New
+          <Link href="/admin/caseStudies/new">
+            <Button className="!bg-blue-600 !text-white !px-4 !py-2 !rounded-lg">
+              ➕ Add New
+            </Button>
           </Link>
 
-          <table className="mt-6 w-full border">
-            <thead className="bg-gray-200">
-              <tr>
-                <th className="p-3 text-left">Title</th>
-                <th className="p-3 text-left">Author</th>
-                <th className="p-3 text-left">Created</th>
-                <th className="p-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {caseStudies.map((cs) => (
-                <tr key={cs._id} className="border-t">
-                  <td className="p-3">{cs.title}</td>
-                  <td className="p-3">{cs.author || "Admin"}</td>
-                  <td className="p-3">
-                    {new Date(cs.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="p-3 text-right flex gap-2 justify-end">
-                    <Link
-                      href={`/admin/caseStudies/${cs._id}/edit`}
-                      className="text-blue-600 hover:underline"
-                    >
-                      ✏️ Edit
-                    </Link>
-                    <button
-                      onClick={() => deleteCaseStudy(cs._id)}
-                      className="text-red-600 hover:underline"
-                    >
-                      🗑️ Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="bg-white rounded-lg shadow-md mt-8">
+            <TableContainer sx={{ maxHeight: 440 }}>
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{
+                          minWidth: column.minWidth,
+                          backgroundColor: "#f8f9fa",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {caseStudies
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                      const isUpdating = updatingIds.has(row._id);
+                      return (
+                        <TableRow key={row._id} hover>
+                          <TableCell>
+                            <div className="font-medium">{row.title}</div>
+                          </TableCell>
+                          <TableCell>
+                            <div
+                              className="max-w-xs truncate"
+                              title={row.summary}
+                            >
+                              {row.summary}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {new Date(row.createdAt).toLocaleDateString()}
+                          </TableCell>
+
+                          <TableCell>
+                            <div className="flex gap-2 items-center justify-center">
+                              <Link href={`/admin/caseStudies/${row._id}`}>
+                                <Button
+                                  variant="contained"
+                                  size="small"
+                                  className="!min-w-[100px] !rounded-[15px] !bg-gray-200 "
+                                >
+                                  {isUpdating ? (
+                                    <CircularProgress
+                                      size={16}
+                                      color="inherit"
+                                    />
+                                  ) : (
+                                    <div className="flex gap-1 items-center text-black">
+                                      <MdOutlineEdit
+                                        size={24}
+                                        className="text-black"
+                                      />
+                                      Edit
+                                    </div>
+                                  )}
+                                </Button>
+                              </Link>
+                              <Button
+                                onClick={() => handleDeleteClick(row._id)}
+                                variant="contained"
+                                color="error"
+                                size="small"
+                                className="!min-w-[100px] !rounded-[15px]"
+                              >
+                                <div className="flex gap-1 items-center">
+                                  <div className="bg-white rounded-[50%]">
+                                    <MdOutlineDeleteOutline
+                                      size={24}
+                                      className="text-black"
+                                    />
+                                  </div>
+                                  Delete
+                                </div>
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            {caseStudies.length === 0 && !isLoading && (
+              <div className="text-center py-8 text-gray-500">
+                No case studies found
+              </div>
+            )}
+
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={caseStudies.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </div>
         </div>
+        <ConfirmDialog
+          open={confirmOpen}
+          title="Confirm Delete"
+          message="Are you sure you want to delete this case study? This action cannot be undone."
+          onConfirm={deleteCaseStudy}
+          isLoading={isLoading}
+          onCancel={() => setConfirmOpen(false)}
+        />
       </div>
     </>
   );

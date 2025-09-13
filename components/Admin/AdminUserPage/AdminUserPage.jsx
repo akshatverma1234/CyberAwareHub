@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { MyContext } from "@/context/AdminAppContext";
+import { useContext, useState } from "react";
 
 export default function AdminUsersTable({ users }) {
   const [loading, setLoading] = useState({});
@@ -7,7 +8,8 @@ export default function AdminUsersTable({ users }) {
   const [roleFilter, setRoleFilter] = useState("all");
   const [userList, setUserList] = useState(users);
 
-  // Filter users based on search and role filter
+  const context = useContext(MyContext);
+
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.fullName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -39,7 +41,7 @@ export default function AdminUsersTable({ users }) {
       }
 
       const result = await response.json();
-      alert(`✅ ${result.message}`);
+      context.openAlertBox("success", `✅ ${result.message}`);
 
       setUserList((prevUsers) =>
         prevUsers.map((user) =>
@@ -52,8 +54,7 @@ export default function AdminUsersTable({ users }) {
         )
       );
     } catch (error) {
-      console.error("Error updating role:", error);
-      alert(`❌ Error: ${error.message}`);
+      context.openAlertBox("error", `❌ Error: ${error.message}`);
     } finally {
       setLoading((prev) => ({ ...prev, [userId]: null }));
     }
@@ -80,12 +81,11 @@ export default function AdminUsersTable({ users }) {
 
       const result = await response.json();
 
-      alert(`✅ ${result.message}`);
+      context.openAlertBox("success", `✅ ${result.message}`);
 
       window.location.reload();
     } catch (error) {
-      console.error("Error deleting user:", error);
-      alert(`❌ Error: ${error.message}`);
+      context.openAlertBox("error", `❌ Error: ${error.message}`);
     } finally {
       setLoading((prev) => ({ ...prev, [userId]: null }));
     }

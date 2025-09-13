@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { MyContext } from "@/context/AppContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useAuth } from "@clerk/nextjs";
+import { IoMdAdd } from "react-icons/io";
 
 const CommunityStories = () => {
   const [caseStories, setCaseStories] = useState([]);
@@ -41,13 +42,30 @@ const CommunityStories = () => {
   return (
     <div className="bg-[#06080e] w-full min-h-[100vh]">
       <div className="container mx-auto px-6 py-22">
-        <div className="text-center mb-4">
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Community Stories
-          </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto">
-            Real cybersecurity incidents shared by our community members
-          </p>
+        <div className="w-full px-20 flex items-center justify-between">
+          <div className="text-center mb-4">
+            <h1 className="text-4xl font-bold text-white mb-2">
+              Community Stories
+            </h1>
+            <p className="text-gray-300 max-w-2xl mx-auto">
+              Real cybersecurity incidents shared by our community members
+            </p>
+          </div>
+          <div className="!cursor-pointer">
+            <Button
+              variant="outlined"
+              className="flex gap-2 !text-white !bg-green-400"
+              onClick={() =>
+                context.setOpenPanel({
+                  open: true,
+                  model: "addCaseStudy",
+                })
+              }
+            >
+              <IoMdAdd size={35} />
+              <h1>Add case study</h1>
+            </Button>
+          </div>
         </div>
         {isLoading && (
           <div className="w-full flex justify-center py-20">
@@ -55,7 +73,6 @@ const CommunityStories = () => {
           </div>
         )}
 
-        {/* ✅ Show message when no approved stories exist */}
         {!isLoading && caseStories.length === 0 && (
           <div className="text-center py-20">
             <Typography variant="h6" className="text-gray-300">

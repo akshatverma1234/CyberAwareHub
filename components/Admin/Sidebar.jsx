@@ -2,7 +2,7 @@
 import { Button } from "@mui/material";
 import Link from "next/link";
 import React, { useContext } from "react";
-import { FaRegImages } from "react-icons/fa6";
+import { FaBookReader } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 
@@ -57,14 +57,14 @@ const Sidebar = () => {
 
           <Link href="/admin/caseStudies">
             <Button className="w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group">
-              <FaRegImages className="text-[18px] group-hover:text-blue-400 transition-colors" />
+              <FaBookReader className="text-[18px] group-hover:text-blue-400 transition-colors" />
               <span>CaseStudies</span>
             </Button>
           </Link>
 
           <Link href="/admin/community-casestudies">
             <Button className="w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group">
-              <FaRegImages className="text-[18px] group-hover:text-blue-400 transition-colors" />
+              <FaBookReader className="text-[18px] group-hover:text-blue-400 transition-colors" />
               <span>Community CaseStudies</span>
             </Button>
           </Link>

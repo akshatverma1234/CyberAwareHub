@@ -37,10 +37,10 @@ const CaseStudies = () => {
             key={index}
             className="flex flex-col h-full border-2 border-white !rounded-[20px]"
           >
-            <CardMedia
+            <img
               component="img"
               alt={caseStudy.title}
-              image={caseStudy.image}
+              src={caseStudy.image}
               className="w-full h-[220px] object-cover"
             />
             <CardContent className="flex-grow">

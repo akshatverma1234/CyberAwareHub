@@ -13,9 +13,18 @@ export async function POST(req) {
   const { userId, sessionClaims } = auth();
 
   try {
-    const body = await req.json();
+    const { name, title, image, summary, impact, lesson } = await req.json();
+
     await dbConnect();
-    const newCaseStudy = await CaseStudy.create(body);
+
+    const newCaseStudy = await CaseStudy.create({
+      name,
+      title,
+      image,
+      summary,
+      impact,
+      lesson,
+    });
 
     return NextResponse.json(newCaseStudy, { status: 201 });
   } catch (error) {

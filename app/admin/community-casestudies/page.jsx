@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,6 +10,8 @@ import TableRow from "@mui/material/TableRow";
 import { Button, CircularProgress, Chip, Alert, Box } from "@mui/material";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import axios from "axios";
+import { MyContext } from "@/context/AdminAppContext";
+import ConfirmDialog from "@/components/Admin/ConfirmDialog/ConfirmDialog";
 
 const columns = [
   { id: "user", label: "User", minWidth: 80 },
@@ -25,9 +27,12 @@ const CommunityCaseStudies = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [updatingIds, setUpdatingIds] = useState(new Set()); // Track which items are being updated
+  const [updatingIds, setUpdatingIds] = useState(new Set());
   const [error, setError] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
+  const context = useContext(MyContext);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -56,7 +61,6 @@ const CommunityCaseStudies = () => {
 
   const handleStatusUpdate = async (id, status) => {
     try {
-      // Add this ID to the updating set
       setUpdatingIds((prev) => new Set([...prev, id]));
       setError(null);
 
@@ -70,14 +74,14 @@ const CommunityCaseStudies = () => {
               : item
           )
         );
+        context.openAlertBox("success", `Status updated to ${status}`);
       } else {
         throw new Error(res.data.error || "Failed to update status");
       }
     } catch (error) {
-      console.error("Failed to update status:", error);
+      context.openAlertBox("error", `Failed to update status: ${error}`);
       setError(`Failed to ${status} story. Please try again.`);
     } finally {
-      // Remove this ID from the updating set
       setUpdatingIds((prev) => {
         const newSet = new Set(prev);
         newSet.delete(id);
@@ -85,27 +89,38 @@ const CommunityCaseStudies = () => {
       });
     }
   };
+  const handleDeleteClick = (id) => {
+    setSelectedId(id);
+    setConfirmOpen(true);
+  };
 
-  const handleDeleteStorie = async (id) => {
+  const handleDeleteStorie = async () => {
+    if (!selectedId) return;
     try {
-      if (confirm("Delete this case study?")) {
-        const res = await fetch(`/api/community-stories/${id}`, {
-          method: "DELETE",
-        });
+      setIsLoading(true);
+      const res = await fetch(`/api/community-stories/${selectedId}`, {
+        method: "DELETE",
+      });
 
-        if (res.ok) {
-          setData((prev) => prev.filter((c) => c._id !== id));
-          alert("✅ Community casestudy deleted!");
-        } else {
-          const errorData = await res.json();
-          alert(`❌ Failed to delete: ${errorData.error || "Unknown error"}`);
-        }
+      if (res.ok) {
+        setData((prev) => prev.filter((c) => c._id !== selectedId));
+        context.openAlertBox("success", "Community casestudy deleted!");
+      } else {
+        const errorData = await res.json();
+        context.openAlertBox(
+          "error",
+          `❌ Failed to delete: ${errorData.error || "Unknown error"}`
+        );
       }
     } catch (error) {
-      console.error("Error deleting case study:", error);
+      context.openAlertBox("error", `Error deleting case study: ${error}`);
+    } finally {
+      setIsLoading(false);
+      setConfirmOpen(false);
+      setSelectedId(null);
     }
   };
-  // Get status chip color
+
   const getStatusChipColor = (status) => {
     switch (status) {
       case "approved":
@@ -264,7 +279,7 @@ const CommunityCaseStudies = () => {
                             </Button>
 
                             <Button
-                              onClick={() => handleDeleteStorie(row._id)}
+                              onClick={() => handleDeleteClick(row._id)}
                               variant="contained"
                               color="error"
                               size="small"
@@ -310,6 +325,14 @@ const CommunityCaseStudies = () => {
           />
         </div>
       </div>
+      <ConfirmDialog
+        open={confirmOpen}
+        title="Confirm Delete"
+        message="Are you sure you want to delete this case study? This action cannot be undone."
+        onConfirm={handleDeleteStorie}
+        isLoading={isLoading}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </div>
   );
 };

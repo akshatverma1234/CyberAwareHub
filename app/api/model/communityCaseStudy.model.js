@@ -13,7 +13,6 @@ const commnunityStorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// ✅ Reuse existing model to prevent OverwriteModelError
 const Story =
   mongoose.models.Story || mongoose.model("Story", commnunityStorySchema);
 

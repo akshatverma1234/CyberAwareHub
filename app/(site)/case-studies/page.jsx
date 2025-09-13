@@ -18,7 +18,7 @@ const CaseStories = () => {
         </div>
       ) : (
         <div className="py-22 px-8 relative">
-          <div className="w-full px-20 flex items-center justify-between">
+          <div className="w-full px-20 flex items-center justify-center">
             <div className="mb-4">
               <h1 className="text-4xl font-bold text-white mb-2">
                 📌 Cyber Attack Case Studies
@@ -27,21 +27,6 @@ const CaseStories = () => {
                 Explore real-world cybercrime cases, their impact, and lessons
                 learned to stay safe online
               </p>
-            </div>
-            <div className="!cursor-pointer">
-              <Button
-                variant="outlined"
-                className="flex gap-2 !text-white !bg-green-400"
-                onClick={() =>
-                  context.setOpenPanel({
-                    open: true,
-                    model: "addCaseStudy",
-                  })
-                }
-              >
-                <IoMdAdd size={35} />
-                <h1>Add case study</h1>
-              </Button>
             </div>
           </div>
           <div className="mt-8">
