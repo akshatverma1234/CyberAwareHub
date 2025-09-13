@@ -12,7 +12,7 @@ const CommunityDialogBox = () => {
     async function fetchCommunityStories() {
       try {
         setIsLoading(true);
-        const res = await axios.get("/api/stories");
+        const res = await axios.get("/api/community-stories");
         setCaseStories(res.data);
       } catch (error) {
         console.log(error);

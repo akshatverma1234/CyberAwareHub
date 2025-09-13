@@ -14,7 +14,9 @@ const AddCaseStudy = () => {
     summary: "",
     impact: "",
     lesson: "",
+    status: "pending", // ✅ Set default status to pending
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const context = useContext(MyContext);
 
@@ -23,6 +25,16 @@ const AddCaseStudy = () => {
       context.openAlertBox("error", "Please login/Signup to continue");
     }
   }, [isLoaded, isSignedIn]);
+
+  // ✅ Update form data when user loads
+  useEffect(() => {
+    if (user?.fullName) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.fullName,
+      }));
+    }
+  }, [user]);
 
   if (!isLoaded) {
     return <div>Loading...</div>;
@@ -72,8 +84,16 @@ const AddCaseStudy = () => {
       return;
     }
 
+    // ✅ Basic form validation
+    if (!formData.title.trim() || !formData.summary.trim()) {
+      context.openAlertBox("error", "Please fill in all required fields");
+      return;
+    }
+
+    setIsSubmitting(true);
+
     try {
-      const res = await fetch("/api/stories", {
+      const res = await fetch("/api/community-stories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -82,21 +102,31 @@ const AddCaseStudy = () => {
       const data = await res.json();
 
       if (res.ok) {
-        context.openAlertBox("success", "Story submitted successfully!");
+        // ✅ Updated success message to inform about approval process
+        context.openAlertBox(
+          "success",
+          "Story submitted successfully! It will be reviewed by our admin team before being published."
+        );
         context.handleClose();
         setFormData({
-          name: "",
+          name: user?.fullName || "",
           title: "",
           summary: "",
           impact: "",
           lesson: "",
+          status: "pending",
         });
       } else {
         context.openAlertBox("error", data.error);
       }
     } catch (err) {
       console.error(err);
-      context.openAlertBox("error", err.message);
+      context.openAlertBox(
+        "error",
+        "Failed to submit story. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -115,6 +145,7 @@ const AddCaseStudy = () => {
           variant="outlined"
           fullWidth
           required
+          disabled={!!user?.fullName} // ✅ Disable if user name is auto-filled
         />
         <TextField
           label="Title"
@@ -124,6 +155,7 @@ const AddCaseStudy = () => {
           variant="outlined"
           fullWidth
           required
+          placeholder="Enter a descriptive title for your case study"
         />
         <TextField
           label="Summary"
@@ -132,6 +164,8 @@ const AddCaseStudy = () => {
           onChange={handleChange}
           multiline
           rows={3}
+          required
+          placeholder="Brief summary of the incident"
         />
         <TextField
           label="Impact"
@@ -140,6 +174,7 @@ const AddCaseStudy = () => {
           onChange={handleChange}
           multiline
           rows={3}
+          placeholder="What was the impact of this incident?"
         />
         <TextField
           label="Lesson"
@@ -148,6 +183,7 @@ const AddCaseStudy = () => {
           onChange={handleChange}
           multiline
           rows={3}
+          placeholder="What lessons were learned?"
         />
 
         <Button
@@ -155,9 +191,14 @@ const AddCaseStudy = () => {
           variant="contained"
           color="primary"
           className="!mt-1"
+          disabled={isSubmitting}
         >
-          Save Case Study
+          {isSubmitting ? "Submitting..." : "Submit for Review"}
         </Button>
+
+        <p className="text-sm text-gray-600 text-center mt-2">
+          📝 Your story will be reviewed by our admin team before publication
+        </p>
       </form>
     </div>
   );

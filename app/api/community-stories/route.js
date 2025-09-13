@@ -1,13 +1,17 @@
+import { NextResponse } from "next/server";
 import connectDB from "@/app/api/lib/connectDB";
-import Story from "@/app/api/model/caseStudy.model";
+import Story from "@/app/api/model/communityCaseStudy.model";
 
 export async function GET() {
   try {
     await connectDB();
     const stories = await Story.find({}).sort({ createdAt: -1 });
-    return Response.json(stories, { status: 200 });
+    return NextResponse.json(stories, { status: 200 });
   } catch (error) {
-    return Response.json({ error: "Failed to fetch stories" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch stories" },
+      { status: 500 }
+    );
   }
 }
 
@@ -24,12 +28,15 @@ export async function POST(req) {
       author,
     });
     await newStory.save();
-    return Response.json(
+    return NextResponse.json(
       { message: "Story submitted!", story: newStory },
       { status: 201 }
     );
   } catch (error) {
     console.log(error);
-    return Response.json({ error: "Failed to submit story" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to submit story" },
+      { status: 500 }
+    );
   }
 }

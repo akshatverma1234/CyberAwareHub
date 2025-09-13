@@ -62,6 +62,13 @@ const Sidebar = () => {
             </Button>
           </Link>
 
+          <Link href="/admin/community-casestudies">
+            <Button className="w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group">
+              <FaRegImages className="text-[18px] group-hover:text-blue-400 transition-colors" />
+              <span>Community CaseStudies</span>
+            </Button>
+          </Link>
+
           <Button className="w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group">
             <span>Products</span>
           </Button>

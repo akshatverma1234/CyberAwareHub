@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const StorySchema = new mongoose.Schema(
+const commnunityStorySchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     title: { type: String, required: true },
@@ -8,10 +8,13 @@ const StorySchema = new mongoose.Schema(
     impact: { type: String, required: true },
     lesson: { type: String, required: true },
     author: { type: String, default: "Anonymous" },
+    status: { type: String, default: "pending" },
   },
   { timestamps: true }
 );
 
-const CaseStudy =
-  mongoose.models.CaseStudy || mongoose.model("CaseStudy", StorySchema);
-export default CaseStudy;
+// ✅ Reuse existing model to prevent OverwriteModelError
+const Story =
+  mongoose.models.Story || mongoose.model("Story", commnunityStorySchema);
+
+export default Story;

@@ -23,8 +23,12 @@ const CommunityStories = () => {
     async function fetchCommunityStories() {
       try {
         setIsLoading(true);
-        const res = await axios.get("/api/stories");
-        setCaseStories(res.data);
+        const res = await axios.get("/api/community-stories");
+        // ✅ Filter to only show approved stories
+        const approvedStories = res.data.filter(
+          (story) => story.status === "approved"
+        );
+        setCaseStories(approvedStories);
       } catch (error) {
         console.log(error);
       } finally {
@@ -50,6 +54,19 @@ const CommunityStories = () => {
             <CircularProgress color="success" />
           </div>
         )}
+
+        {/* ✅ Show message when no approved stories exist */}
+        {!isLoading && caseStories.length === 0 && (
+          <div className="text-center py-20">
+            <Typography variant="h6" className="text-gray-300">
+              No approved community stories available yet.
+            </Typography>
+            <Typography variant="body2" className="text-gray-400 mt-2">
+              Stories are reviewed by our admin team before being published.
+            </Typography>
+          </div>
+        )}
+
         <div className="grid grid-cols-3 gap-6 px-20 py-4">
           {caseStories.map((caseStudy, index) => (
             <Card

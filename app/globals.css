@@ -48,3 +48,6 @@
   width: 500px;
   height: 2000px;
 }
+.MuiTableCell-root {
+  text-align: center !important;
+}
