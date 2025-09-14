@@ -15,8 +15,7 @@ const Sidebar = () => {
 
   return (
     <div className="fixed top-0 left-0 bg-[#f5f5f6] h-full w-[18%] py-4 px-3 z-40">
-      {/* Logo Section */}
-      <div className="py-4 w-full border-b border-gray-700 mb-6">
+      <div className="py-1 w-full border-b border-gray-700 mb-6">
         <Link href="/" className="block">
           <div className="text-center">
             <h1 className="text-[#4F507F] font-bold text-xl tracking-wide">

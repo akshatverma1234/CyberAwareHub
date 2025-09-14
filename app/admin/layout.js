@@ -26,9 +26,7 @@ export default async function AdminLayout({ children }) {
       >
         <Sidebar />
 
-        <main className="min-h-screen">
-          <AppProvider>{children}</AppProvider>
-        </main>
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );
