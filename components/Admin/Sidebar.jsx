@@ -5,7 +5,8 @@ import React, { useContext } from "react";
 import { FaBookReader } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
-import { TbCategory2 } from "react-icons/tb";
+import { GrArticle } from "react-icons/gr";
+
 import { MyContext } from "@/context/AppContext";
 import { usePathname } from "next/navigation";
 
@@ -89,15 +90,16 @@ const Sidebar = () => {
               <span>Community CaseStudies</span>
             </Button>
           </Link>
-
-          <Button className="w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group">
-            <span>Products</span>
-          </Button>
-
-          <Button className="w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group">
-            <TbCategory2 className="text-[18px] group-hover:text-blue-400 transition-colors" />
-            <span>Categories</span>
-          </Button>
+          <Link href="/admin/articles">
+            <Button
+              className={`w-full !text-black hover:!text-black !capitalize !justify-start flex gap-3 text-[14px] !font-medium items-center !py-3 !px-3 hover:!bg-[#D9D9D9] !rounded-lg transition-all duration-200 group ${
+                isActive("/admin/community-casestudies") ? "!bg-gray-300" : ""
+              }`}
+            >
+              <GrArticle className="text-[18px] group-hover:text-blue-400 transition-colors" />
+              <span>Articles</span>
+            </Button>
+          </Link>
         </div>
 
         <div className="pt-6 mt-6 border-t border-gray-200 flex flex-col bg-white rounded-xl shadow-sm">

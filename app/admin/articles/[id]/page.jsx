@@ -6,23 +6,22 @@ import { useParams, useRouter } from "next/navigation";
 import { MyContext } from "@/context/AdminAppContext";
 import axios from "axios";
 
-const EditNewCaseStudy = () => {
+const EditArticles = () => {
   const { id } = useParams();
   const context = useContext(MyContext);
   const router = useRouter();
+
   const [formData, setFormData] = useState({
-    name: "Cyberhub",
     title: "",
-    summary: "",
-    image: "",
-    impact: "",
-    lesson: "",
     author: "",
+    image: "",
+    summary: "",
+    content: "",
   });
 
   useEffect(() => {
     if (id) {
-      axios.get(`/api/admin/caseStudies/${id}`).then((res) => {
+      axios.get(`/api/admin/articles/${id}`).then((res) => {
         setFormData(res.data);
       });
     }
@@ -35,18 +34,19 @@ const EditNewCaseStudy = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`/api/admin/caseStudies/${id}`, formData);
-      context.openAlertBox("success", "Case study updated successfully!");
-      router.push("/admin/caseStudies");
+      await axios.patch(`/api/admin/articles/${id}`, formData);
+      context.openAlertBox("success", "Article updated successfully!");
+      router.push("/admin/articles");
     } catch (err) {
       console.error("Update failed:", err);
+      context.openAlertBox("error", "Failed to update article!");
     }
   };
 
   return (
     <div className="min-h-screen bg-[#f5f5f6] flex">
       <div className="flex-1 ml-[18%] p-8">
-        <h1 className="text-2xl font-bold mb-6">Edit Case Study</h1>
+        <h1 className="text-2xl font-bold mb-6">Edit Article</h1>
 
         <form
           onSubmit={handleSubmit}
@@ -57,17 +57,17 @@ const EditNewCaseStudy = () => {
               label="Title"
               name="title"
               variant="outlined"
-              className="w-[30%] shadow-md"
+              className="w-[40%] shadow-md"
               value={formData.title}
               onChange={handleChange}
               required
             />
             <TextField
-              label="Name"
-              name="name"
+              label="Author"
+              name="author"
               variant="outlined"
-              className="w-[20%] shadow-md"
-              value={formData.name}
+              className="w-[30%] shadow-md"
+              value={formData.author}
               onChange={handleChange}
               required
             />
@@ -75,7 +75,7 @@ const EditNewCaseStudy = () => {
               label="Image URL"
               name="image"
               variant="outlined"
-              className="w-[50%] shadow-md"
+              className="w-[30%] shadow-md"
               value={formData.image}
               onChange={handleChange}
               required
@@ -86,33 +86,21 @@ const EditNewCaseStudy = () => {
             <TextField
               label="Summary"
               name="summary"
-              multiline
-              rows={6}
+              variant="outlined"
               className="w-full shadow-md"
               value={formData.summary}
               onChange={handleChange}
-              required
             />
           </div>
 
-          <div className="mt-4 flex gap-2">
+          <div className="mt-4 flex">
             <TextField
-              label="Impact"
-              name="impact"
+              label="Content"
+              name="content"
               multiline
-              rows={6}
-              className="w-[50%] shadow-md"
-              value={formData.impact}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Lesson"
-              name="lesson"
-              multiline
-              rows={6}
-              className="w-[50%] shadow-md"
-              value={formData.lesson}
+              rows={8}
+              className="w-full shadow-md"
+              value={formData.content}
               onChange={handleChange}
               required
             />
@@ -124,7 +112,7 @@ const EditNewCaseStudy = () => {
               variant="contained"
               className="w-[30%] h-[50px] !text-[16px] !bg-gray-900"
             >
-              Update Case Study
+              Update Article
             </Button>
           </div>
         </form>
@@ -133,4 +121,4 @@ const EditNewCaseStudy = () => {
   );
 };
 
-export default EditNewCaseStudy;
+export default EditArticles;

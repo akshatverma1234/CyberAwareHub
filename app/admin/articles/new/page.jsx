@@ -5,44 +5,43 @@ import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { MyContext } from "@/context/AdminAppContext";
 
-const AddNewCaseStudy = () => {
-  const [name, setName] = useState("");
+const AddNewArticle = () => {
   const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
   const [image, setImage] = useState("");
   const [summary, setSummary] = useState("");
-  const [impact, setImpact] = useState("");
-  const [lesson, setLesson] = useState("");
-  const router = useRouter();
+  const [content, setContent] = useState("");
 
+  const router = useRouter();
   const context = useContext(MyContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newCaseStudy = {
-      name,
+    const newArticle = {
       title,
+      author,
       image,
       summary,
-      impact,
-      lesson,
+      content,
     };
 
     try {
-      const res = await fetch("/api/admin/caseStudies", {
+      const res = await fetch("/api/articles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newCaseStudy),
+        body: JSON.stringify(newArticle),
       });
 
       if (res.ok) {
-        context.openAlertBox("success", "Case study added successfully!");
-        router.push("/admin/caseStudies");
+        context.openAlertBox("success", "Article added successfully!");
+        router.push("/admin/articles");
       } else {
         const error = await res.json();
         context.openAlertBox("error", `Error: ${error.error}`);
       }
     } catch (err) {
-      console.error("Error adding case study:", err);
+      console.error("Error adding article:", err);
       context.openAlertBox("error", "Something went wrong!");
     }
   };
@@ -50,7 +49,7 @@ const AddNewCaseStudy = () => {
   return (
     <div className="min-h-screen bg-[#f5f5f6] flex">
       <div className="flex-1 ml-[18%] p-8">
-        <h1 className="text-2xl font-bold mb-6">Add New Case Study</h1>
+        <h1 className="text-2xl font-bold mb-6">Add New Article</h1>
 
         <form
           onSubmit={handleSubmit}
@@ -60,23 +59,23 @@ const AddNewCaseStudy = () => {
             <TextField
               label="Title"
               variant="outlined"
-              className="w-[30%] shadow-md"
+              className="w-[40%] shadow-md"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
             <TextField
-              label="Name"
+              label="Author"
               variant="outlined"
-              className="w-[20%] shadow-md"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              className="w-[30%] shadow-md"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
               required
             />
             <TextField
               label="Image URL"
               variant="outlined"
-              className="w-[50%] shadow-md"
+              className="w-[30%] shadow-md"
               value={image}
               onChange={(e) => setImage(e.target.value)}
               required
@@ -87,7 +86,7 @@ const AddNewCaseStudy = () => {
             <TextField
               label="Summary"
               multiline
-              rows={6}
+              rows={4}
               className="w-full shadow-md"
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
@@ -95,23 +94,14 @@ const AddNewCaseStudy = () => {
             />
           </div>
 
-          <div className="mt-4 flex gap-2">
+          <div className="mt-4 flex">
             <TextField
-              label="Impact"
+              label="Content"
               multiline
-              rows={6}
-              className="w-[50%] shadow-md"
-              value={impact}
-              onChange={(e) => setImpact(e.target.value)}
-              required
-            />
-            <TextField
-              label="Lesson"
-              multiline
-              rows={6}
-              className="w-[50%] shadow-md"
-              value={lesson}
-              onChange={(e) => setLesson(e.target.value)}
+              rows={10}
+              className="w-full shadow-md"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
               required
             />
           </div>
@@ -122,7 +112,7 @@ const AddNewCaseStudy = () => {
               variant="contained"
               className="w-[30%] h-[50px] !text-[16px] !bg-gray-900"
             >
-              Add Case Study
+              Add Article
             </Button>
           </div>
         </form>
@@ -131,4 +121,4 @@ const AddNewCaseStudy = () => {
   );
 };
 
-export default AddNewCaseStudy;
+export default AddNewArticle;

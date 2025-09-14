@@ -58,7 +58,14 @@ const HomePage = () => {
           📌 Cyber Attack Case Studies
         </h1>
       </div>
-      <CaseStudies />
+      <CaseStudies limit={6} />
+      <div className="flex justify-center bg-[#06080e] h-[100px] py-6">
+        <Link href="/cyber-news">
+          <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-6 cursor-pointer hover:bg-[#5633cc] transition">
+            View More CaseStudies →
+          </button>
+        </Link>
+      </div>
       <div className="flex items-center justify-center">
         <hr className="w-[80%] bg-black h-[2px] text-black border border-1 border-black" />
       </div>

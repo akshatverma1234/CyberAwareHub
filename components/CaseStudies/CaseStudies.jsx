@@ -12,27 +12,38 @@ import { FaReadme } from "react-icons/fa";
 import { WhatsappShareButton } from "react-share";
 import { FaWhatsapp } from "react-icons/fa6";
 import axios from "axios";
-const CaseStudies = () => {
+import { CircularProgress } from "@mui/material";
+const CaseStudies = ({ limit }) => {
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const context = useContext(MyContext);
   const url = window.location.href;
 
   useEffect(() => {
     const fetchCommunityStudies = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get("/api/admin/caseStudies");
         setData(response.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchCommunityStudies();
   }, []);
+  const displayedCaseStudies = limit ? data.slice(0, limit) : data;
 
   return (
-    <div className="bg-[#06080e] w-full h-[150vh]">
+    <div className="bg-[#06080e] w-full h-full">
+      {isLoading && (
+        <div className="w-full flex justify-center py-20">
+          <CircularProgress color="success" className="!text-white" />
+        </div>
+      )}
       <div className="grid grid-cols-3 gap-6 px-20">
-        {data.map((caseStudy, index) => (
+        {displayedCaseStudies.map((caseStudy, index) => (
           <Card
             key={index}
             className="flex flex-col h-full border-2 border-white !rounded-[20px]"
@@ -51,7 +62,7 @@ const CaseStudies = () => {
                 {caseStudy.summary}
               </Typography>
             </CardContent>
-            <div className="flex card">
+            <div className="flex card justify-between">
               <CardActions className="bg-black !rounded-tr-[20px]">
                 <Button className="flex !rounded-[10px]">
                   <WhatsappShareButton
@@ -77,6 +88,12 @@ const CaseStudies = () => {
                   Learn More
                 </Button>
               </CardActions>
+              <div className="flex flex-col justify-end mx-4">
+                <p className="text-gray-800 text-[12px] font-[400]">Source</p>
+                <p className="text-gray-800 text-[16px] font-[400]">
+                  {caseStudy.name}
+                </p>
+              </div>
             </div>
           </Card>
         ))}
