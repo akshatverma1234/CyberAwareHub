@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import React from "react";
 import { RiMenu2Line } from "react-icons/ri";
 import { UserButton, SignedOut, useUser, SignedIn } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
   const { isLoaded, user } = useUser();

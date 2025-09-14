@@ -1,4 +1,4 @@
-import { createClerkClient } from "@clerk/backend"; // ✅ Fixed import
+import { createClerkClient } from "@clerk/backend";
 import connectDB from "@/app/api/lib/connectDB";
 import View from "@/app/api/model/view.model";
 import Story from "@/app/api/model/communityCaseStudy.model";
@@ -12,16 +12,14 @@ export async function GET() {
   try {
     await connectDB();
 
-    // 1️⃣ Fetch all users with pagination to avoid limits
     const usersListResponse = await clerkClient.users.getUserList({
       orderBy: "-created_at",
       limit: 500,
     });
 
     const usersList = usersListResponse?.data || [];
-    const totalUsers = usersList.length; // ✅ Use array length like your user page
+    const totalUsers = usersList.length;
 
-    // New users in last 7 days
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
@@ -29,7 +27,6 @@ export async function GET() {
       (user) => new Date(user.createdAt) >= oneWeekAgo
     ).length;
 
-    // 2️⃣ Recently active users (based on lastActiveAt like your user page)
     const oneMonthAgo = new Date();
     oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
 
@@ -38,10 +35,8 @@ export async function GET() {
       return new Date(lastActive) >= oneMonthAgo;
     }).length;
 
-    // 3️⃣ Count views documents first
-    const viewsCount = await View.countDocuments(); // ✅ Actually count documents
+    const viewsCount = await View.countDocuments();
 
-    // 4️⃣ Total views from MongoDB
     let totalViews = 0;
     let recentViews = 0;
 
@@ -51,7 +46,6 @@ export async function GET() {
       ]);
       totalViews = totalViewsResult[0]?.sum || 0;
 
-      // Views in last 7 days
       const recentViewsResult = await View.aggregate([
         {
           $match: {
