@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const commnunityStorySchema = new mongoose.Schema(
   {
+    email: { type: String, required: true },
     name: { type: String, required: true },
     title: { type: String, required: true },
     summary: { type: String, required: true },

@@ -1,16 +1,20 @@
 import { NextResponse } from "next/server";
 import dbConnect from "@/app/api/lib/connectDB";
 import Story from "@/app/api/model/communityCaseStudy.model";
+import sendEmail from "../../lib/emailService";
+import CaseStudyApprovalEmail from "../../lib/storyApprovalEmail";
+import CaseStudyRejectionEmail from "../../lib/storyRejectionEmail";
+
 export async function PATCH(req, { params }) {
   try {
     await dbConnect();
 
-    const { id } = params;
-    const { status } = await req.json();
+    const { id } = await params;
+    const { status, email, name } = await req.json();
 
-    if (!status) {
+    if (!status || !email) {
       return NextResponse.json(
-        { error: "Status field is required" },
+        { error: "Status and email are required" },
         { status: 400 }
       );
     }
@@ -25,6 +29,24 @@ export async function PATCH(req, { params }) {
       return NextResponse.json(
         { error: "Community Story not found" },
         { status: 404 }
+      );
+    }
+
+    const caseStudyTitle = updated.title;
+
+    if (status === "approved") {
+      await sendEmail(
+        email,
+        `Good news! Your case study "${caseStudyTitle}" is now live 🚀`,
+        "Congratulations! Your community case study has been approved and is now live on Cyber Awareness Hub.",
+        CaseStudyApprovalEmail(name || "User", caseStudyTitle)
+      );
+    } else if (status === "rejected") {
+      await sendEmail(
+        email,
+        `Your case study "${caseStudyTitle}" was not approved this time`,
+        "Thank you for your submission. Unfortunately, your case study was not approved this time. Please try again with another case study.",
+        CaseStudyRejectionEmail(name || "User", caseStudyTitle)
       );
     }
 

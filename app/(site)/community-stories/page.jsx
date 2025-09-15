@@ -25,7 +25,6 @@ const CommunityStories = () => {
       try {
         setIsLoading(true);
         const res = await axios.get("/api/community-stories");
-        // ✅ Filter to only show approved stories
         const approvedStories = res.data.filter(
           (story) => story.status === "approved"
         );

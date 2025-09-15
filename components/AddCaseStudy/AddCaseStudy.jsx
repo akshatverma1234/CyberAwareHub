@@ -10,11 +10,12 @@ const AddCaseStudy = () => {
   const { user } = useUser();
   const [formData, setFormData] = useState({
     name: user?.fullName,
+    email: user?.primaryEmailAddress?.emailAddress || "",
     title: "",
     summary: "",
     impact: "",
     lesson: "",
-    status: "pending", // ✅ Set default status to pending
+    status: "pending",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -26,12 +27,12 @@ const AddCaseStudy = () => {
     }
   }, [isLoaded, isSignedIn]);
 
-  // ✅ Update form data when user loads
   useEffect(() => {
     if (user?.fullName) {
       setFormData((prev) => ({
         ...prev,
         name: user.fullName,
+        email: user.primaryEmailAddress?.emailAddress || "",
       }));
     }
   }, [user]);
@@ -84,7 +85,6 @@ const AddCaseStudy = () => {
       return;
     }
 
-    // ✅ Basic form validation
     if (!formData.title.trim() || !formData.summary.trim()) {
       context.openAlertBox("error", "Please fill in all required fields");
       return;
@@ -102,7 +102,6 @@ const AddCaseStudy = () => {
       const data = await res.json();
 
       if (res.ok) {
-        // ✅ Updated success message to inform about approval process
         context.openAlertBox(
           "success",
           "Story submitted successfully! It will be reviewed by our admin team before being published."
@@ -110,6 +109,7 @@ const AddCaseStudy = () => {
         context.handleClose();
         setFormData({
           name: user?.fullName || "",
+          email: user?.primaryEmailAddress?.emailAddress || "",
           title: "",
           summary: "",
           impact: "",
@@ -131,7 +131,7 @@ const AddCaseStudy = () => {
   };
 
   return (
-    <div className="w-[550px] h-[650px] bg-white p-4 px-8 rounded-xl shadow-lg overflow-hidden">
+    <div className="w-[550px] h-[850px] bg-white p-4 px-8 rounded-xl shadow-lg ">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">
         ➕ Add Your Case Study
       </h2>
@@ -145,8 +145,17 @@ const AddCaseStudy = () => {
           variant="outlined"
           fullWidth
           required
-          disabled={!!user?.fullName} // ✅ Disable if user name is auto-filled
+          disabled={!!user?.fullName}
         />
+        <TextField
+          label="Email"
+          name="email"
+          value={formData.email}
+          variant="outlined"
+          fullWidth
+          disabled
+        />
+
         <TextField
           label="Title"
           name="title"

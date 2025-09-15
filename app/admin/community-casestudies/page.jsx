@@ -59,12 +59,16 @@ const CommunityCaseStudies = () => {
     fetchCommunityStudies();
   }, []);
 
-  const handleStatusUpdate = async (id, status) => {
+  const handleStatusUpdate = async (id, status, email, name) => {
     try {
       setUpdatingIds((prev) => new Set([...prev, id]));
       setError(null);
 
-      const res = await axios.patch(`/api/community-stories/${id}`, { status });
+      const res = await axios.patch(`/api/community-stories/${id}`, {
+        status,
+        email,
+        name,
+      });
 
       if (res.data.success) {
         setData((prev) =>
@@ -220,13 +224,17 @@ const CommunityCaseStudies = () => {
                     const isUpdating = updatingIds.has(row._id);
                     return (
                       <TableRow key={row._id} hover>
-                        <TableCell>{row.name}</TableCell>
+                        <TableCell className="truncate">
+                          {row.name}
+                          <p>{row.email}</p>
+                        </TableCell>
+
                         <TableCell>
                           <div className="font-medium">{row.title}</div>
                         </TableCell>
                         <TableCell>
                           <div
-                            className="max-w-xs truncate"
+                            className="max-w-xs truncate w-[150px]"
                             title={row.summary}
                           >
                             {row.summary}
@@ -247,7 +255,12 @@ const CommunityCaseStudies = () => {
                           <div className="flex gap-2 items-center justify-center">
                             <Button
                               onClick={() =>
-                                handleStatusUpdate(row._id, "approved")
+                                handleStatusUpdate(
+                                  row._id,
+                                  "approved",
+                                  row.email,
+                                  row.name
+                                )
                               }
                               disabled={isUpdating || row.status === "approved"}
                               variant="contained"
@@ -263,7 +276,12 @@ const CommunityCaseStudies = () => {
                             </Button>
                             <Button
                               onClick={() =>
-                                handleStatusUpdate(row._id, "rejected")
+                                handleStatusUpdate(
+                                  row._id,
+                                  "rejected",
+                                  row.email,
+                                  row.name
+                                )
                               }
                               disabled={isUpdating || row.status === "rejected"}
                               variant="contained"
