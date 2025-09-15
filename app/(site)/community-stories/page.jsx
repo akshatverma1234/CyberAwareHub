@@ -44,7 +44,7 @@ const CommunityStories = () => {
       <div className="container mx-auto px-6 py-22">
         <div className="w-full px-20 flex items-center justify-between">
           <div className="text-center mb-4">
-            <h1 className="text-4xl font-bold text-white mb-2">
+            <h1 className="text-4xl font-bold text-white mb-2 text-center">
               Community Stories
             </h1>
             <p className="text-gray-300 max-w-2xl mx-auto">

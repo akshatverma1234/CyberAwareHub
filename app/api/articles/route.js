@@ -29,7 +29,8 @@ function generateSlug(title) {
 export async function POST(req) {
   await connectDB();
   try {
-    const { title, author, content, summary, image } = await req.json();
+    const { title, author, content, summary, image, publishedDate } =
+      await req.json();
 
     const slug = generateSlug(title);
 
@@ -37,6 +38,7 @@ export async function POST(req) {
       title,
       slug,
       author: author || "Admin",
+      publishedDate,
       content,
       summary,
       image,

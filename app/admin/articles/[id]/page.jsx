@@ -14,17 +14,25 @@ const EditArticles = () => {
   const [formData, setFormData] = useState({
     title: "",
     author: "",
+    publishedDate: "",
     image: "",
     summary: "",
     content: "",
   });
 
   useEffect(() => {
-    if (id) {
-      axios.get(`/api/admin/articles/${id}`).then((res) => {
-        setFormData(res.data);
-      });
-    }
+    const fetchArticleDetails = async () => {
+      try {
+        if (id) {
+          const res = await axios.get(`/api/articles/${id}`);
+          setFormData(res.data.article || res.data);
+        }
+      } catch (error) {
+        console.error("Fetch failed:", error);
+        context.openAlertBox("error", "Article not found!");
+      }
+    };
+    fetchArticleDetails();
   }, [id]);
 
   const handleChange = (e) => {
@@ -34,7 +42,7 @@ const EditArticles = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`/api/admin/articles/${id}`, formData);
+      await axios.patch(`/api/articles/${id}`, formData);
       context.openAlertBox("success", "Article updated successfully!");
       router.push("/admin/articles");
     } catch (err) {
@@ -66,8 +74,17 @@ const EditArticles = () => {
               label="Author"
               name="author"
               variant="outlined"
-              className="w-[30%] shadow-md"
+              className="w-[25%] shadow-md"
               value={formData.author}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              label="Publish Date"
+              name="publishedDate"
+              variant="outlined"
+              className="w-[20%] shadow-md"
+              value={formData.publishedDate}
               onChange={handleChange}
               required
             />
@@ -87,6 +104,8 @@ const EditArticles = () => {
               label="Summary"
               name="summary"
               variant="outlined"
+              multiline
+              rows={4}
               className="w-full shadow-md"
               value={formData.summary}
               onChange={handleChange}

@@ -83,7 +83,7 @@ const Articles = () => {
     <>
       <div className="min-h-screen bg-[#f5f5f6] flex">
         <div className="flex-1 ml-[18%] p-8">
-          <h1 className="text-3xl font-bold mb-4">Case Studies</h1>
+          <h1 className="text-3xl font-bold mb-4">Articles</h1>
           <Link href="/admin/articles/new">
             <Button className="!bg-blue-600 !text-white !px-4 !py-2 !rounded-lg">
               ➕ Add New
@@ -134,7 +134,7 @@ const Articles = () => {
 
                           <TableCell>
                             <div className="flex gap-2 items-center justify-center">
-                              <Link href={`/admin/caseStudies/${row._id}`}>
+                              <Link href={`/admin/articles/${row._id}`}>
                                 <Button
                                   variant="contained"
                                   size="small"

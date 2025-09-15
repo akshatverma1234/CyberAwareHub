@@ -8,6 +8,7 @@ import { MyContext } from "@/context/AdminAppContext";
 const AddNewArticle = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+  const [publishedDate, setPublishedDate] = useState("");
   const [image, setImage] = useState("");
   const [summary, setSummary] = useState("");
   const [content, setContent] = useState("");
@@ -21,6 +22,7 @@ const AddNewArticle = () => {
     const newArticle = {
       title,
       author,
+      publishedDate,
       image,
       summary,
       content,
@@ -67,9 +69,17 @@ const AddNewArticle = () => {
             <TextField
               label="Author"
               variant="outlined"
-              className="w-[30%] shadow-md"
+              className="w-[25%] shadow-md"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
+              required
+            />
+            <TextField
+              label="Publish Date"
+              variant="outlined"
+              className="w-[20%] shadow-md"
+              value={publishedDate}
+              onChange={(e) => setPublishedDate(e.target.value)}
               required
             />
             <TextField

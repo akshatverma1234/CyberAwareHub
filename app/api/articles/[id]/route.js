@@ -9,8 +9,9 @@ export async function GET(req, { params }) {
     if (!article) {
       return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
-    return NextResponse.json(article, { status: 200 });
+    return NextResponse.json({ article }, { status: 200 });
   } catch (err) {
+    console.error("Error fetching article:", err.message);
     return NextResponse.json(
       { error: "Failed to fetch article" },
       { status: 500 }
@@ -18,18 +19,24 @@ export async function GET(req, { params }) {
   }
 }
 
-export async function PUT(req, { params }) {
+export async function PATCH(req, { params }) {
   await connectDB();
   try {
     const body = await req.json();
-    const updated = await Article.findByIdAndUpdate(params.id, body, {
-      new: true,
-    });
+    const { title, author, publishedDate, image, summary, content } = body;
+
+    const updated = await Article.findByIdAndUpdate(
+      params.id,
+      { title, author, publishedDate, image, summary, content },
+      { new: true }
+    );
+
     if (!updated) {
       return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
-    return NextResponse.json(updated, { status: 200 });
+    return NextResponse.json({ article: updated }, { status: 200 });
   } catch (err) {
+    console.error("Error updating article:", err.message);
     return NextResponse.json(
       { error: "Failed to update article" },
       { status: 500 }
@@ -49,6 +56,7 @@ export async function DELETE(req, { params }) {
       { status: 200 }
     );
   } catch (err) {
+    console.error("Error deleting article:", err.message);
     return NextResponse.json(
       { error: "Failed to delete article" },
       { status: 500 }

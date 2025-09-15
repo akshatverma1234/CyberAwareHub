@@ -20,7 +20,7 @@ const CaseStories = () => {
         <div className="py-22 px-8 relative">
           <div className="w-full px-20 flex items-center justify-center">
             <div className="mb-4">
-              <h1 className="text-4xl font-bold text-white mb-2">
+              <h1 className="text-4xl font-bold text-white mb-2 text-center">
                 📌 Cyber Attack Case Studies
               </h1>
               <p className="text-gray-300 max-w-2xl mx-auto">

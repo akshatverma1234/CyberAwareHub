@@ -46,7 +46,7 @@ const HomePage = () => {
       </div>
       <div className="bg-[#06080e] w-full px-10 flex items-center justify-between">
         <h1 className="font-bold text-[24px] tracking-[3px] text-white mt-8">
-          📌 Articles
+          Knowledge Base
         </h1>
       </div>
       <Articles />
@@ -55,7 +55,7 @@ const HomePage = () => {
       </div>
       <div className="bg-[#06080e]  w-full px-10 flex items-center justify-between">
         <h1 className="font-bold text-[24px] tracking-[3px] text-white mt-8 mb-6">
-          📌 Cyber Attack Case Studies
+          Threat Case Studies
         </h1>
       </div>
       <CaseStudies limit={6} />
@@ -71,7 +71,7 @@ const HomePage = () => {
       </div>
       <div className="bg-[#06080e]  w-full px-10 flex items-center justify-between">
         <h1 className="font-bold text-[24px] tracking-[3px] text-white mt-8 mb-6">
-          📌 Latest News
+          Latest Insights
         </h1>
       </div>
 

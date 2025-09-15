@@ -8,6 +8,7 @@ const ArticleSchema = new mongoose.Schema(
     content: { type: String, required: true },
     summary: { type: String, required: true },
     image: { type: String },
+    publishedDate: { type: String },
   },
   { timestamps: true }
 );
