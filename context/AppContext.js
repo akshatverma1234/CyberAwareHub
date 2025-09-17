@@ -42,6 +42,7 @@ export const AppProvider = ({ children }) => {
     <ClerkProvider>
       <MyContext.Provider value={values}>
         <Toaster position="top-right" reverseOrder={false} />
+
         {children}
         <Dialog
           onClose={handleClose}

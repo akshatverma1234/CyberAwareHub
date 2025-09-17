@@ -13,6 +13,7 @@ import { MyContext } from "@/context/AppContext";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useAuth } from "@clerk/nextjs";
 import { IoMdAdd } from "react-icons/io";
+import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 
 const CommunityStories = () => {
   const [caseStories, setCaseStories] = useState([]);
@@ -66,11 +67,6 @@ const CommunityStories = () => {
             </Button>
           </div>
         </div>
-        {isLoading && (
-          <div className="w-full flex justify-center py-20">
-            <CircularProgress color="success" />
-          </div>
-        )}
 
         {!isLoading && caseStories.length === 0 && (
           <div className="text-center py-20">
@@ -84,70 +80,80 @@ const CommunityStories = () => {
         )}
 
         <div className="grid grid-cols-3 gap-6 px-20 py-4">
-          {caseStories.map((caseStudy, index) => (
-            <Card
-              key={index}
-              className="flex flex-col border-2 border-white !rounded-[20px]"
-            >
-              <CardContent className="flex-grow">
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  className="!font-[600]"
+          {isLoading ? (
+            [...Array(6)].map((_, i) => (
+              <SkeletonLoader type="communityStudy" key={`skeleton-${i}`} />
+            ))
+          ) : (
+            <>
+              {caseStories.map((caseStudy, index) => (
+                <Card
+                  key={index}
+                  className="flex flex-col border-2 border-white !rounded-[20px]"
                 >
-                  {caseStudy.title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: "text.secondary",
-                    display: "-webkit-box",
-                    WebkitLineClamp: 4,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                  className="max-h-[100px]  overflow-hidden"
-                >
-                  {caseStudy.summary}
-                </Typography>
-              </CardContent>
-              <div className="flex card justify-between">
-                <CardActions className="bg-black !rounded-tr-[20px]">
-                  <Button className="flex !rounded-[10px]">
-                    <WhatsappShareButton
-                      size={32}
-                      url={url}
-                      title={`Check out this cybersecurity story: ${caseStudy.title}`}
+                  <CardContent className="flex-grow">
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="div"
+                      className="!font-[600]"
                     >
-                      <FaWhatsapp className="text-2xl text-green-400 hover:text-green-300 transition-colors" />
-                    </WhatsappShareButton>
-                  </Button>
-                  <Button
-                    size="small"
-                    onClick={() =>
-                      context.setOpenPanel({
-                        open: true,
-                        model: "openCommunityDialogBox",
-                        id: caseStudy._id,
-                      })
-                    }
-                    className="flex items-center gap-2 !text-white hover:!text-blue-300 transition-colors"
-                  >
-                    <FaReadme />
-                    Learn More
-                  </Button>
-                </CardActions>
-                <div className="flex flex-col justify-end mx-4">
-                  <p className="text-gray-800 text-[12px] font-[400]">Author</p>
-                  <p className="text-gray-800 text-[16px] font-[400]">
-                    {caseStudy.name}
-                  </p>
-                </div>
-              </div>
-            </Card>
-          ))}
+                      {caseStudy.title}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        color: "text.secondary",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 4,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                      className="max-h-[100px]  overflow-hidden"
+                    >
+                      {caseStudy.summary}
+                    </Typography>
+                  </CardContent>
+                  <div className="flex card justify-between">
+                    <CardActions className="bg-black !rounded-tr-[20px]">
+                      <Button className="flex !rounded-[10px]">
+                        <WhatsappShareButton
+                          size={32}
+                          url={url}
+                          title={`Check out this cybersecurity story: ${caseStudy.title}`}
+                        >
+                          <FaWhatsapp className="text-2xl text-green-400 hover:text-green-300 transition-colors" />
+                        </WhatsappShareButton>
+                      </Button>
+                      <Button
+                        size="small"
+                        onClick={() =>
+                          context.setOpenPanel({
+                            open: true,
+                            model: "openCommunityDialogBox",
+                            id: caseStudy._id,
+                          })
+                        }
+                        className="flex items-center gap-2 !text-white hover:!text-blue-300 transition-colors"
+                      >
+                        <FaReadme />
+                        Learn More
+                      </Button>
+                    </CardActions>
+                    <div className="flex flex-col justify-end mx-4">
+                      <p className="text-gray-800 text-[12px] font-[400]">
+                        Author
+                      </p>
+                      <p className="text-gray-800 text-[16px] font-[400]">
+                        {caseStudy.name}
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </div>

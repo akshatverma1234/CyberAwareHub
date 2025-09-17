@@ -5,83 +5,172 @@ import React from "react";
 import Articles from "../Articles/Articles";
 import CaseStudies from "../CaseStudies/CaseStudies";
 import NewsBox from "../NewsBox/NewsBox";
+import SplitText from "../Animation/SplitText";
+import ScrollVelocity from "../Animation/ScrollVelocity";
+import LiquidEther from "../Animation/LiquidEther";
 
-const HomePage = () => {
+const HomePage = ({ velocity }) => {
   return (
     <>
-      <div className="w-full h-[720px] bg-[#06080e] flex items-center justify-between px-[80px]">
-        <div className="w-[100%] h-[100px] flex  justify-center flex-col">
-          <h1 className="text-white font-bold text-6xl leading-tight">
-            Stay Safe in the <br /> Digital World
-          </h1>
-          <p className="mt-4 text-lg text-gray-300 max-w-xl">
-            Get the latest articles, case studies, and real-life stories about{" "}
-            <span className="text-cyan-400 font-semibold">cyber threats</span> —
-            simplified in your language.
-          </p>
-          <div className="mt-4">
-            <Link href="/case-studies">
-              <Button
-                variant="outlined"
-                className="!text-[#00FFFF] !border-1 !border-[#00FFFF] !bg-black !font-600 hover:!bg-[#00FFFF] hover:!text-black !transition !duration-400 !ease-in-out"
-              >
-                Share Your Case Studies
-              </Button>
-            </Link>
+      <div
+        style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}
+      >
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: -1,
+          }}
+        >
+          <LiquidEther
+            beamWidth={2}
+            beamHeight={15}
+            beamNumber={12}
+            lightColor="#ffffff"
+            speed={2}
+            noiseIntensity={1.75}
+            scale={0.2}
+            rotation={0}
+          />
+        </div>
+
+        <div className="w-full">
+          {/* Hero Section */}
+          <div className="w-full min-h-[650px] flex items-center justify-center px-4 sm:px-8 lg:px-[80px] py-12">
+            <div className="w-full max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+              {/* Left side - Text Content */}
+              <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
+                <h1 className="text-white font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight">
+                  <SplitText
+                    text="Stay Safe in the"
+                    className=""
+                    delay={100}
+                    duration={0.6}
+                    ease="power3.out"
+                    splitType="chars"
+                    from={{ opacity: 0, y: 40 }}
+                    to={{ opacity: 1, y: 0 }}
+                    threshold={0.1}
+                    rootMargin="-100px"
+                  />
+                  <br />
+                  <SplitText
+                    text="Digital World"
+                    className=""
+                    delay={100}
+                    duration={0.6}
+                    ease="power3.out"
+                    splitType="chars"
+                    from={{ opacity: 0, y: 40 }}
+                    to={{ opacity: 1, y: 0 }}
+                    threshold={0.1}
+                    rootMargin="-100px"
+                  />
+                </h1>
+
+                <p className="mt-6 text-lg text-gray-300 max-w-xl leading-relaxed">
+                  Get the latest articles, case studies, and real-life stories
+                  about{" "}
+                  <span className="text-cyan-400 font-semibold">
+                    cyber threats
+                  </span>{" "}
+                  — simplified in your language.
+                </p>
+
+                <div className="mt-8">
+                  <Link href="/case-studies">
+                    <Button
+                      variant="outlined"
+                      className="!text-[#00FFFF] !border-2 !border-[#00FFFF] !bg-transparent !font-semibold !px-6 !py-3 !rounded-lg hover:!bg-[#00FFFF] hover:!text-black !transition-all !duration-300 !ease-in-out"
+                    >
+                      Share Your Case Studies
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right side - Image */}
+              <div className="flex-1 flex items-center justify-center lg:justify-end">
+                <div className="relative">
+                  <Image
+                    src="/wepik-export-20231026003443tjA7 1.png"
+                    alt="Cyber Awareness"
+                    width={450}
+                    height={450}
+                    className="rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300"
+                    priority
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ScrollVelocity */}
+          <div className="py-4">
+            <ScrollVelocity
+              texts={[
+                "Empowering Ideas • Sharing Knowledge • Driving Innovation",
+              ]}
+              velocity={velocity}
+              className="custom-scroll-text  text-white text-2xl sm:text-3xl lg:text-[35px]"
+            />
           </div>
         </div>
 
-        <div className="w-1/2 flex items-center justify-end px-[30px]">
-          <Image
-            src="/wepik-export-20231026003443tjA7 1.png"
-            alt="Cyber Awareness"
-            width={400}
-            height={400}
-            className="rounded-lg"
-          />
+        <div className="flex items-center justify-center py-4 ">
+          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
         </div>
-      </div>
-      <div className="flex items-center justify-center">
-        <hr className="w-[80%] bg-black h-[2px] text-black border border-1 border-black " />
-      </div>
-      <div className="bg-[#06080e] w-full px-10 flex items-center justify-between">
-        <h1 className="font-bold text-[24px] tracking-[3px] text-white mt-8">
-          Knowledge Base
-        </h1>
-      </div>
-      <Articles />
-      <div className="flex items-center justify-center">
-        <hr className="w-[80%] bg-black h-[2px] text-black border border-1 border-black" />
-      </div>
-      <div className="bg-[#06080e]  w-full px-10 flex items-center justify-between">
-        <h1 className="font-bold text-[24px] tracking-[3px] text-white mt-8 mb-6">
-          Threat Case Studies
-        </h1>
-      </div>
-      <CaseStudies limit={6} />
-      <div className="flex justify-center bg-[#06080e] h-[100px] py-6">
-        <Link href="/cyber-news">
-          <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-6 cursor-pointer hover:bg-[#5633cc] transition">
-            View More CaseStudies →
-          </button>
-        </Link>
-      </div>
-      <div className="flex items-center justify-center">
-        <hr className="w-[80%] bg-black h-[2px] text-black border border-1 border-black" />
-      </div>
-      <div className="bg-[#06080e]  w-full px-10 flex items-center justify-between">
-        <h1 className="font-bold text-[24px] tracking-[3px] text-white mt-8 mb-6">
-          Latest Insights
-        </h1>
-      </div>
 
-      <NewsBox limit={6} />
-      <div className="flex justify-center bg-[#06080e] h-[100px] py-4">
-        <Link href="/cyber-news">
-          <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-6 cursor-pointer hover:bg-[#5633cc] transition">
-            View More News →
-          </button>
-        </Link>
+        <div className=" w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
+          <h1 className="font-bold text-xl sm:text-2xl lg:text-[30px] tracking-[2px] lg:tracking-[3px] text-white mt-8 mb-4 text-center">
+            Knowledge Base
+          </h1>
+        </div>
+
+        <Articles />
+
+        <div className="flex items-center justify-center py-4 ">
+          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
+        </div>
+
+        <div className=" w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
+          <h1 className="font-bold text-xl sm:text-2xl lg:text-[30px] tracking-[2px] lg:tracking-[3px] text-white mt-8 mb-6 text-center">
+            Threat Case Studies
+          </h1>
+        </div>
+
+        <CaseStudies limit={6} />
+
+        <div className="flex justify-center  py-8">
+          <Link href="/case-studies">
+            <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base px-8 py-3 cursor-pointer hover:bg-[#5633cc] transition-all duration-300 shadow-lg hover:shadow-xl">
+              View More Case Studies →
+            </button>
+          </Link>
+        </div>
+
+        <div className="flex items-center justify-center py-4 ">
+          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
+        </div>
+
+        <div className=" w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
+          <h1 className="font-bold text-xl sm:text-2xl lg:text-[30px] tracking-[2px] lg:tracking-[3px] text-white mt-8 mb-6 text-center">
+            Latest Insights
+          </h1>
+        </div>
+
+        <NewsBox limit={6} />
+
+        <div className="flex justify-center  py-8">
+          <Link href="/cyber-news">
+            <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base px-8 py-3 cursor-pointer hover:bg-[#5633cc] transition-all duration-300 shadow-lg hover:shadow-xl">
+              View More News →
+            </button>
+          </Link>
+        </div>
       </div>
     </>
   );

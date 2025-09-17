@@ -1,17 +1,16 @@
 "use client";
 
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import ArticleCard from "../ArticleCards/ArticleCard";
-import { articles } from "@/assets/article";
-import { CircularProgress } from "@mui/material";
+import SkeletonLoader from "../Loader/SkeletonLoader";
 
 const Articles = () => {
   const [articles, setArticles] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -34,32 +33,41 @@ const Articles = () => {
     fetchArticles();
   }, []);
 
+  if (error) {
+    return (
+      <div className="w-full h-[400px] bg-[#06080e] text-white flex items-center justify-center">
+        <p className="text-red-400">Error loading articles: {error}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full h-[400px] bg-[#06080e] text-white  flex items-center justify-center p-8">
-      {isLoading && (
-        <div className="w-full flex justify-center py-20">
-          <CircularProgress color="success" className="!text-white" />
-        </div>
-      )}
+    <div className="w-full min-h-[500px] bg-[#06080e] text-white flex items-center justify-center p-8">
       <Swiper
         slidesPerView={3}
-        spaceBetween={50}
+        spaceBetween={30}
         navigation={true}
         modules={[Navigation]}
         className="mySwiper"
       >
-        {articles.map((article, index) => (
-          <SwiperSlide key={index}>
-            <ArticleCard
-              id={article.id}
-              title={article.title}
-              summary={article.summary}
-              slug={article.slug}
-              image={article.image}
-              author={article.author}
-            />
-          </SwiperSlide>
-        ))}
+        {isLoading
+          ? [...Array(3)].map((_, i) => (
+              <SwiperSlide key={`skeleton-${i}`}>
+                <SkeletonLoader type="article" />
+              </SwiperSlide>
+            ))
+          : articles.map((article) => (
+              <SwiperSlide key={article.id}>
+                <ArticleCard
+                  id={article.id}
+                  title={article.title}
+                  summary={article.summary}
+                  slug={article.slug}
+                  image={article.image}
+                  author={article.author}
+                />
+              </SwiperSlide>
+            ))}
       </Swiper>
     </div>
   );
