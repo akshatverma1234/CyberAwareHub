@@ -1,76 +1,41 @@
-"use client";
+import React from "react";
 
-import React, { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
-import ArticleCard from "../ArticleCards/ArticleCard";
 import SkeletonLoader from "../Loader/SkeletonLoader";
+import ArticlesClient from "../ClientPages/ArticleClient";
 
-const Articles = () => {
-  const [articles, setArticles] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+async function getArticles() {
+  const res = await fetch(`${process.env.PUBLIC_URL}/api/articles`, {
+    next: { revalidate: 3600 },
+  });
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch("/api/articles");
-        if (!response.ok) {
-          throw new Error("Failed to fetch articles");
-        }
-        const data = await response.json();
-        setArticles(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  if (!res.ok) {
+    // You can now handle errors on the server without client state
+    throw new Error("Failed to fetch the articles");
+  }
 
-    fetchArticles();
-  }, []);
+  return res.json();
+}
 
-  if (error) {
+const Articles = async () => {
+  let articles = [];
+  let hasError = false;
+
+  try {
+    articles = await getArticles();
+  } catch (error) {
+    console.error(error); // Log the error on the server
+    hasError = true;
+  }
+
+  if (hasError || !articles || articles.length === 0) {
     return (
       <div className="w-full h-[400px] bg-[#06080e] text-white flex items-center justify-center">
-        <p className="text-red-400">Error loading articles: {error}</p>
+        <p className="text-red-400">Error loading articles.</p>
       </div>
     );
   }
 
-  return (
-    <div className="w-full min-h-[500px] bg-[#06080e] text-white flex items-center justify-center p-8">
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={30}
-        navigation={true}
-        modules={[Navigation]}
-        className="mySwiper"
-      >
-        {isLoading
-          ? [...Array(3)].map((_, i) => (
-              <SwiperSlide key={`skeleton-${i}`}>
-                <SkeletonLoader type="article" />
-              </SwiperSlide>
-            ))
-          : articles.map((article) => (
-              <SwiperSlide key={article.id}>
-                <ArticleCard
-                  id={article.id}
-                  title={article.title}
-                  summary={article.summary}
-                  slug={article.slug}
-                  image={article.image}
-                  author={article.author}
-                />
-              </SwiperSlide>
-            ))}
-      </Swiper>
-    </div>
-  );
+  return <ArticlesClient articles={articles} />;
 };
 
 export default Articles;

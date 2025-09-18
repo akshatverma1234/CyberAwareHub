@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import {
   Shield,
   Users,
@@ -13,6 +14,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@mui/material";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const AboutUs = () => {
   const services = [
@@ -96,11 +99,18 @@ const AboutUs = () => {
     "Certification and recognition programs",
   ];
 
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
+
   return (
     <div className="bg-[#06080e] w-full min-h-screen">
-      {/* Hero Section */}
       <div className="m-auto flex flex-col items-center justify-center p-28">
-        <h1 className="uppercase text-blue-200 text-lg tracking-widest mb-4">
+        <h1
+          className="uppercase text-blue-200 text-lg tracking-widest mb-4"
+          data-aos="fade-up"
+          data-aos-duration="1000"
+        >
           About us
         </h1>
         <div className="flex flex-col items-center justify-center">

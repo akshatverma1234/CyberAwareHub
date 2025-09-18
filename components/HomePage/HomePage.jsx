@@ -3,13 +3,26 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Articles from "../Articles/Articles";
-import CaseStudies from "../CaseStudies/CaseStudies";
 import NewsBox from "../NewsBox/NewsBox";
 import SplitText from "../Animation/SplitText";
 import ScrollVelocity from "../Animation/ScrollVelocity";
 import LiquidEther from "../Animation/LiquidEther";
+import CaseStudyList from "./../ClientPages/CaseStudyList";
 
-const HomePage = ({ velocity }) => {
+async function getAllCaseStudies() {
+  const res = await fetch(`${process.env.PUBLIC_URL}/api/admin/caseStudies`, {
+    next: { revalidate: 3600 },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch case studies data");
+  }
+
+  return res.json();
+}
+
+const HomePage = async ({ velocity }) => {
+  const allCaseStudies = await getAllCaseStudies();
+  const limitedCaseStudies = allCaseStudies.slice(0, 6);
   return (
     <>
       <div
@@ -38,10 +51,8 @@ const HomePage = ({ velocity }) => {
         </div>
 
         <div className="w-full">
-          {/* Hero Section */}
           <div className="w-full min-h-[650px] flex items-center justify-center px-4 sm:px-8 lg:px-[80px] py-12">
             <div className="w-full max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
-              {/* Left side - Text Content */}
               <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
                 <h1 className="text-white font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight">
                   <SplitText
@@ -92,23 +103,18 @@ const HomePage = ({ velocity }) => {
                 </div>
               </div>
 
-              {/* Right side - Image */}
               <div className="flex-1 flex items-center justify-center lg:justify-end">
-                <div className="relative">
-                  <Image
-                    src="/wepik-export-20231026003443tjA7 1.png"
-                    alt="Cyber Awareness"
-                    width={450}
-                    height={450}
+                <div className="relative w-[500px] h-[500px]">
+                  <iframe
+                    src="https://lottie.host/embed/d0da0805-295b-40b6-893e-9f2fe83f9cda/agYDIBId9H.lottie"
+                    style={{ width: "100%", height: "100%", border: "none" }}
                     className="rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300"
-                    priority
-                  />
+                  ></iframe>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* ScrollVelocity */}
           <div className="py-4">
             <ScrollVelocity
               texts={[
@@ -124,25 +130,29 @@ const HomePage = ({ velocity }) => {
           <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
         </div>
 
-        <div className=" w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
-          <h1 className="font-bold text-xl sm:text-2xl lg:text-[30px] tracking-[2px] lg:tracking-[3px] text-white mt-8 mb-4 text-center">
-            Knowledge Base
-          </h1>
-        </div>
+        <div className="flex items-center justify-center">
+          <div className="bg-[#202020] w-[95%] px-4 sm:px-8 lg:px-10 rounded-[25px]">
+            <div className="flex justify-center">
+              <h1 className="font-bold text-xl sm:text-2xl lg:text-[30px] tracking-[2px] lg:tracking-[3px] text-white mt-8 mb-6 text-center">
+                Knowledge Base
+              </h1>
+            </div>
 
-        <Articles />
+            <Articles />
+          </div>
+        </div>
 
         <div className="flex items-center justify-center py-4 ">
           <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
         </div>
 
-        <div className=" w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
+        <div className="w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
           <h1 className="font-bold text-xl sm:text-2xl lg:text-[30px] tracking-[2px] lg:tracking-[3px] text-white mt-8 mb-6 text-center">
             Threat Case Studies
           </h1>
         </div>
 
-        <CaseStudies limit={6} />
+        <CaseStudyList initialData={limitedCaseStudies} />
 
         <div className="flex justify-center  py-8">
           <Link href="/case-studies">
