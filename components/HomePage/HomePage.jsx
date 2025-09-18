@@ -8,6 +8,9 @@ import SplitText from "../Animation/SplitText";
 import ScrollVelocity from "../Animation/ScrollVelocity";
 import LiquidEther from "../Animation/LiquidEther";
 import CaseStudyList from "./../ClientPages/CaseStudyList";
+import FeaturedSection from "../ClientPages/FeaturedSection";
+import CommunitySection from "../ClientPages/CommunitySection";
+import "aos/dist/aos.css";
 
 async function getAllCaseStudies() {
   const res = await fetch(`${process.env.PUBLIC_URL}/api/admin/caseStudies`, {
@@ -70,7 +73,6 @@ const HomePage = async ({ velocity }) => {
                   <br />
                   <SplitText
                     text="Digital World"
-                    className=""
                     delay={100}
                     duration={0.6}
                     ease="power3.out"
@@ -133,12 +135,16 @@ const HomePage = async ({ velocity }) => {
         <div className="flex items-center justify-center">
           <div className="bg-[#202020] w-[95%] px-4 sm:px-8 lg:px-10 rounded-[25px]">
             <div className="flex justify-center">
-              <h1 className="font-bold text-xl sm:text-2xl lg:text-[30px] tracking-[2px] lg:tracking-[3px] text-white mt-8 mb-6 text-center">
+              <h1
+                className="text-4xl font-bold mt-12 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
+                data-aos="fade-down"
+              >
                 Knowledge Base
               </h1>
             </div>
-
-            <Articles />
+            <div data-aos="fade-up">
+              <Articles />
+            </div>
           </div>
         </div>
 
@@ -147,16 +153,23 @@ const HomePage = async ({ velocity }) => {
         </div>
 
         <div className="w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
-          <h1 className="font-bold text-xl sm:text-2xl lg:text-[30px] tracking-[2px] lg:tracking-[3px] text-white mt-8 mb-6 text-center">
+          <h1
+            className="text-4xl font-bold mb-8 mt-8 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
+            data-aos="fade-down"
+          >
             Threat Case Studies
           </h1>
         </div>
-
-        <CaseStudyList initialData={limitedCaseStudies} />
+        <div data-aos="fade-up">
+          <CaseStudyList initialData={limitedCaseStudies} />
+        </div>
 
         <div className="flex justify-center  py-8">
           <Link href="/case-studies">
-            <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base px-8 py-3 cursor-pointer hover:bg-[#5633cc] transition-all duration-300 shadow-lg hover:shadow-xl">
+            <button
+              className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base px-8 py-3 cursor-pointer hover:bg-[#5633cc] transition-all duration-300 shadow-lg hover:shadow-xl"
+              data-aos="fade-up-right"
+            >
               View More Case Studies →
             </button>
           </Link>
@@ -167,20 +180,40 @@ const HomePage = async ({ velocity }) => {
         </div>
 
         <div className=" w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
-          <h1 className="font-bold text-xl sm:text-2xl lg:text-[30px] tracking-[2px] lg:tracking-[3px] text-white mt-8 mb-6 text-center">
+          <h1
+            className="text-4xl font-bold mb-8 mt-8 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
+            data-aos="fade-left"
+          >
             Latest Insights
           </h1>
         </div>
 
-        <NewsBox limit={6} />
+        <div data-aos="fade-up">
+          <NewsBox limit={6} />
+        </div>
 
         <div className="flex justify-center  py-8">
           <Link href="/cyber-news">
-            <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base px-8 py-3 cursor-pointer hover:bg-[#5633cc] transition-all duration-300 shadow-lg hover:shadow-xl">
+            <button
+              className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base px-8 py-3 cursor-pointer hover:bg-[#5633cc] transition-all duration-300 shadow-lg hover:shadow-xl"
+              data-aos="zoom-in"
+            >
               View More News →
             </button>
           </Link>
         </div>
+
+        <div className="flex items-center justify-center py-4 ">
+          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
+        </div>
+
+        <FeaturedSection />
+
+        <div className="flex items-center justify-center py-4 ">
+          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
+        </div>
+
+        <CommunitySection />
       </div>
     </>
   );

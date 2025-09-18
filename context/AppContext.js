@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -9,6 +9,7 @@ import AddCaseStudy from "@/components/AddCaseStudy/AddCaseStudy";
 import toast, { Toaster } from "react-hot-toast";
 import CommunityDialogBox from "@/components/communityDialogBox/CommunityDialogBox";
 import { ClerkProvider, useUser } from "@clerk/nextjs";
+import AOS from "aos";
 
 const MyContext = createContext();
 
@@ -19,8 +20,11 @@ export const AppProvider = ({ children }) => {
     id: null,
   });
 
-  const { isLoaded } = useUser(); // Clerk loading state
+  const { isLoaded } = useUser();
 
+  useEffect(() => {
+    AOS.init({ duration: 1000, once: true });
+  }, []);
   const handleClose = () => {
     setOpenPanel({ open: false, model: "", id: null });
   };

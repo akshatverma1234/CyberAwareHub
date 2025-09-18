@@ -15,19 +15,21 @@ const Footer = () => {
     <footer className="bg-[#06080e] border-t border-blue-900">
       <div className="max-w-7xl mx-auto px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Section */}
           <div className="md:col-span-2">
-            <div className="flex items-center mb-4">
+            <div className="flex items-center mb-4" data-aos="fade-right">
               <Shield className="w-6 h-6 text-blue-400 mr-2" />
               <h3 className="text-white text-lg font-bold">
                 Cyber Awareness Hub
               </h3>
             </div>
-            <p className="text-gray-300 mb-6 leading-relaxed">
+            <p
+              className="text-gray-300 mb-6 leading-relaxed"
+              data-aos="fade-right"
+            >
               Making cybersecurity knowledge accessible, engaging, and practical
               for everyone.
             </p>
-            <div className="space-y-2">
+            <div className="space-y-2" data-aos="fade-right">
               <div className="flex items-center text-gray-300">
                 <Mail className="w-4 h-4 text-blue-400 mr-2" />
                 <span>vakshat421@gmail.com</span>
@@ -40,9 +42,11 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-white font-bold mb-4">Quick Links</h4>
+            <h4 className="text-white font-bold mb-4" data-aos="fade-down">
+              Quick Links
+            </h4>
             <ul className="space-y-2">
-              <li>
+              <li data-aos="fade-up">
                 <a
                   href="/"
                   className="text-gray-300 hover:text-blue-400 transition-colors"
@@ -50,7 +54,7 @@ const Footer = () => {
                   Home
                 </a>
               </li>
-              <li>
+              <li data-aos="fade-up">
                 <a
                   href="/case-studies"
                   className="text-gray-300 hover:text-blue-400 transition-colors"
@@ -58,7 +62,7 @@ const Footer = () => {
                   Case Studies
                 </a>
               </li>
-              <li>
+              <li data-aos="fade-up">
                 <a
                   href="/articles"
                   className="text-gray-300 hover:text-blue-400 transition-colors"
@@ -66,7 +70,7 @@ const Footer = () => {
                   Articles
                 </a>
               </li>
-              <li>
+              <li data-aos="fade-up">
                 <a
                   href="/community-stories"
                   className="text-gray-300 hover:text-blue-400 transition-colors"
@@ -74,7 +78,7 @@ const Footer = () => {
                   Community
                 </a>
               </li>
-              <li>
+              <li data-aos="fade-up">
                 <a
                   href="/about-us"
                   className="text-gray-300 hover:text-blue-400 transition-colors"
@@ -85,10 +89,11 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal & Social */}
           <div>
-            <h4 className="text-white font-bold mb-4">Connect</h4>
-            <div className="flex space-x-4 mb-6">
+            <h4 className="text-white font-bold mb-4" data-aos="fade-left">
+              Connect
+            </h4>
+            <div className="flex space-x-4 mb-6" data-aos="fade-left">
               <a
                 href="https://www.linkedin.com/in/akshat-verma-b559a625a/"
                 className="text-gray-300 hover:text-blue-400 transition-colors"
@@ -109,7 +114,7 @@ const Footer = () => {
               </a>
             </div>
             <ul className="space-y-2">
-              <li>
+              <li data-aos="fade-left">
                 <a
                   href="/privacy"
                   className="text-gray-300 hover:text-blue-400 transition-colors text-sm"
@@ -117,7 +122,7 @@ const Footer = () => {
                   Privacy Policy
                 </a>
               </li>
-              <li>
+              <li data-aos="fade-left">
                 <a
                   href="/terms"
                   className="text-gray-300 hover:text-blue-400 transition-colors text-sm"
@@ -131,10 +136,13 @@ const Footer = () => {
 
         <div className="mt-8 pt-8 border-t border-blue-800">
           <div className="flex flex-col md:flex-row items-center justify-between">
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-400 text-sm" data-aos="fade-down-right">
               © 2024 Cyber Awareness Hub. All rights reserved.
             </p>
-            <p className="text-gray-400 text-sm mt-2 md:mt-0">
+            <p
+              className="text-gray-400 text-sm mt-2 md:mt-0"
+              data-aos="fade-down-left"
+            >
               Built with security in mind
             </p>
           </div>
