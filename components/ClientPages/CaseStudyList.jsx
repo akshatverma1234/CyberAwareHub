@@ -21,7 +21,7 @@ const CaseStudies = ({ initialData }) => {
       style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}
     >
       <div className="w-full h-full mb-18">
-        <div className="grid grid-cols-3 gap-6 px-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6 px-20">
           {displayedCaseStudies.map((caseStudy, index) => (
             <Card
               key={caseStudy._id || index}

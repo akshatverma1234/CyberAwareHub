@@ -170,3 +170,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media (max-width: 768px) {
+  .MuiPaper-root {
+    width: 300px !important;
+  }
+}
