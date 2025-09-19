@@ -23,7 +23,12 @@ export const AppProvider = ({ children }) => {
   const { isLoaded } = useUser();
 
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
+    AOS.init({
+      duration: 1000,
+      once: true,
+      once: true,
+      mirror: false,
+    });
   }, []);
   const handleClose = () => {
     setOpenPanel({ open: false, model: "", id: null });

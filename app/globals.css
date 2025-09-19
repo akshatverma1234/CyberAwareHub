@@ -3,6 +3,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 .navbar {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
@@ -11,22 +16,24 @@
   height: 50px !important;
   background-color: white !important;
   border-radius: 50%;
-  color: black !important;
+  background-color: black !important;
 }
 
 .swiper-button-prev::after {
   font-size: 35px !important;
+  color: white !important;
 }
 .swiper-button-next {
   width: 50px !important;
   height: 50px !important;
   background-color: white !important;
   border-radius: 50%;
-  color: black !important;
+  background-color: black !important;
 }
 
 .swiper-button-next::after {
   font-size: 35px !important;
+  color: white !important;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -174,5 +181,55 @@
 @media (max-width: 768px) {
   .MuiPaper-root {
     width: 300px !important;
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    width: 40px !important;
+    height: 40px !important;
+    background-color: black !important;
+  }
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 20px !important;
+    color: white !important;
+  }
+}
+
+/* In your global.css file */
+
+/* On small screens, the dialog should take up the full viewport */
+.MuiDialog-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Ensure the container fills the viewport correctly on mobile */
+  height: 100vh;
+  width: 100vw; /* Changed from 120vw to 100vw */
+  margin: 0;
+  padding: 0;
+}
+
+.MuiDialogContent-root {
+  /* This ensures the content itself fills the available space within the dialog */
+  width: 100% !important;
+}
+
+/* On tablets and desktops (screens wider than 768px) */
+@media (min-width: 768px) {
+  .MuiDialog-container {
+    height: 100%;
+    width: 100%;
+  }
+
+  .MuiDialogContent-root {
+    width: 100% !important;
+  }
+
+  .MuiPaper-root.MuiDialog-paper {
+    max-width: 1000px;
+    max-height: 90vh;
+    height: auto;
+    width: 100%;
+    border-radius: 12px;
   }
 }

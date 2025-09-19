@@ -1,9 +1,9 @@
-"use client";
 import React, { useContext, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { MyContext } from "@/context/AppContext";
 import { SignInButton, SignUpButton, useAuth, useUser } from "@clerk/nextjs";
+import { CircularProgress } from "@mui/material";
 
 const AddCaseStudy = () => {
   const { isLoaded, isSignedIn } = useAuth();
@@ -38,18 +38,22 @@ const AddCaseStudy = () => {
   }, [user]);
 
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full h-full flex items-center justify-center p-6 bg-gray-800 rounded-xl">
+        <CircularProgress className="!text-cyan-400" />
+      </div>
+    );
   }
+
   if (!isSignedIn) {
     return (
-      <>
+      <div className="w-full h-full flex items-center justify-center p-6 bg-gray-800 rounded-xl text-center">
         <div className="flex flex-col items-center text-center text-white">
-          ⚠️ Please sign in to add a case study.
-          <div className="mt-4 flex gap-2">
+          <p className="text-lg mb-4">⚠️ Please sign in to add a case study.</p>
+          <div className="mt-4 flex flex-col sm:flex-row gap-2">
             <SignInButton>
               <Button
                 variant="outlined"
-                href="#outlined-buttons"
                 className="!rounded-[10px] !text-[#00FFFF] !border-1 !border-[#00FFFF] !bg-black !font-600 hover:!bg-[#00FFFF] hover:!text-black !transition !duration-400 !ease-in-out"
               >
                 Login
@@ -58,7 +62,6 @@ const AddCaseStudy = () => {
             <SignUpButton>
               <Button
                 variant="outlined"
-                href="#outlined-buttons"
                 className="!rounded-[10px] !text-[#00FFFF] !border-1 !border-[#00FFFF] !bg-black !font-600 hover:!bg-[#00FFFF] hover:!text-black !transition !duration-400 !ease-in-out"
               >
                 Signup
@@ -66,7 +69,7 @@ const AddCaseStudy = () => {
             </SignUpButton>
           </div>
         </div>
-      </>
+      </div>
     );
   }
 
@@ -131,12 +134,12 @@ const AddCaseStudy = () => {
   };
 
   return (
-    <div className="w-[550px] h-[850px] bg-white p-4 px-8 rounded-xl shadow-lg ">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">
+    <div className="w-full h-full p-4 sm:p-6 md:p-8 bg-white rounded-xl shadow-lg overflow-y-auto">
+      <h2 className="text-xl sm:text-2xl font-bold mb-6 text-gray-800">
         ➕ Add Your Case Study
       </h2>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-5">
         <TextField
           label="Name"
           name="name"
@@ -146,6 +149,8 @@ const AddCaseStudy = () => {
           fullWidth
           required
           disabled={!!user?.fullName}
+          InputProps={{ className: "!text-gray-800" }}
+          InputLabelProps={{ className: "!text-gray-600" }}
         />
         <TextField
           label="Email"
@@ -154,6 +159,8 @@ const AddCaseStudy = () => {
           variant="outlined"
           fullWidth
           disabled
+          InputProps={{ className: "!text-gray-800" }}
+          InputLabelProps={{ className: "!text-gray-600" }}
         />
 
         <TextField
@@ -165,6 +172,8 @@ const AddCaseStudy = () => {
           fullWidth
           required
           placeholder="Enter a descriptive title for your case study"
+          InputProps={{ className: "!text-gray-800" }}
+          InputLabelProps={{ className: "!text-gray-600" }}
         />
         <TextField
           label="Summary"
@@ -175,6 +184,8 @@ const AddCaseStudy = () => {
           rows={3}
           required
           placeholder="Brief summary of the incident"
+          InputProps={{ className: "!text-gray-800" }}
+          InputLabelProps={{ className: "!text-gray-600" }}
         />
         <TextField
           label="Impact"
@@ -184,6 +195,8 @@ const AddCaseStudy = () => {
           multiline
           rows={3}
           placeholder="What was the impact of this incident?"
+          InputProps={{ className: "!text-gray-800" }}
+          InputLabelProps={{ className: "!text-gray-600" }}
         />
         <TextField
           label="Lesson"
@@ -193,16 +206,22 @@ const AddCaseStudy = () => {
           multiline
           rows={3}
           placeholder="What lessons were learned?"
+          InputProps={{ className: "!text-gray-800" }}
+          InputLabelProps={{ className: "!text-gray-600" }}
         />
 
         <Button
           type="submit"
           variant="contained"
           color="primary"
-          className="!mt-1"
+          className="!mt-1 !bg-blue-600 hover:!bg-blue-700 !text-white !px-6 !py-3 !rounded-lg !font-semibold !transition-all !duration-300"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "Submitting..." : "Submit for Review"}
+          {isSubmitting ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Submit for Review"
+          )}
         </Button>
 
         <p className="text-sm text-gray-600 text-center mt-2">

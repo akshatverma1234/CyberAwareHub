@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -16,11 +16,23 @@ const ArticlesClient = ({ articles }) => {
         </div>
       ) : (
         <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
+          breakpoints={{
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            768: {
+              slidesPerView: 1,
+              spaceBetween: 20,
+            },
+            1024: {
+              slidesPerView: 3,
+              spaceBetween: 30,
+            },
+          }}
           navigation={true}
           modules={[Navigation]}
-          className="mySwiper"
+          className="mySwiper w-full"
         >
           {articles.map((article) => (
             <SwiperSlide key={article.id}>

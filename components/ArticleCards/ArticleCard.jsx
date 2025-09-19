@@ -9,9 +9,9 @@ const ArticleCard = ({ id, image, title, summary, slug }) => {
   return (
     <div
       key={id}
-      className="bg-white text-gray-900 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex overflow-hidden w-[420px] h-[280px]"
+      className="bg-white text-gray-900 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row overflow-hidden w-full md:w-[420px] h-auto md:h-[280px]"
     >
-      <div className="w-1/2 h-full overflow-hidden">
+      <div className="w-full h-48 md:w-1/2 md:h-full overflow-hidden">
         <img
           src={image}
           alt={title}
@@ -19,10 +19,14 @@ const ArticleCard = ({ id, image, title, summary, slug }) => {
         />
       </div>
 
-      <div className="w-1/2 p-5 flex flex-col justify-between">
+      <div className="w-full md:w-1/2 p-5 flex flex-col justify-between">
         <div>
-          <h2 className="text-[16px] font-semibold line-clamp-2">{title}</h2>
-          <p className="text-gray-600 text-xs mt-2 line-clamp-4">{summary}</p>
+          <h2 className="text-sm md:text-[16px] font-semibold line-clamp-2 md:line-clamp-2">
+            {title}
+          </h2>
+          <p className="text-gray-600 text-xs md:text-xs mt-2 line-clamp-4 md:line-clamp-4">
+            {summary}
+          </p>
         </div>
 
         <div className="flex items-center justify-between mt-4">

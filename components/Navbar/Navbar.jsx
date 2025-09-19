@@ -11,10 +11,12 @@ import {
   SignedOut,
   useUser,
 } from "@clerk/nextjs";
+import { IoClose, IoMenu } from "react-icons/io5";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { isLoaded, user } = useUser();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -26,9 +28,27 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const isActive = (path) => {
     if (path === "/") return pathname === "/";
     return pathname.startsWith(path);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -37,72 +57,81 @@ const Navbar = () => {
         scrolled ? "bg-gray-800 shadow-lg backdrop-blur-md" : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4 navbar">
-        <h1 className="text-2xl font-bold text-white">Cyber Hub</h1>
-        <ul className="flex items-center gap-6 text-white font-medium">
-          <Link href="/">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
+        <Link href="/">
+          <h1 className="text-2xl font-bold text-white">Cyber Hub</h1>
+        </Link>
+
+        <ul className="hidden md:flex items-center gap-6 text-white font-medium">
+          <Link href="/" passHref>
             <li
               className={`cursor-pointer hover:text-cyan-400 ${
                 isActive("/") ? "text-cyan-400" : "text-gray-200"
               }`}
+              onClick={closeMobileMenu}
             >
               Home
             </li>
           </Link>
-          <Link href="/articles">
+          <Link href="/articles" passHref>
             <li
               className={`cursor-pointer hover:text-cyan-400 ${
                 isActive("/articles") ? "text-cyan-400" : "text-gray-200"
               }`}
+              onClick={closeMobileMenu}
             >
               Articles
             </li>
           </Link>
-          <Link href="/case-studies">
+          <Link href="/case-studies" passHref>
             <li
               className={`cursor-pointer hover:text-cyan-400 ${
                 isActive("/case-studies") ? "text-cyan-400" : "text-gray-200"
               }`}
+              onClick={closeMobileMenu}
             >
               Case Studies
             </li>
           </Link>
-          <Link href="/community-stories">
+          <Link href="/community-stories" passHref>
             <li
               className={`cursor-pointer hover:text-cyan-400 ${
                 isActive("/community-stories")
                   ? "text-cyan-400"
                   : "text-gray-200"
               }`}
+              onClick={closeMobileMenu}
             >
               Community Stories
             </li>
           </Link>
-          <Link href="/cyber-news">
+          <Link href="/cyber-news" passHref>
             <li
               className={`cursor-pointer hover:text-cyan-400 ${
                 isActive("/cyber-news") ? "text-cyan-400" : "text-gray-200"
               }`}
+              onClick={closeMobileMenu}
             >
               News
             </li>
           </Link>
-          <Link href="/about-us">
+          <Link href="/about-us" passHref>
             <li
               className={`cursor-pointer hover:text-cyan-400 ${
                 isActive("/about-us") ? "text-cyan-400" : "text-gray-200"
               }`}
+              onClick={closeMobileMenu}
             >
               About Us
             </li>
           </Link>
         </ul>
-        <SignedOut>
-          <div className="flex  gap-2">
+        {/* Desktop Auth Buttons */}
+        <div className="hidden md:flex items-center gap-2">
+          <SignedOut>
             <SignInButton>
               <Button
                 variant="outlined"
-                href="#outlined-buttons"
                 className="!rounded-[10px] !text-[#00FFFF] !border-1 !border-[#00FFFF] !bg-black !font-600 hover:!bg-[#00FFFF] hover:!text-black !transition !duration-400 !ease-in-out"
               >
                 Login
@@ -111,22 +140,138 @@ const Navbar = () => {
             <SignUpButton>
               <Button
                 variant="outlined"
-                href="#outlined-buttons"
                 className="!rounded-[10px] !text-[#00FFFF] !border-1 !border-[#00FFFF] !bg-black !font-600 hover:!bg-[#00FFFF] hover:!text-black !transition !duration-400 !ease-in-out"
               >
                 Signup
               </Button>
             </SignUpButton>
-          </div>
-        </SignedOut>
-        <SignedIn>
-          <div className="flex flex-row items-center gap-2  p-2 h-[40px] bg-gray-700   rounded-[20px]">
-            <UserButton />
-            <div className="w-full text-gray-200 font-[600] flex items-center">
-              <h4 className="text-[14px]">{user?.fullName}</h4>
+          </SignedOut>
+          <SignedIn>
+            <div className="flex flex-row items-center gap-2 p-2 h-[40px] bg-gray-700 rounded-[20px]">
+              <UserButton />
+              <div className="w-full text-gray-200 font-[600] flex items-center">
+                <h4 className="text-[14px]">{user?.fullName}</h4>
+              </div>
             </div>
-          </div>
-        </SignedIn>
+          </SignedIn>
+        </div>
+
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={toggleMobileMenu}
+            className="text-2xl text-gray-300 hover:text-white"
+          >
+            {isMobileMenuOpen ? <IoClose /> : <IoMenu />}
+          </button>
+        </div>
+      </div>
+
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          isMobileMenuOpen ? "max-h-screen" : "max-h-0"
+        } bg-gray-800`}
+      >
+        <ul className="flex flex-col p-4 space-y-2 text-white font-medium">
+          <Link href="/" passHref>
+            <li
+              className={`block px-3 py-2 rounded-md transition-colors ${
+                isActive("/") ? "bg-purple-600 text-white" : "hover:bg-gray-700"
+              }`}
+              onClick={closeMobileMenu}
+            >
+              Home
+            </li>
+          </Link>
+          <Link href="/articles" passHref>
+            <li
+              className={`block px-3 py-2 rounded-md transition-colors ${
+                isActive("/articles")
+                  ? "bg-purple-600 text-white"
+                  : "hover:bg-gray-700"
+              }`}
+              onClick={closeMobileMenu}
+            >
+              Articles
+            </li>
+          </Link>
+          <Link href="/case-studies" passHref>
+            <li
+              className={`block px-3 py-2 rounded-md transition-colors ${
+                isActive("/case-studies")
+                  ? "bg-purple-600 text-white"
+                  : "hover:bg-gray-700"
+              }`}
+              onClick={closeMobileMenu}
+            >
+              Case Studies
+            </li>
+          </Link>
+          <Link href="/community-stories" passHref>
+            <li
+              className={`block px-3 py-2 rounded-md transition-colors ${
+                isActive("/community-stories")
+                  ? "bg-purple-600 text-white"
+                  : "hover:bg-gray-700"
+              }`}
+              onClick={closeMobileMenu}
+            >
+              Community Stories
+            </li>
+          </Link>
+          <Link href="/cyber-news" passHref>
+            <li
+              className={`block px-3 py-2 rounded-md transition-colors ${
+                isActive("/cyber-news")
+                  ? "bg-purple-600 text-white"
+                  : "hover:bg-gray-700"
+              }`}
+              onClick={closeMobileMenu}
+            >
+              News
+            </li>
+          </Link>
+          <Link href="/about-us" passHref>
+            <li
+              className={`block px-3 py-2 rounded-md transition-colors ${
+                isActive("/about-us")
+                  ? "bg-purple-600 text-white"
+                  : "hover:bg-gray-700"
+              }`}
+              onClick={closeMobileMenu}
+            >
+              About Us
+            </li>
+          </Link>
+        </ul>
+
+        <div className="flex flex-col p-4 border-t border-gray-700 mt-2 space-y-2 gap-2">
+          <SignedOut>
+            <SignInButton>
+              <Button
+                variant="outlined"
+                className="!w-full !rounded-[10px] !text-[#00FFFF] !border-1 !border-[#00FFFF] !bg-black !font-600 hover:!bg-[#00FFFF] hover:!text-black !transition !duration-400 !ease-in-out"
+              >
+                Login
+              </Button>
+            </SignInButton>
+            <SignUpButton>
+              <Button
+                variant="outlined"
+                className="!w-full !rounded-[10px] !text-[#00FFFF] !border-1 !border-[#00FFFF] !bg-black !font-600 hover:!bg-[#00FFFF] hover:!text-black !transition !duration-400 !ease-in-out"
+              >
+                Signup
+              </Button>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <div className="flex flex-row items-center gap-2 p-2 h-[40px] bg-gray-700 rounded-[20px]">
+              <UserButton />
+              <div className="w-full text-gray-200 font-[600] flex items-center">
+                <h4 className="text-[14px]">{user?.fullName}</h4>
+              </div>
+            </div>
+          </SignedIn>
+        </div>
       </div>
     </div>
   );

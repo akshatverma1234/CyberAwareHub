@@ -45,14 +45,14 @@ const Articles = () => {
   }
 
   return (
-    <div className="bg-[#06080e] w-full min-h-[100vh] px-6 py-12">
-      <div className="max-w-6xl mx-auto mt-12">
-        <div className="w-full px-20 flex items-center justify-center mb-8">
-          <div className="mb-4">
-            <h1 className="text-4xl font-bold text-white mb-2 text-center">
+    <div className="bg-[#06080e] w-full min-h-[100vh]">
+      <div className="py-12 px-4 sm:px-8 lg:px-[80px] relative">
+        <div className="w-full flex items-center justify-center">
+          <div className="mb-4 text-center mt-12 sm:mt-12">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">
               Knowledge Base
             </h1>
-            <p className="text-gray-300 max-w-2xl mx-auto">
+            <p className="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base">
               Practical guides, deep dives, and best practices for a safer
               digital world
             </p>

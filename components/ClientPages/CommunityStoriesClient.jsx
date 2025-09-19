@@ -19,19 +19,19 @@ const CommunityStoriesClient = ({ initialData }) => {
 
   return (
     <>
-      <div className="w-full px-20 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-8 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0">
         <div className="text-center mb-4">
-          <h1 className="text-4xl font-bold text-white mb-2 text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2 text-center">
             Community Stories
           </h1>
-          <p className="text-gray-300 max-w-2xl mx-auto">
+          <p className="text-gray-300 max-w-2xl mx-auto text-sm sm:text-base">
             Real cybersecurity incidents shared by our community members
           </p>
         </div>
         <div className="!cursor-pointer">
           <Button
             variant="outlined"
-            className="flex gap-2 !text-white !bg-green-400"
+            className="flex gap-2 !text-white !bg-green-400 !px-6 !py-3 !rounded-[10px]"
             onClick={() =>
               context.setOpenPanel({
                 open: true,
@@ -39,16 +39,15 @@ const CommunityStoriesClient = ({ initialData }) => {
               })
             }
           >
-            <IoMdAdd size={35} />
-            <h1>Add case study</h1>
+            <IoMdAdd size={25} />
+            <h1 className="text-base sm:text-lg">Add case study</h1>
           </Button>
         </div>
       </div>
 
-      {/* The Case Study Cards */}
-      <div className="grid grid-cols-3 gap-6 px-20 py-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-8 py-4">
         {initialData.length === 0 && (
-          <div className="text-center py-20">
+          <div className="text-center py-20 col-span-full">
             <Typography variant="h6" className="text-gray-300">
               No approved community stories available yet.
             </Typography>
@@ -61,14 +60,14 @@ const CommunityStoriesClient = ({ initialData }) => {
         {initialData.map((caseStudy, index) => (
           <Card
             key={caseStudy._id || index}
-            className="flex flex-col border-2 border-white !rounded-[20px]"
+            className="flex flex-col border-2 border-white !rounded-[20px] h-full"
           >
             <CardContent className="flex-grow">
               <Typography
                 gutterBottom
                 variant="h5"
                 component="div"
-                className="!font-[600]"
+                className="!font-[600] text-lg sm:text-xl"
               >
                 {caseStudy.title}
               </Typography>
@@ -82,12 +81,18 @@ const CommunityStoriesClient = ({ initialData }) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                 }}
-                className="max-h-[100px] overflow-hidden"
+                className="max-h-[100px] overflow-hidden text-sm sm:text-base"
               >
                 {caseStudy.summary}
               </Typography>
             </CardContent>
-            <div className="flex card justify-between">
+            <div className="flex flex-col justify-end items-end mx-4 mb-2">
+              <p className="text-gray-800 text-[12px] font-[400]">Author</p>
+              <p className="text-gray-800 text-[16px] font-[400]">
+                {caseStudy.name}
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row card justify-between">
               <CardActions className="bg-black !rounded-tr-[20px]">
                 <Button className="flex !rounded-[10px]">
                   <WhatsappShareButton
@@ -113,12 +118,6 @@ const CommunityStoriesClient = ({ initialData }) => {
                   Learn More
                 </Button>
               </CardActions>
-              <div className="flex flex-col justify-end mx-4">
-                <p className="text-gray-800 text-[12px] font-[400]">Author</p>
-                <p className="text-gray-800 text-[16px] font-[400]">
-                  {caseStudy.name}
-                </p>
-              </div>
             </div>
           </Card>
         ))}

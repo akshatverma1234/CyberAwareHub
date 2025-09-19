@@ -23,7 +23,7 @@ const Articles = async () => {
   try {
     articles = await getArticles();
   } catch (error) {
-    console.error(error); // Log the error on the server
+    console.error(error);
     hasError = true;
   }
 

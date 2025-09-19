@@ -52,12 +52,11 @@ const HomePage = async ({ velocity }) => {
             rotation={0}
           />
         </div>
-
         <div className="w-full">
           <div className="w-full min-h-[650px] flex items-center justify-center px-4 sm:px-8 lg:px-[80px] py-12">
             <div className="w-full max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
               <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
-                <h1 className="text-white font-bold text-4xl sm:text-5xl lg:text-6xl leading-tight">
+                <h1 className="text-white font-bold text-4xl mt-8 md:mt-0 sm:text-5xl lg:text-6xl leading-tight">
                   <SplitText
                     text="Stay Safe in the"
                     className=""
@@ -106,7 +105,7 @@ const HomePage = async ({ velocity }) => {
               </div>
 
               <div className="flex-1 flex items-center justify-center lg:justify-end">
-                <div className="relative w-[500px] h-[500px]">
+                <div className="relative w-full max-w-lg aspect-square">
                   <iframe
                     src="https://lottie.host/embed/d0da0805-295b-40b6-893e-9f2fe83f9cda/agYDIBId9H.lottie"
                     style={{ width: "100%", height: "100%", border: "none" }}
@@ -123,15 +122,13 @@ const HomePage = async ({ velocity }) => {
                 "Empowering Ideas • Sharing Knowledge • Driving Innovation",
               ]}
               velocity={velocity}
-              className="custom-scroll-text  text-white text-2xl sm:text-3xl lg:text-[35px]"
+              className="custom-scroll-text text-white text-2xl sm:text-3xl lg:text-[35px]"
             />
           </div>
         </div>
-
-        <div className="flex items-center justify-center py-4 ">
-          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
+        <div className="flex items-center justify-center py-4">
+          <hr className="w-[90%] bg-gray-600 border-0 h-[1px]" />
         </div>
-
         <div className="flex items-center justify-center">
           <div className="bg-[#202020] w-[95%] px-4 sm:px-8 lg:px-10 rounded-[25px]">
             <div className="flex justify-center">
@@ -147,11 +144,9 @@ const HomePage = async ({ velocity }) => {
             </div>
           </div>
         </div>
-
-        <div className="flex items-center justify-center py-4 ">
-          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
+        <div className="flex items-center justify-center py-4">
+          <hr className="w-[90%] bg-gray-600 border-0 h-[1px]" />
         </div>
-
         <div className="w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
           <h1
             className="text-4xl font-bold mb-8 mt-8 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
@@ -160,11 +155,10 @@ const HomePage = async ({ velocity }) => {
             Threat Case Studies
           </h1>
         </div>
-        <div data-aos="fade-up">
+        <div data-aos="fade-up" className="flex items-center justify-center">
           <CaseStudyList initialData={limitedCaseStudies} />
         </div>
-
-        <div className="flex justify-center  py-8">
+        <div className="flex justify-center py-8">
           <Link href="/case-studies">
             <button
               className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base px-8 py-3 cursor-pointer hover:bg-[#5633cc] transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -174,11 +168,9 @@ const HomePage = async ({ velocity }) => {
             </button>
           </Link>
         </div>
-
-        <div className="flex items-center justify-center py-4 ">
-          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
+        <div className="flex items-center justify-center py-4">
+          <hr className="w-[90%] bg-gray-600 border-0 h-[1px]" />
         </div>
-
         <div className=" w-full px-4 sm:px-8 lg:px-10 flex items-center justify-center">
           <h1
             className="text-4xl font-bold mb-8 mt-8 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent"
@@ -192,7 +184,7 @@ const HomePage = async ({ velocity }) => {
           <NewsBox limit={6} />
         </div>
 
-        <div className="flex justify-center  py-8">
+        <div className="flex justify-center py-8">
           <Link href="/cyber-news">
             <button
               className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base px-8 py-3 cursor-pointer hover:bg-[#5633cc] transition-all duration-300 shadow-lg hover:shadow-xl"
@@ -203,14 +195,14 @@ const HomePage = async ({ velocity }) => {
           </Link>
         </div>
 
-        <div className="flex items-center justify-center py-4 ">
-          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
+        <div className="flex items-center justify-center py-4">
+          <hr className="w-[90%] bg-gray-600 border-0 h-[1px]" />
         </div>
 
         <FeaturedSection />
 
-        <div className="flex items-center justify-center py-4 ">
-          <hr className="w-[90%] bg-gray-600  border-0 h-[1px]" />
+        <div className="flex items-center justify-center py-4">
+          <hr className="w-[90%] bg-gray-600 border-0 h-[1px]" />
         </div>
 
         <CommunitySection />
