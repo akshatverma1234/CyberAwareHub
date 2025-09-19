@@ -4,9 +4,15 @@ import Story from "@/app/api/model/communityCaseStudy.model";
 import sendEmail from "../../lib/emailService";
 import CaseStudyApprovalEmail from "../../lib/storyApprovalEmail";
 import CaseStudyRejectionEmail from "../../lib/storyRejectionEmail";
+import checkAdmin from "../../lib/checkAdmin/checkAdmin";
 
 export async function PATCH(req, { params }) {
   try {
+    const auth = getAuth(req);
+    const adminCheck = checkAdmin(auth);
+    if (adminCheck) {
+      return adminCheck;
+    }
     await dbConnect();
 
     const { id } = await params;
@@ -59,6 +65,11 @@ export async function PATCH(req, { params }) {
 
 export async function DELETE(req, { params }) {
   try {
+    const auth = getAuth(req);
+    const adminCheck = checkAdmin(auth);
+    if (adminCheck) {
+      return adminCheck;
+    }
     await dbConnect();
     const { id } = params;
     const deleted = await Story.findByIdAndDelete(id);

@@ -8,9 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@clerk/backend": "^2.13.0",
-    "@clerk/clerk-sdk-node": "^4.13.23",
-    "@clerk/nextjs": "^6.31.10",
+    "@clerk/clerk-react": "^5.47.0",
+    "@clerk/nextjs": "^6.32.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@gsap/react": "^2.1.2",
@@ -38,7 +37,9 @@
     "recharts": "^3.2.0",
     "swiper": "^11.2.10",
     "tailwind-merge": "^3.3.1",
-    "three": "^0.180.0"
+    "three": "^0.180.0",
+    "xss": "^1.0.15",
+    "zod": "^4.1.9"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
