@@ -225,7 +225,7 @@ const AddCaseStudy = () => {
         </Button>
 
         <p className="text-sm text-gray-600 text-center mt-2">
-          📝 Your story will be reviewed by our admin team before publication
+          📝 Your story will be reviewed by our admin team before publication.
         </p>
       </form>
     </div>
