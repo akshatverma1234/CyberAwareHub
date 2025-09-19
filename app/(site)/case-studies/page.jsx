@@ -3,14 +3,14 @@ import DotGrid from "@/components/Animation/DotGrid";
 import CaseStudyList from "@/components/ClientPages/CaseStudyList";
 
 async function getCaseStudiesData() {
-  const res = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL
-    }/api/admin/caseStudies`,
-    {
-      next: { revalidate: 3600 },
-    }
-  );
+  const isVercel = process.env.VERCEL_URL;
+  const baseUrl = isVercel
+    ? `https://${process.env.VERCEL_URL}`
+    : process.env.NEXT_PUBLIC_SITE_URL;
+
+  const res = await fetch(`${baseUrl}/api/admin/caseStudies`, {
+    next: { revalidate: 3600 },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch case studies data");

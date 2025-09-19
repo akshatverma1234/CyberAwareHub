@@ -3,14 +3,15 @@ import DotGrid from "@/components/Animation/DotGrid";
 import CommunityStoriesClient from "@/components/ClientPages/CommunityStoriesClient";
 
 async function getCommunityStories() {
-  const res = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL
-    }/api/community-stories`,
-    {
-      cache: "no-store",
-    }
-  );
+  const isVercel = process.env.VERCEL_URL;
+
+  const baseUrl = isVercel
+    ? `https://${process.env.VERCEL_URL}`
+    : process.env.NEXT_PUBLIC_SITE_URL;
+
+  const res = await fetch(`${baseUrl}/api/community-stories`, {
+    cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error("Failed to fetch community stories");
