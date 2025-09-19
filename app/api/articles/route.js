@@ -1,6 +1,20 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/app/api/lib/connectDB";
 import Article from "@/app/api/model/article.model";
+import checkAdmin from "../lib/checkAdmin/checkAdmin";
+import { z } from "zod";
+import xss from "xss";
+import { getAuth } from "@clerk/nextjs/server";
+import { ratelimit } from "../lib/rateLimiter";
+
+const articleSchema = z.object({
+  title: z.string().min(1, "Title is required").max(200),
+  author: z.string().optional(),
+  content: z.string().min(1, "Content is required"),
+  summary: z.string().min(1, "Summary is required").max(500),
+  image: z.string().url("Image must be a valid URL").optional(),
+  publishedDate: z.string().optional(),
+});
 
 export async function GET() {
   await connectDB();
@@ -27,24 +41,50 @@ function generateSlug(title) {
 }
 
 export async function POST(req) {
-  await connectDB();
   try {
-    const { title, author, content, summary, image, publishedDate } =
-      await req.json();
+    const auth = getAuth(req);
+    const adminCheck = checkAdmin(auth);
 
-    const slug = generateSlug(title);
+    if (adminCheck) {
+      return adminCheck;
+    }
+
+    const { success } = await ratelimit.limit(userId);
+    if (!success) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+    await connectDB();
+    const rawData = await req.json();
+
+    const validatedData = articleSchema.parse(rawData);
+
+    const sanitizedData = {
+      ...validatedData,
+      title: xss(validatedData.title),
+      summary: xss(validatedData.summary),
+      content: xss(validatedData.content),
+    };
+
+    const slug = generateSlug(sanitizedData.title);
 
     const newArticle = await Article.create({
-      title,
+      ...sanitizedData,
       slug,
-      author: author || "Admin",
-      publishedDate,
-      content,
-      summary,
-      image,
+      author: sanitizedData.author || "Admin",
+      publishedDate: sanitizedData.publishedDate || new Date(),
     });
+
     return NextResponse.json(newArticle, { status: 201 });
   } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        {
+          error: "Validation failed",
+          issues: err.issues,
+        },
+        { status: 400 }
+      );
+    }
     console.error("Error creating article:", err);
     return NextResponse.json(
       { error: "Failed to create article" },

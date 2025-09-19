@@ -1,8 +1,21 @@
+import { NextResponse } from "next/server";
 import axios from "axios";
+import xss from "xss";
 
 export async function GET(req) {
   try {
     const apiKey = process.env.NEWS_API_KEY;
+    if (!apiKey) {
+      console.error("NEWS_API_KEY environment variable is not set.");
+      return new Response(
+        JSON.stringify({ error: "Server configuration error" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
     const { searchParams } = new URL(req.url);
 
     const category = searchParams.get("category") || "all";
@@ -129,7 +142,6 @@ export async function GET(req) {
       return hasCyberKeyword && !hasIrrelevantKeyword;
     });
 
-    // Remove duplicates based on title similarity
     const uniqueArticles = [];
     const seenTitles = new Set();
 
@@ -144,12 +156,10 @@ export async function GET(req) {
       }
     });
 
-    // Score articles for relevance
     const scoredArticles = uniqueArticles.map((article) => {
       let score = 0;
       const text = `${article.title} ${article.description}`.toLowerCase();
 
-      // High-value cybersecurity keywords
       const highValueKeywords = [
         "ransomware",
         "data breach",
@@ -207,7 +217,18 @@ export async function GET(req) {
         score += 2;
       }
 
-      return { ...article, relevanceScore: score };
+      const sanitizedArticle = {
+        ...article,
+        title: article.title ? xss(article.title) : "No Title Available",
+        description: article.description
+          ? xss(article.description)
+          : "No description available",
+        content: article.content
+          ? xss(article.content)
+          : "No content available",
+      };
+
+      return { ...sanitizedArticle, relevanceScore: score };
     });
 
     // Sort by relevance score and then by date
@@ -223,7 +244,6 @@ export async function GET(req) {
 
     // Clean up and format the response
     const cleanedArticles = scoredArticles.map((article) => ({
-      ...article,
       title: article.title || "No Title Available",
       description: article.description || "No description available",
       urlToImage: article.urlToImage || null,

@@ -6,6 +6,7 @@ import StorySubmissionEmail from "../lib/storySubmissionEmail";
 import { z } from "zod";
 import xss from "xss";
 import { getAuth } from "@clerk/nextjs/server";
+import { ratelimit } from "../lib/rateLimiter";
 
 const caseStudySchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
@@ -37,6 +38,10 @@ export async function POST(req) {
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const { success } = await ratelimit.limit(userId);
+    if (!success) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
 
     await connectDB();
     const rawData = await req.json();
@@ -47,7 +52,7 @@ export async function POST(req) {
       ...validateData,
       title: xss(validateData.title),
       summary: xss(validateData.summary),
-      impact: validatedData.impact ? xss(validatedData.impact) : undefined,
+      impact: validateData.impact ? xss(validateData.impact) : undefined,
       lesson: validateData.lesson ? xss(validateData.lesson) : undefined,
     };
 

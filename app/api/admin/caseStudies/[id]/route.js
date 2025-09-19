@@ -1,6 +1,21 @@
 import { NextResponse } from "next/server";
-import connectDB from "@/app/api/lib/connectDB";
+import { z } from "zod";
+import xss from "xss";
+import { getAuth } from "@clerk/nextjs/server";
 import CaseStudy from "@/app/api/model/caseStudy.model";
+import { auth } from "@clerk/nextjs/server";
+import checkAdmin from "@/app/api/lib/checkAdmin/checkAdmin";
+import connectDB from "@/app/api/lib/connectDB";
+
+const caseStudySchema = z.object({
+  name: z.string().min(1, "Name is required").max(100).optional(),
+  title: z.string().min(1, "Title is required").max(200).optional(),
+  image: z.string().url("Image must be a valid URL").optional(),
+  summary: z.string().min(1, "Summary is required").max(500).optional(),
+  impact: z.string().max(1000).optional(),
+  lesson: z.string().max(1000).optional(),
+  status: z.enum(["pending", "approved", "rejected"]).optional(),
+});
 
 export async function GET(req, { params }) {
   await connectDB();
@@ -25,14 +40,34 @@ export async function GET(req, { params }) {
     );
   }
 }
+
 export async function PATCH(req, { params }) {
-  await connectDB();
-
   try {
-    const { id } = params;
-    const body = await req.json();
+    const auth = getAuth(req);
+    const adminCheck = checkAdmin(auth);
 
-    const updated = await CaseStudy.findByIdAndUpdate(id, body, { new: true });
+    if (adminCheck) {
+      return adminCheck;
+    }
+
+    await connectDB();
+    const { id } = params;
+    const rawData = await req.json();
+
+    const validatedData = caseStudySchema.partial().parse(rawData);
+
+    const sanitizedData = {
+      ...validatedData,
+      name: validatedData.name ? xss(validatedData.name) : undefined,
+      title: validatedData.title ? xss(validatedData.title) : undefined,
+      summary: validatedData.summary ? xss(validatedData.summary) : undefined,
+      impact: validatedData.impact ? xss(validatedData.impact) : undefined,
+      lesson: validatedData.lesson ? xss(validatedData.lesson) : undefined,
+    };
+
+    const updated = await CaseStudy.findByIdAndUpdate(id, sanitizedData, {
+      new: true,
+    });
 
     if (!updated) {
       return NextResponse.json(
@@ -43,6 +78,12 @@ export async function PATCH(req, { params }) {
 
     return NextResponse.json(updated, { status: 200 });
   } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", issues: err.issues },
+        { status: 400 }
+      );
+    }
     console.error("Error updating case study:", err);
     return NextResponse.json(
       { error: "Failed to update case study" },
@@ -52,9 +93,15 @@ export async function PATCH(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
-  await connectDB();
-
   try {
+    // Check for authentication and admin role
+    const { userId, sessionClaims } = auth();
+    if (!userId || !checkAdmin(sessionClaims)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    await connectDB();
+
     const { id } = params;
     const deleted = await CaseStudy.findByIdAndDelete(id);
 

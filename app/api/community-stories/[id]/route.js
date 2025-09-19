@@ -5,6 +5,7 @@ import sendEmail from "../../lib/emailService";
 import CaseStudyApprovalEmail from "../../lib/storyApprovalEmail";
 import CaseStudyRejectionEmail from "../../lib/storyRejectionEmail";
 import checkAdmin from "../../lib/checkAdmin/checkAdmin";
+import { getAuth } from "@clerk/nextjs/server";
 
 export async function PATCH(req, { params }) {
   try {
@@ -67,10 +68,10 @@ export async function DELETE(req, { params }) {
   try {
     const auth = getAuth(req);
     const adminCheck = checkAdmin(auth);
-    if (adminCheck) {
-      return adminCheck;
-    }
+    if (adminCheck) return adminCheck;
+
     await dbConnect();
+
     const { id } = params;
     const deleted = await Story.findByIdAndDelete(id);
 

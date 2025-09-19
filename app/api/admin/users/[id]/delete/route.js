@@ -28,7 +28,6 @@ export async function DELETE(req, { params }) {
 
     const { id } = params;
 
-    // Prevent deleting yourself
     if (id === currentUserId) {
       return NextResponse.json(
         { error: "You cannot delete your own account" },

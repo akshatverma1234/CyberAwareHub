@@ -4,7 +4,7 @@ import CommunityStoriesClient from "@/components/ClientPages/CommunityStoriesCli
 
 async function getCommunityStories() {
   const res = await fetch(`${process.env.PUBLIC_URL}/api/community-stories`, {
-    next: { revalidate: 3600 },
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -12,8 +12,7 @@ async function getCommunityStories() {
   }
 
   const data = await res.json();
-  const approvedStories = data.filter((story) => story.status === "approved");
-  return approvedStories;
+  return data.filter((story) => story.status === "approved");
 }
 
 const CommunityStoriesPage = async () => {
