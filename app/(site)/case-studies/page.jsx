@@ -3,9 +3,12 @@ import DotGrid from "@/components/Animation/DotGrid";
 import CaseStudyList from "@/components/ClientPages/CaseStudyList";
 
 async function getCaseStudiesData() {
-  const res = await fetch(`${process.env.PUBLIC_URL}/api/admin/caseStudies`, {
-    next: { revalidate: 3600 },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/admin/caseStudies`,
+    {
+      next: { revalidate: 3600 },
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch case studies data");

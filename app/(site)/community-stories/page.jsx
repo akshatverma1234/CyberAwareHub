@@ -3,9 +3,12 @@ import DotGrid from "@/components/Animation/DotGrid";
 import CommunityStoriesClient from "@/components/ClientPages/CommunityStoriesClient";
 
 async function getCommunityStories() {
-  const res = await fetch(`${process.env.PUBLIC_URL}/api/community-stories`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/community-stories`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch community stories");

@@ -9,7 +9,7 @@ const ArticlePage = async ({ params }) => {
   try {
     const response = await fetch(
       `${
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+        process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
       }/api/articles`,
       {
         cache: "no-store",
