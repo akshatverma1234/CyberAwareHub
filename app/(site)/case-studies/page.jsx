@@ -4,7 +4,9 @@ import CaseStudyList from "@/components/ClientPages/CaseStudyList";
 
 async function getCaseStudiesData() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/admin/caseStudies`,
+    `${
+      process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL
+    }/api/admin/caseStudies`,
     {
       next: { revalidate: 3600 },
     }

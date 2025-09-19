@@ -4,7 +4,9 @@ import CommunityStoriesClient from "@/components/ClientPages/CommunityStoriesCli
 
 async function getCommunityStories() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/community-stories`,
+    `${
+      process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_URL
+    }/api/community-stories`,
     {
       cache: "no-store",
     }
