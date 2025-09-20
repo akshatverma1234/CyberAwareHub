@@ -13,7 +13,7 @@ const Articles = () => {
       try {
         const response = await fetch("/api/articles");
         if (!response.ok) {
-          throw new Error("Failed to fetch articles");
+          throw new Error(`Failed to fetch articles data: ${response.status}`);
         }
         const data = await response.json();
         setArticles(data);

@@ -18,10 +18,10 @@ async function getAllCaseStudies() {
     process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`;
 
   const res = await fetch(`${baseUrl}/api/admin/caseStudies`, {
-    cache: "no-store", // 🚀 always fresh
+    cache: "no-store",
   });
   if (!res.ok) {
-    throw new Error("Failed to fetch case studies data");
+    throw new Error(`Failed to fetch case studies data: ${res.status}`);
   }
 
   return res.json();

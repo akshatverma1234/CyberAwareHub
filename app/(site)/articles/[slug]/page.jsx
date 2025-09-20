@@ -17,7 +17,7 @@ const ArticlePage = async ({ params }) => {
     );
 
     if (!response.ok) {
-      throw new Error("Failed to fetch articles");
+      throw new Error(`Failed to fetch articles data: ${response.status}`);
     }
 
     const articles = await response.json();

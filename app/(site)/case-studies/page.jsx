@@ -13,7 +13,7 @@ async function getCaseStudiesData() {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch case studies data");
+    throw new Error(`Failed to fetch case studies data: ${res.status}`);
   }
 
   return res.json();

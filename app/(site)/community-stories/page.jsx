@@ -13,7 +13,9 @@ async function getCommunityStories() {
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch community stories");
+    throw new Error(
+      `Failed to fetch community case studies data: ${res.status}`
+    );
   }
 
   const data = await res.json();
