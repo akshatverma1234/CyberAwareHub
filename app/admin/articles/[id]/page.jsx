@@ -53,7 +53,7 @@ const EditArticles = () => {
 
   return (
     <div className="min-h-screen bg-[#f5f5f6] flex justify-center">
-      <div className="w-full max-w-6xl p-4 sm:p-8">
+      <div className="flex-1 md:ml-[18%] p-4 md:p-8">
         <h1 className="text-2xl font-bold mb-6 text-center sm:text-left">
           Edit Article
         </h1>

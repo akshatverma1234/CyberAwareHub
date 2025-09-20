@@ -195,26 +195,21 @@ body {
   }
 }
 
-/* In your global.css file */
-
-/* On small screens, the dialog should take up the full viewport */
 .MuiDialog-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Ensure the container fills the viewport correctly on mobile */
+
   height: 100vh;
-  width: 100vw; /* Changed from 120vw to 100vw */
+  width: 100vw;
   margin: 0;
   padding: 0;
 }
 
 .MuiDialogContent-root {
-  /* This ensures the content itself fills the available space within the dialog */
   width: 100% !important;
 }
 
-/* On tablets and desktops (screens wider than 768px) */
 @media (min-width: 768px) {
   .MuiDialog-container {
     height: 100%;
@@ -232,4 +227,51 @@ body {
     width: 100%;
     border-radius: 12px;
   }
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4 {
+  @apply text-blue-400 font-bold mt-8 mb-4;
+}
+
+.markdown-content h1 {
+  @apply text-3xl;
+}
+
+.markdown-content h2 {
+  @apply text-2xl;
+}
+
+.markdown-content p {
+  @apply text-gray-300 leading-relaxed my-4;
+}
+
+.markdown-content a {
+  @apply text-blue-400 hover:text-blue-300 underline;
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  @apply list-inside ml-4 my-4;
+}
+
+.markdown-content ul {
+  @apply list-disc;
+}
+
+.markdown-content li {
+  @apply text-gray-300;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-blue-400 pl-4 my-6 italic text-gray-400;
+}
+.markdown-content code {
+  @apply bg-gray-800 text-pink-400 px-1 rounded;
+}
+
+.markdown-content pre {
+  @apply bg-gray-900 text-gray-200 p-4 rounded-lg overflow-x-auto my-4;
 }

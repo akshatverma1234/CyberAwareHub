@@ -111,7 +111,7 @@ const Articles = () => {
                     return (
                       <TableRow key={row._id} hover>
                         <TableCell>
-                          <div className="font-medium truncate max-w-[120px] md:max-w-none">
+                          <div className="font-medium truncate max-w-[120px] md:max-w-[300px]">
                             {row.title}
                           </div>
                         </TableCell>

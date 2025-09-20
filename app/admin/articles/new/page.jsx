@@ -50,7 +50,7 @@ const AddNewArticle = () => {
 
   return (
     <div className="min-h-screen bg-[#f5f5f6] flex justify-center">
-      <div className="w-full max-w-6xl p-4 sm:p-8">
+      <div className="flex-1 md:ml-[18%] p-4 md:p-8">
         <h1 className="text-2xl font-bold mb-6 text-center sm:text-left">
           Add New Article
         </h1>
@@ -59,7 +59,6 @@ const AddNewArticle = () => {
           onSubmit={handleSubmit}
           className="p-6 sm:p-8 bg-white rounded shadow-md flex flex-col gap-4"
         >
-          {/* Top row inputs */}
           <div className="flex flex-wrap gap-4">
             <TextField
               label="Title"

@@ -58,7 +58,7 @@ const ArticlePage = async ({ params }) => {
           </div>
         </div>
         <div className="bg-slate-900 rounded-lg p-8 mb-8">
-          <div className="prose prose-invert max-w-none text-white">
+          <div className="markdown-content text-white">
             <ReactMarkdown>{article.content}</ReactMarkdown>
           </div>
         </div>
