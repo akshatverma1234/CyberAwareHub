@@ -11,8 +11,8 @@ const caseStudySchema = z.object({
   title: z.string().min(1, "Title is required").max(200),
   image: z.string().url("Image must be a valid URL").optional(),
   summary: z.string().min(1, "Summary is required").max(500),
-  impact: z.string().max(1000).optional().default(""),
-  lesson: z.string().max(1000).optional().default(""),
+  impact: z.string().max(5000).optional().default(""),
+  lesson: z.string().max(5000).optional().default(""),
 });
 
 export async function GET() {
@@ -30,6 +30,7 @@ export async function GET() {
 
 export async function POST(req) {
   try {
+    // ✅ Admin check
     const auth = getAuth(req);
     const adminCheck = checkAdmin(auth);
     if (adminCheck) {
@@ -37,17 +38,21 @@ export async function POST(req) {
     }
 
     await dbConnect();
-    const rawData = await req.json();
 
+    const rawData = await req.json();
+    console.log("📥 Received Data:", rawData);
+
+    // ✅ Validate with Zod
     const validatedData = caseStudySchema.parse(rawData);
 
+    // ✅ Sanitize inputs
     const sanitizedData = {
       ...validatedData,
       name: xss(validatedData.name),
       title: xss(validatedData.title),
       summary: xss(validatedData.summary),
-      impact: xss(validatedData.impact),
-      lesson: xss(validatedData.lesson),
+      impact: validatedData.impact ? xss(validatedData.impact) : "",
+      lesson: validatedData.lesson ? xss(validatedData.lesson) : "",
     };
 
     const newCaseStudy = await CaseStudy.create(sanitizedData);
@@ -55,12 +60,13 @@ export async function POST(req) {
     return NextResponse.json(newCaseStudy, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
+      console.error("❌ Validation issues:", error.issues);
       return NextResponse.json(
         { error: "Validation failed", issues: error.issues },
         { status: 400 }
       );
     }
-    console.error("API Error:", error);
+    console.error("❌ API Error:", error);
     return NextResponse.json(
       { error: "Failed to create case study" },
       { status: 500 }

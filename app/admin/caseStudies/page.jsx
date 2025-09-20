@@ -121,11 +121,11 @@ const CaseStudies = () => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <TableRow key={row._id} hover>
-                      <TableCell className="max-w-[150px] md:max-w-none truncate">
+                      <TableCell className="max-w-[150px]  md:max-w-[300px] truncate">
                         {row.title}
                       </TableCell>
                       <TableCell
-                        className="max-w-[200px] md:max-w-none truncate"
+                        className="max-w-[200px]  md:max-w-[300px] truncate"
                         title={row.summary}
                       >
                         {row.summary}
