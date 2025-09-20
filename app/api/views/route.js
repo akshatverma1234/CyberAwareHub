@@ -7,7 +7,8 @@ export async function POST(req) {
   try {
     await connectDB();
 
-    const { page } = await req.json();
+    const body = await req.json();
+    const { page } = body;
 
     if (!page) {
       return NextResponse.json(
@@ -16,33 +17,24 @@ export async function POST(req) {
       );
     }
 
-    // Clean up the page path
-    const cleanPage = page.split("?")[0]; // Remove query parameters
+    const cleanPage = page.split("?")[0];
 
-    // Find existing view record or create new one
     const existingView = await View.findOne({ page: cleanPage });
 
     if (existingView) {
-      // Increment existing view count
       await View.updateOne(
         { page: cleanPage },
-        {
-          $inc: { count: 1 },
-          $set: { updatedAt: new Date() },
-        }
+        { $inc: { count: 1 }, $set: { updatedAt: new Date() } }
       );
     } else {
-      await View.create({
-        page: cleanPage,
-        count: 1,
-      });
+      await View.create({ page: cleanPage, count: 1 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error tracking view:", error);
+    console.error("❌ Error tracking view:", error.message, error.stack);
     return NextResponse.json(
-      { error: "Failed to track view" },
+      { error: "Failed to track view", details: error.message },
       { status: 500 }
     );
   }
