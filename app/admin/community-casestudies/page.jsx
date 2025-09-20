@@ -34,7 +34,6 @@ const CommunityCaseStudies = () => {
 
   const context = useContext(MyContext);
 
-  // ✅ Reusable fetch function
   const fetchCommunityStudies = async () => {
     try {
       setIsLoading(true);

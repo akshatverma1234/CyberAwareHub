@@ -49,10 +49,6 @@ export async function POST(req) {
       return adminCheck;
     }
 
-    const { success } = await ratelimit.limit(userId);
-    if (!success) {
-      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
-    }
     await connectDB();
     const rawData = await req.json();
 
