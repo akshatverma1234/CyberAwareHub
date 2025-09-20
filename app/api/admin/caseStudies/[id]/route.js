@@ -94,10 +94,11 @@ export async function PATCH(req, { params }) {
 
 export async function DELETE(req, { params }) {
   try {
-    // Check for authentication and admin role
-    const { userId, sessionClaims } = auth();
-    if (!userId || !checkAdmin(sessionClaims)) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const auth = getAuth(req);
+    const adminCheck = checkAdmin(auth);
+
+    if (adminCheck) {
+      return adminCheck;
     }
 
     await connectDB();
