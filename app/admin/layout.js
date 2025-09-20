@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import Sidebar from "@/components/Admin/Sidebar";
 import AppProvider from "@/context/AdminAppContext";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,14 +21,16 @@ export const metadata = {
 
 export default async function AdminLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Sidebar />
+    <ClerkProvider telemetry={false}>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <Sidebar />
 
-        <AppProvider>{children}</AppProvider>
-      </body>
-    </html>
+          <AppProvider>{children}</AppProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
