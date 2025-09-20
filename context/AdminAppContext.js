@@ -7,6 +7,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Slide } from "@mui/material";
+import Sidebar from "@/components/Admin/Sidebar";
+import Navbar from "@/components/Admin/Navbar/Navbar";
 
 const MyContext = createContext();
 
@@ -20,7 +22,7 @@ export const AppProvider = ({ children }) => {
     model: "",
     id: null,
   });
-
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const handleClose = () => {
     setOpenPanel({ open: false, model: "", id: null });
   };
@@ -43,6 +45,8 @@ export const AppProvider = ({ children }) => {
   return (
     <MyContext.Provider value={values}>
       <Toaster position="top-right" reverseOrder={false} />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <Navbar onMenuClick={() => setIsSidebarOpen(true)} />
       {children}
       <Dialog
         open={isOpenPanel.open}

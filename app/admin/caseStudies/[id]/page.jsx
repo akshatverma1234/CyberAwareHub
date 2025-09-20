@@ -22,9 +22,10 @@ const EditNewCaseStudy = () => {
 
   useEffect(() => {
     if (id) {
-      axios.get(`/api/admin/caseStudies/${id}`).then((res) => {
-        setFormData(res.data);
-      });
+      axios
+        .get(`/api/admin/caseStudies/${id}`)
+        .then((res) => setFormData(res.data))
+        .catch((err) => console.error("Error fetching case study:", err));
     }
   }, [id]);
 
@@ -40,24 +41,26 @@ const EditNewCaseStudy = () => {
       router.push("/admin/caseStudies");
     } catch (err) {
       console.error("Update failed:", err);
+      context.openAlertBox("error", "Failed to update case study!");
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f6] flex">
-      <div className="flex-1 ml-[18%] p-8">
+    <div className="min-h-screen bg-[#f5f5f6] flex flex-col md:flex-row">
+      <div className="flex-1 md:ml-[18%] p-4 md:p-8">
         <h1 className="text-2xl font-bold mb-6">Edit Case Study</h1>
 
         <form
           onSubmit={handleSubmit}
-          className="p-8 bg-white rounded shadow-md"
+          className="p-6 md:p-8 bg-white rounded shadow-md flex flex-col gap-4"
         >
-          <div className="mt-4 flex gap-4">
+          {/* Title, Name, Image */}
+          <div className="flex flex-col md:flex-row gap-4">
             <TextField
               label="Title"
               name="title"
               variant="outlined"
-              className="w-[30%] shadow-md"
+              className="w-full md:w-1/3"
               value={formData.title}
               onChange={handleChange}
               required
@@ -66,7 +69,7 @@ const EditNewCaseStudy = () => {
               label="Name"
               name="name"
               variant="outlined"
-              className="w-[20%] shadow-md"
+              className="w-full md:w-1/4"
               value={formData.name}
               onChange={handleChange}
               required
@@ -75,33 +78,33 @@ const EditNewCaseStudy = () => {
               label="Image URL"
               name="image"
               variant="outlined"
-              className="w-[50%] shadow-md"
+              className="w-full md:w-1/2"
               value={formData.image}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="mt-4 flex">
-            <TextField
-              label="Summary"
-              name="summary"
-              multiline
-              rows={6}
-              className="w-full shadow-md"
-              value={formData.summary}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          {/* Summary */}
+          <TextField
+            label="Summary"
+            name="summary"
+            multiline
+            rows={6}
+            className="w-full"
+            value={formData.summary}
+            onChange={handleChange}
+            required
+          />
 
-          <div className="mt-4 flex gap-2">
+          {/* Impact & Lesson */}
+          <div className="flex flex-col md:flex-row gap-4">
             <TextField
               label="Impact"
               name="impact"
               multiline
               rows={6}
-              className="w-[50%] shadow-md"
+              className="w-full md:w-1/2"
               value={formData.impact}
               onChange={handleChange}
               required
@@ -111,18 +114,19 @@ const EditNewCaseStudy = () => {
               name="lesson"
               multiline
               rows={6}
-              className="w-[50%] shadow-md"
+              className="w-full md:w-1/2"
               value={formData.lesson}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="flex items-center justify-center mt-6">
+          {/* Submit Button */}
+          <div className="flex justify-center mt-4">
             <Button
               type="submit"
               variant="contained"
-              className="w-[30%] h-[50px] !text-[16px] !bg-gray-900"
+              className="w-full md:w-1/3 h-[50px] !text-[16px] !bg-gray-900"
             >
               Update Case Study
             </Button>

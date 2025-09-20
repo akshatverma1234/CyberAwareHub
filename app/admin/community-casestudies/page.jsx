@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { Button, CircularProgress, Chip, Alert, Box } from "@mui/material";
+import { Button, CircularProgress, Chip, Alert } from "@mui/material";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import axios from "axios";
 import { MyContext } from "@/context/AdminAppContext";
@@ -19,7 +19,7 @@ const columns = [
   { id: "summary", label: "Summary", minWidth: 200 },
   { id: "createdDate", label: "Created", minWidth: 130 },
   { id: "status", label: "Status", minWidth: 100 },
-  { id: "actions", label: "Actions", minWidth: 180 },
+  { id: "actions", label: "Actions", minWidth: 120 },
 ];
 
 const CommunityCaseStudies = () => {
@@ -67,7 +67,7 @@ const CommunityCaseStudies = () => {
 
       if (res.ok) {
         context.openAlertBox("success", "Community case study deleted!");
-        await fetchCommunityStudies(); // ✅ refresh list
+        await fetchCommunityStudies();
       } else {
         const errorData = await res.json();
         context.openAlertBox(
@@ -97,7 +97,7 @@ const CommunityCaseStudies = () => {
     }
   };
 
-  if (isLoading) {
+  if (isLoading && data.length === 0) {
     return (
       <div className="min-h-screen bg-[#f5f5f6] flex">
         <div className="flex-1 ml-[18%] p-8 flex justify-center items-center">
@@ -109,8 +109,8 @@ const CommunityCaseStudies = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f5f6] flex">
-      <div className="flex-1 ml-[18%] p-8">
+    <div className="min-h-screen bg-[#f5f5f6] flex flex-col sm:flex-row">
+      <div className="flex-1 ml-0 sm:ml-[18%] p-4 sm:p-8">
         <h1 className="text-2xl font-bold mb-4">Community Case Studies</h1>
 
         {error && (
@@ -123,8 +123,8 @@ const CommunityCaseStudies = () => {
           </Alert>
         )}
 
-        <div className="bg-white rounded-lg shadow-sm">
-          <TableContainer sx={{ maxHeight: 440 }}>
+        <div className="bg-white rounded-lg shadow-sm overflow-x-auto">
+          <TableContainer sx={{ minWidth: 600 }}>
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
@@ -135,6 +135,7 @@ const CommunityCaseStudies = () => {
                         minWidth: column.minWidth,
                         backgroundColor: "#f8f9fa",
                         fontWeight: "bold",
+                        whiteSpace: "nowrap",
                       }}
                     >
                       {column.label}
@@ -150,11 +151,19 @@ const CommunityCaseStudies = () => {
                     return (
                       <TableRow key={row._id} hover>
                         <TableCell>
-                          {row.name}
-                          <p>{row.email}</p>
+                          <div className="truncate max-w-[120px]">
+                            {row.name}
+                          </div>
+                          <div className="truncate max-w-[120px] text-gray-500 text-sm">
+                            {row.email}
+                          </div>
                         </TableCell>
-                        <TableCell>{row.title}</TableCell>
-                        <TableCell>{row.summary}</TableCell>
+                        <TableCell className="truncate max-w-[150px]">
+                          {row.title}
+                        </TableCell>
+                        <TableCell className="truncate max-w-[200px]">
+                          {row.summary}
+                        </TableCell>
                         <TableCell>
                           {new Date(row.createdAt).toLocaleDateString()}
                         </TableCell>
@@ -188,6 +197,12 @@ const CommunityCaseStudies = () => {
               </TableBody>
             </Table>
           </TableContainer>
+
+          {data.length === 0 && !isLoading && (
+            <div className="text-center py-8 text-gray-500">
+              No community case studies found
+            </div>
+          )}
 
           <TablePagination
             rowsPerPageOptions={[10, 25, 100]}

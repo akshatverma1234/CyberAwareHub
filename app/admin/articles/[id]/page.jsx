@@ -52,20 +52,22 @@ const EditArticles = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f6] flex">
-      <div className="flex-1 ml-[18%] p-8">
-        <h1 className="text-2xl font-bold mb-6">Edit Article</h1>
+    <div className="min-h-screen bg-[#f5f5f6] flex justify-center">
+      <div className="w-full max-w-6xl p-4 sm:p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center sm:text-left">
+          Edit Article
+        </h1>
 
         <form
           onSubmit={handleSubmit}
-          className="p-8 bg-white rounded shadow-md"
+          className="p-6 sm:p-8 bg-white rounded shadow-md flex flex-col gap-4"
         >
-          <div className="mt-4 flex gap-4">
+          <div className="flex flex-wrap gap-4">
             <TextField
               label="Title"
               name="title"
               variant="outlined"
-              className="w-[40%] shadow-md"
+              className="flex-1 min-w-[200px] shadow-md"
               value={formData.title}
               onChange={handleChange}
               required
@@ -74,7 +76,7 @@ const EditArticles = () => {
               label="Author"
               name="author"
               variant="outlined"
-              className="w-[25%] shadow-md"
+              className="flex-1 min-w-[150px] shadow-md"
               value={formData.author}
               onChange={handleChange}
               required
@@ -83,53 +85,51 @@ const EditArticles = () => {
               label="Publish Date"
               name="publishedDate"
               variant="outlined"
-              className="w-[20%] shadow-md"
+              type="date"
+              className="flex-1 min-w-[150px] shadow-md"
               value={formData.publishedDate}
               onChange={handleChange}
               required
+              InputLabelProps={{ shrink: true }}
             />
             <TextField
               label="Image URL"
               name="image"
               variant="outlined"
-              className="w-[30%] shadow-md"
+              className="flex-1 min-w-[200px] shadow-md"
               value={formData.image}
               onChange={handleChange}
               required
             />
           </div>
 
-          <div className="mt-4 flex">
-            <TextField
-              label="Summary"
-              name="summary"
-              variant="outlined"
-              multiline
-              rows={4}
-              className="w-full shadow-md"
-              value={formData.summary}
-              onChange={handleChange}
-            />
-          </div>
+          <TextField
+            label="Summary"
+            name="summary"
+            variant="outlined"
+            multiline
+            rows={4}
+            className="w-full shadow-md"
+            value={formData.summary}
+            onChange={handleChange}
+          />
 
-          <div className="mt-4 flex">
-            <TextField
-              label="Content"
-              name="content"
-              multiline
-              rows={8}
-              className="w-full shadow-md"
-              value={formData.content}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <TextField
+            label="Content"
+            name="content"
+            multiline
+            rows={10}
+            className="w-full shadow-md"
+            value={formData.content}
+            onChange={handleChange}
+            required
+          />
 
-          <div className="flex items-center justify-center mt-6">
+          <div className="flex justify-center mt-4">
             <Button
               type="submit"
               variant="contained"
-              className="w-[30%] h-[50px] !text-[16px] !bg-gray-900"
+              className="w-full sm:w-[40%] h-[50px] !text-[16px] !bg-gray-900"
             >
               Update Article
             </Button>

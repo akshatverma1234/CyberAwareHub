@@ -3,18 +3,21 @@ import { Button } from "@mui/material";
 import React from "react";
 import { RiMenu2Line } from "react-icons/ri";
 import { UserButton, SignedOut, useUser, SignedIn } from "@clerk/nextjs";
-import { usePathname } from "next/navigation";
 
-const Navbar = () => {
-  const { isLoaded, user } = useUser();
+const Navbar = ({ onMenuClick }) => {
+  const { user } = useUser();
 
   return (
-    <div className="w-full h-[60px] flex items-center px-4">
-      <div className="flex items-center gap-2 ml-[18%]">
-        <Button>
-          <RiMenu2Line className="text-black" size={18} />
+    <div className="w-full h-[60px] flex items-center px-4 shadow-sm bg-white">
+      {/* Menu Icon (only mobile) */}
+      <div className="flex items-center gap-2 md:ml-[18%]">
+        <Button
+          onClick={onMenuClick}
+          className="md:hidden !p-2 !min-w-[40px] !rounded-full"
+        >
+          <RiMenu2Line className="text-black" size={20} />
         </Button>
-        <Button className="!text-gray-600 !text-[12px] !uppercase">
+        <Button className="!text-gray-600 !text-[12px] !uppercase hidden md:flex">
           Dashboard
         </Button>
       </div>
@@ -23,7 +26,7 @@ const Navbar = () => {
         <SignedIn>
           <div className="flex items-center gap-2 p-2 h-[40px] bg-gray-200 rounded-[20px] shadow-md">
             <UserButton />
-            <h4 className="text-gray-900 font-semibold text-[14px]">
+            <h4 className="text-gray-900 font-semibold text-[14px] hidden sm:block">
               {user?.fullName}
             </h4>
           </div>

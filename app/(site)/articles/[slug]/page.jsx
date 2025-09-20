@@ -1,4 +1,6 @@
+import { getArticleBySlug } from "@/app/api/lib/fetchingData/getArticleBySlug";
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
 const ArticlePage = async ({ params }) => {
   const { slug } = await params;
@@ -56,10 +58,8 @@ const ArticlePage = async ({ params }) => {
           </div>
         </div>
         <div className="bg-slate-900 rounded-lg p-8 mb-8">
-          <div className="mb-6 p-4 bg-slate-800 rounded-lg border-l-4 border-blue-400 leading-[28px]">
-            <p className="text-gray-300 font-medium italic">
-              {article.content}
-            </p>
+          <div className="prose prose-invert max-w-none text-white">
+            <ReactMarkdown>{article.content}</ReactMarkdown>
           </div>
         </div>
       </div>

@@ -49,19 +49,22 @@ const AddNewArticle = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f6] flex">
-      <div className="flex-1 ml-[18%] p-8">
-        <h1 className="text-2xl font-bold mb-6">Add New Article</h1>
+    <div className="min-h-screen bg-[#f5f5f6] flex justify-center">
+      <div className="w-full max-w-6xl p-4 sm:p-8">
+        <h1 className="text-2xl font-bold mb-6 text-center sm:text-left">
+          Add New Article
+        </h1>
 
         <form
           onSubmit={handleSubmit}
-          className="p-8 bg-white rounded shadow-md"
+          className="p-6 sm:p-8 bg-white rounded shadow-md flex flex-col gap-4"
         >
-          <div className="mt-4 flex gap-4">
+          {/* Top row inputs */}
+          <div className="flex flex-wrap gap-4">
             <TextField
               label="Title"
               variant="outlined"
-              className="w-[40%] shadow-md"
+              className="flex-1 min-w-[200px] shadow-md"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -69,7 +72,7 @@ const AddNewArticle = () => {
             <TextField
               label="Author"
               variant="outlined"
-              className="w-[25%] shadow-md"
+              className="flex-1 min-w-[150px] shadow-md"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
               required
@@ -77,50 +80,51 @@ const AddNewArticle = () => {
             <TextField
               label="Publish Date"
               variant="outlined"
-              className="w-[20%] shadow-md"
+              type="date"
+              className="flex-1 min-w-[150px] shadow-md"
               value={publishedDate}
               onChange={(e) => setPublishedDate(e.target.value)}
               required
+              InputLabelProps={{ shrink: true }}
             />
             <TextField
               label="Image URL"
               variant="outlined"
-              className="w-[30%] shadow-md"
+              className="flex-1 min-w-[200px] shadow-md"
               value={image}
               onChange={(e) => setImage(e.target.value)}
               required
             />
           </div>
 
-          <div className="mt-4 flex">
-            <TextField
-              label="Summary"
-              multiline
-              rows={4}
-              className="w-full shadow-md"
-              value={summary}
-              onChange={(e) => setSummary(e.target.value)}
-              required
-            />
-          </div>
+          {/* Summary */}
+          <TextField
+            label="Summary"
+            multiline
+            rows={4}
+            className="w-full shadow-md"
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
+            required
+          />
 
-          <div className="mt-4 flex">
-            <TextField
-              label="Content"
-              multiline
-              rows={10}
-              className="w-full shadow-md"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              required
-            />
-          </div>
+          {/* Content */}
+          <TextField
+            label="Content"
+            multiline
+            rows={10}
+            className="w-full shadow-md"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
 
-          <div className="flex items-center justify-center mt-6">
+          {/* Submit Button */}
+          <div className="flex justify-center mt-4">
             <Button
               type="submit"
               variant="contained"
-              className="w-[30%] h-[50px] !text-[16px] !bg-gray-900"
+              className="w-full sm:w-[40%] h-[50px] !text-[16px] !bg-gray-900"
             >
               Add Article
             </Button>

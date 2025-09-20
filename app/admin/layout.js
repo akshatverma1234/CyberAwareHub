@@ -26,8 +26,6 @@ export default async function AdminLayout({ children }) {
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <Sidebar />
-
           <AppProvider>{children}</AppProvider>
         </body>
       </html>

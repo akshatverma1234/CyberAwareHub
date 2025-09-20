@@ -13,19 +13,12 @@ const AddNewCaseStudy = () => {
   const [impact, setImpact] = useState("");
   const [lesson, setLesson] = useState("");
   const router = useRouter();
-
   const context = useContext(MyContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newCaseStudy = {
-      name,
-      title,
-      image,
-      summary,
-      impact,
-      lesson,
-    };
+    const newCaseStudy = { name, title, image, summary, impact, lesson };
 
     try {
       const res = await fetch("/api/admin/caseStudies", {
@@ -48,19 +41,20 @@ const AddNewCaseStudy = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f5f6] flex">
-      <div className="flex-1 ml-[18%] p-8">
+    <div className="min-h-screen bg-[#f5f5f6] flex flex-col md:flex-row">
+      <div className="flex-1 md:ml-[18%] p-4 md:p-8">
         <h1 className="text-2xl font-bold mb-6">Add New Case Study</h1>
 
         <form
           onSubmit={handleSubmit}
-          className="p-8 bg-white rounded shadow-md"
+          className="p-6 md:p-8 bg-white rounded shadow-md flex flex-col gap-4"
         >
-          <div className="mt-4 flex gap-4">
+          {/* Title, Name, Image */}
+          <div className="flex flex-col md:flex-row gap-4">
             <TextField
               label="Title"
               variant="outlined"
-              className="w-[30%] shadow-md"
+              className="w-full md:w-1/3"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -68,7 +62,7 @@ const AddNewCaseStudy = () => {
             <TextField
               label="Name"
               variant="outlined"
-              className="w-[20%] shadow-md"
+              className="w-full md:w-1/4"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -76,31 +70,31 @@ const AddNewCaseStudy = () => {
             <TextField
               label="Image URL"
               variant="outlined"
-              className="w-[50%] shadow-md"
+              className="w-full md:w-1/2"
               value={image}
               onChange={(e) => setImage(e.target.value)}
               required
             />
           </div>
 
-          <div className="mt-4 flex">
-            <TextField
-              label="Summary"
-              multiline
-              rows={6}
-              className="w-full shadow-md"
-              value={summary}
-              onChange={(e) => setSummary(e.target.value)}
-              required
-            />
-          </div>
+          {/* Summary */}
+          <TextField
+            label="Summary"
+            multiline
+            rows={6}
+            className="w-full"
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
+            required
+          />
 
-          <div className="mt-4 flex gap-2">
+          {/* Impact & Lesson */}
+          <div className="flex flex-col md:flex-row gap-4">
             <TextField
               label="Impact"
               multiline
               rows={6}
-              className="w-[50%] shadow-md"
+              className="w-full md:w-1/2"
               value={impact}
               onChange={(e) => setImpact(e.target.value)}
               required
@@ -109,18 +103,19 @@ const AddNewCaseStudy = () => {
               label="Lesson"
               multiline
               rows={6}
-              className="w-[50%] shadow-md"
+              className="w-full md:w-1/2"
               value={lesson}
               onChange={(e) => setLesson(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex items-center justify-center mt-6">
+          {/* Submit Button */}
+          <div className="flex justify-center mt-4">
             <Button
               type="submit"
               variant="contained"
-              className="w-[30%] h-[50px] !text-[16px] !bg-gray-900"
+              className="w-full md:w-1/3 h-[50px] !text-[16px] !bg-gray-900"
             >
               Add Case Study
             </Button>

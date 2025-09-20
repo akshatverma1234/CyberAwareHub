@@ -21,6 +21,7 @@ export const AppProvider = ({ children }) => {
   });
 
   const { isLoaded } = useUser();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     AOS.init({
