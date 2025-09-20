@@ -11,13 +11,12 @@ import CaseStudyList from "./../ClientPages/CaseStudyList";
 import FeaturedSection from "../ClientPages/FeaturedSection";
 import CommunitySection from "../ClientPages/CommunitySection";
 import "aos/dist/aos.css";
-import { getCaseStudies } from "@/app/api/lib/fetchingData/getCaseStudy";
+import { getCaseStudies } from "@/app/api/lib/fetchingData/getCaseStudyLimit";
 
 export const dynamic = "force-dynamic";
 
 const HomePage = async ({ velocity }) => {
-  const allCaseStudies = await getCaseStudies();
-  const limitedCaseStudies = allCaseStudies.slice(0, 6);
+  const limitedCaseStudies = await getCaseStudies(6);
   return (
     <>
       <div
