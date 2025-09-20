@@ -1,21 +1,9 @@
 import React from "react";
 
 import ArticlesClient from "../ClientPages/ArticleClient";
+import { getArticles } from "@/app/api/lib/fetchingData/getArticles";
 
 export const dynamic = "force-dynamic";
-async function getArticles() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`;
-
-  const res = await fetch(`${baseUrl}/api/articles`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error("Failed to fetch the articles");
-  }
-
-  return res.json();
-}
 
 const Articles = async () => {
   let articles = [];
