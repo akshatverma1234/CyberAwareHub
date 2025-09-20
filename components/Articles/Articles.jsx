@@ -1,15 +1,16 @@
 import React from "react";
 
-import SkeletonLoader from "../Loader/SkeletonLoader";
 import ArticlesClient from "../ClientPages/ArticleClient";
 
+export const dynamic = "force-dynamic";
 async function getArticles() {
-  const res = await fetch(`${process.env.PUBLIC_URL}/api/articles`, {
-    next: { revalidate: 3600 },
-  });
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`;
 
+  const res = await fetch(`${baseUrl}/api/articles`, {
+    cache: "no-store",
+  });
   if (!res.ok) {
-    // You can now handle errors on the server without client state
     throw new Error("Failed to fetch the articles");
   }
 

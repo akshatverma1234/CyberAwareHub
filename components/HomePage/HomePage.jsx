@@ -12,9 +12,13 @@ import FeaturedSection from "../ClientPages/FeaturedSection";
 import CommunitySection from "../ClientPages/CommunitySection";
 import "aos/dist/aos.css";
 
+export const dynamic = "force-dynamic";
 async function getAllCaseStudies() {
-  const res = await fetch(`${process.env.PUBLIC_URL}/api/admin/caseStudies`, {
-    next: { revalidate: 3600 },
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`;
+
+  const res = await fetch(`${baseUrl}/api/admin/caseStudies`, {
+    cache: "no-store", // 🚀 always fresh
   });
   if (!res.ok) {
     throw new Error("Failed to fetch case studies data");

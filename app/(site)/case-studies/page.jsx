@@ -2,14 +2,14 @@ import React from "react";
 import DotGrid from "@/components/Animation/DotGrid";
 import CaseStudyList from "@/components/ClientPages/CaseStudyList";
 
+export const dynamic = "force-dynamic";
+
 async function getCaseStudiesData() {
-  const isVercel = process.env.VERCEL_URL;
-  const baseUrl = isVercel
-    ? `https://${process.env.VERCEL_URL}`
-    : process.env.NEXT_PUBLIC_SITE_URL;
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`;
 
   const res = await fetch(`${baseUrl}/api/admin/caseStudies`, {
-    next: { revalidate: 3600 },
+    cache: "no-store",
   });
 
   if (!res.ok) {

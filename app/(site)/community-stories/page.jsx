@@ -2,12 +2,11 @@ import React from "react";
 import DotGrid from "@/components/Animation/DotGrid";
 import CommunityStoriesClient from "@/components/ClientPages/CommunityStoriesClient";
 
-async function getCommunityStories() {
-  const isVercel = process.env.VERCEL_URL;
+export const dynamic = "force-dynamic";
 
-  const baseUrl = isVercel
-    ? `https://${process.env.VERCEL_URL}`
-    : process.env.NEXT_PUBLIC_SITE_URL;
+async function getCommunityStories() {
+  const baseUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`;
 
   const res = await fetch(`${baseUrl}/api/community-stories`, {
     cache: "no-store",
