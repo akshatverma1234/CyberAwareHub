@@ -11,8 +11,8 @@ const caseStudySchema = z.object({
   title: z.string().min(1, "Title is required").max(200),
   image: z.string().url("Image must be a valid URL").optional(),
   summary: z.string().min(1, "Summary is required").max(500),
-  impact: z.string().max(1000),
-  lesson: z.string().max(1000),
+  impact: z.string().max(1000).optional().default(""),
+  lesson: z.string().max(1000).optional().default(""),
 });
 
 export async function GET() {
