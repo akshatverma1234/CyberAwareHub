@@ -1,4 +1,3 @@
-// Create this file: app/api/views/route.js
 import connectDB from "@/app/api/lib/connectDB";
 import View from "@/app/api/model/view.model";
 import { NextResponse } from "next/server";
