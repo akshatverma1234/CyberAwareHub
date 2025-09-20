@@ -7,21 +7,7 @@ const ArticlePage = async ({ params }) => {
   let error = null;
 
   try {
-    const response = await fetch(
-      `${
-        process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
-      }/api/articles`,
-      {
-        cache: "no-store",
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch articles data: ${response.status}`);
-    }
-
-    const articles = await response.json();
-    article = articles.find((a) => a.slug === slug);
+    article = await getArticleBySlug(slug);
 
     if (!article) {
       error = "Article not found";

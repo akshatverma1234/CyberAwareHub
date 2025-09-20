@@ -5,7 +5,6 @@ import checkAdmin from "../lib/checkAdmin/checkAdmin";
 import { z } from "zod";
 import xss from "xss";
 import { getAuth } from "@clerk/nextjs/server";
-import { ratelimit } from "../lib/rateLimiter";
 
 const articleSchema = z.object({
   title: z.string().min(1, "Title is required").max(200),

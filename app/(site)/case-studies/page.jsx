@@ -1,26 +1,12 @@
 import React from "react";
 import DotGrid from "@/components/Animation/DotGrid";
 import CaseStudyList from "@/components/ClientPages/CaseStudyList";
+import { getCaseStudies } from "@/app/api/lib/fetchingData/getCaseStudy";
 
 export const dynamic = "force-dynamic";
 
-async function getCaseStudiesData() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`;
-
-  const res = await fetch(`${baseUrl}/api/admin/caseStudies`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch case studies data: ${res.status}`);
-  }
-
-  return res.json();
-}
-
 const CaseStories = async () => {
-  const caseStudiesData = await getCaseStudiesData();
+  const caseStudiesData = await getCaseStudies();
 
   return (
     <div className="w-full min-h-[100vh]">

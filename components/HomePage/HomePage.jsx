@@ -11,24 +11,12 @@ import CaseStudyList from "./../ClientPages/CaseStudyList";
 import FeaturedSection from "../ClientPages/FeaturedSection";
 import CommunitySection from "../ClientPages/CommunitySection";
 import "aos/dist/aos.css";
+import { getCaseStudies } from "@/app/api/lib/fetchingData/getCaseStudy";
 
 export const dynamic = "force-dynamic";
-async function getAllCaseStudies() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`;
-
-  const res = await fetch(`${baseUrl}/api/admin/caseStudies`, {
-    cache: "no-store",
-  });
-  if (!res.ok) {
-    throw new Error(`Failed to fetch case studies data: ${res.status}`);
-  }
-
-  return res.json();
-}
 
 const HomePage = async ({ velocity }) => {
-  const allCaseStudies = await getAllCaseStudies();
+  const allCaseStudies = await getCaseStudies();
   const limitedCaseStudies = allCaseStudies.slice(0, 6);
   return (
     <>

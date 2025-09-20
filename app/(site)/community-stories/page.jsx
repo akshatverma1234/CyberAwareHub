@@ -1,30 +1,12 @@
 import React from "react";
 import DotGrid from "@/components/Animation/DotGrid";
 import CommunityStoriesClient from "@/components/ClientPages/CommunityStoriesClient";
+import { getCommunityStories } from "@/app/api/lib/fetchingData/getCommunities";
 
 export const dynamic = "force-dynamic";
 
-async function getCommunityStories() {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}`;
-
-  const res = await fetch(`${baseUrl}/api/community-stories`, {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch community case studies data: ${res.status}`
-    );
-  }
-
-  const data = await res.json();
-  return data.filter((story) => story.status === "approved");
-}
-
 const CommunityStoriesPage = async () => {
   const caseStoriesData = await getCommunityStories();
-
   return (
     <div
       style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}
