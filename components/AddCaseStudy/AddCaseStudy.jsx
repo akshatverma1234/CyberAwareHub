@@ -23,7 +23,7 @@ const AddCaseStudy = () => {
 
   useEffect(() => {
     if (isLoaded && !isSignedIn) {
-      context.openAlertBox("error", "Please login/Signup to continue");
+      context.openAlertBox("error", "Please login or Signup to continue");
     }
   }, [isLoaded, isSignedIn]);
 
