@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![CyberHub Logo](https://via.placeholder.com/400x200/1e40af/ffffff?text=CyberHub) <!-- Replace with actual logo -->
+<strong>Cyber Awareness Hub</strong>
 
 **A comprehensive cybersecurity knowledge-sharing platform empowering communities through education, real-world case studies, and collaborative learning.**
 
@@ -12,7 +12,7 @@
 [![Clerk](https://img.shields.io/badge/Clerk-6C47FF?logo=clerk&logoColor=white)](https://clerk.com/)
 [![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)](https://redis.io/)
 
-[🌐 Live Demo](https://cyberhub-demo.vercel.app) · [📖 Documentation](#-features) · [🐛 Report Bug](https://github.com/your-username/cyberhub/issues) · [💡 Request Feature](https://github.com/your-username/cyberhub/issues)
+[🌐 Live Demo](https://cyber-aware-hub-cnm3.vercel.app/) · [📖 Documentation](#-features) · [🐛 Report Bug](https://github.com/akshatverma1234/CyberAwareHub/issues/new) · [💡 Request Feature](https://github.com/akshatverma1234/CyberAwareHub/issues/new)
 
 </div>
 
@@ -149,34 +149,41 @@ CyberHub implements comprehensive security measures:
 
 _Clean, intuitive interface showcasing featured articles and cybersecurity resources_
 
-![Articles](https://via.placeholder.com/800x600/059669/ffffff?text=Articles+Section)
+<br/>
+
+![Articles](https://github.com/user-attachments/assets/5eadddf3-9e16-44da-8b46-3a671bf3dc85)
+
 _Comprehensive articles with search, filtering, and categorization_
 
 <details>
 <summary><strong>🕵️ Case Studies</strong></summary>
+<br/>
 
-![Case Studies](https://via.placeholder.com/800x600/dc2626/ffffff?text=Case+Studies)
+![Case Studies](https://github.com/user-attachments/assets/56ddee3e-d8b5-4f2a-b0c1-8826aa676304)
+
 _Detailed analysis of real-world cybersecurity incidents_
 
 </details>
 
 <details>
 <summary><strong>👨‍💼 Admin Dashboard</strong></summary>
+<br/>
 
-![Admin Dashboard](https://via.placeholder.com/800x600/7c2d12/ffffff?text=Admin+Dashboard)
+![Admin Dashboard](https://github.com/user-attachments/assets/d7bec11f-d810-4022-b0b9-16ce4e06eda9)
+
 _Powerful admin interface for content and user management_
 
 </details>
 
 <details>
 <summary><strong>👥 Community Submissions</strong></summary>
+<br/>
 
-![Community](https://via.placeholder.com/800x600/7c3aed/ffffff?text=Community+Section)
+![Community](https://github.com/user-attachments/assets/d3807f37-a5fd-4c05-8fea-7f873c871538)
+
 _User-generated content with moderation workflow_
 
 </details>
-
-## 📂 Project Structure
 
 ```
 cyberhub/
