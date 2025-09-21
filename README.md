@@ -142,17 +142,14 @@ CyberHub implements comprehensive security measures:
 
 ## 📱 Screenshots
 
-<details>
-<strong>🏠 Homepage & Navigation</strong>
+<summary><strong>🏠 Homepage & Navigation</strong></summary>
 
-https://github.com/user-attachments/assets/f7596f9f-072f-42de-b574-b584134a0265
+![CyberHub Homepage](https://github.com/user-attachments/assets/f7596f9f-072f-42de-b574-b584134a0265)
 
 _Clean, intuitive interface showcasing featured articles and cybersecurity resources_
 
 ![Articles](https://via.placeholder.com/800x600/059669/ffffff?text=Articles+Section)
 _Comprehensive articles with search, filtering, and categorization_
-
-</details>
 
 <details>
 <summary><strong>🕵️ Case Studies</strong></summary>
