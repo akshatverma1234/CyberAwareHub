@@ -145,7 +145,8 @@ CyberHub implements comprehensive security measures:
 <details>
 <summary><strong>🏠 Homepage & Navigation</strong></summary>
 
-![CyberHub Homepage](https://github.com/user-attachments/assets/f7596f9f-072f-42de-b574-b584134a0265)
+(https://github.com/user-attachments/assets/f7596f9f-072f-42de-b574-b584134a0265)
+
 _Clean, intuitive interface showcasing featured articles and cybersecurity resources_
 
 ![Articles](https://via.placeholder.com/800x600/059669/ffffff?text=Articles+Section)
