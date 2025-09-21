@@ -199,7 +199,6 @@ const CyberNews = () => {
                 </div>
               </div>
 
-              {/* Timeframe */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-3">
                   <Calendar className="w-4 h-4 inline mr-2" />
@@ -222,7 +221,6 @@ const CyberNews = () => {
                 </div>
               </div>
 
-              {/* Severity */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-3">
                   <AlertTriangle className="w-4 h-4 inline mr-2" />
@@ -245,7 +243,6 @@ const CyberNews = () => {
                 </div>
               </div>
 
-              {/* Sort */}
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-3">
                   <TrendingUp className="w-4 h-4 inline mr-2" />

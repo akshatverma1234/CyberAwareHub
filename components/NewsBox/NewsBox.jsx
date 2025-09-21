@@ -350,7 +350,6 @@ const NewsBox = ({
                       key={idx}
                       className="bg-[#111827] border border-gray-700 p-6 rounded-xl shadow-lg flex flex-col h-[450px] max-w-[500px] hover:border-purple-500/50 transition-all duration-300 group"
                     >
-                      {/* Article Header */}
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-2">
                           {category && (
@@ -368,7 +367,6 @@ const NewsBox = ({
                         </span>
                       </div>
 
-                      {/* Image */}
                       <div className="h-[180px] w-full mb-4 overflow-hidden rounded-lg">
                         <img
                           src={article.urlToImage || "/placeholder.png"}
@@ -384,8 +382,8 @@ const NewsBox = ({
                         {article.title}
                       </h3>
 
-                      <p className="text-gray-400 text-sm mb-4 flex-1 line-clamp-3">
-                        {article.description}
+                      <p className="text-gray-400 text-sm mb-4 flex-1 line-clamp-3 ">
+                        {article.description.slice(0, 110)}
                       </p>
 
                       <div className="flex items-center justify-between pt-3 border-t border-gray-700">

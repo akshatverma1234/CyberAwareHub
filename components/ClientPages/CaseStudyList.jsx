@@ -41,7 +41,7 @@ const CaseStudies = ({ initialData }) => {
                   {caseStudy.summary}
                 </Typography>
               </CardContent>
-              <div className="flex card justify-between">
+              <div className="flex card justify-between w-full">
                 <CardActions className="bg-black !rounded-tr-[20px]">
                   <Button className="flex !rounded-[10px]">
                     <WhatsappShareButton
@@ -69,7 +69,7 @@ const CaseStudies = ({ initialData }) => {
                 </CardActions>
                 <div className="flex flex-col justify-end mx-4">
                   <p className="text-gray-800 text-[12px] font-[400]">Source</p>
-                  <p className="text-gray-800 text-[16px] font-[400]">
+                  <p className="text-gray-800 text-[16px] font-[400] truncate max-w-[150px]">
                     {caseStudy.name}
                   </p>
                 </div>
