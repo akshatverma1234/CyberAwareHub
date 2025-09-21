@@ -35,39 +35,33 @@ CyberHub addresses the critical need for accessible cybersecurity education by p
 - **Secure authentication** with Clerk integration
 - **Role-based access control (RBAC)** - Admin, Moderator, and Member roles
 - **Session management** with automatic logout and security monitoring
-- **Multi-factor authentication** support
 
 ### 📄 **Content Management**
 
 - **📚 Articles**: Expert-written cybersecurity knowledge base
 - **🕵️ Cyber Attack Case Studies**: Real-world incident analysis with lessons learned
 - **👥 Community Stories**: User-submitted experiences with admin moderation
-- **🔍 Advanced Search**: Filter by category, difficulty, date, and tags
-- **📝 Rich Text Editor**: Markdown support with syntax highlighting
 
 ### 👨‍💼 **Admin Dashboard**
 
 - **User Management**: View, edit, and manage user roles and permissions
 - **Content Moderation**: Approve/reject community submissions
-- **Analytics**: Track user engagement and content performance
-- **Bulk Operations**: Efficient content and user management tools
-- **Audit Logs**: Complete activity tracking for security compliance
+- **Case Study & Article Management**: Add, update, and delete content
 
 ### 🔔 **Notifications & Communication**
 
 - **Email notifications** for submission status updates
-- **In-app notifications** for real-time updates
-- **Newsletter integration** for cybersecurity alerts
-- **Comment system** with moderation capabilities
+- **Email notification on approval** User receives confirmation
+- **Email notification on rejection** User receives feedback
+- **Admin notification** for new submissions
 
 ### 🛡️ **Security Features**
 
 - **API Rate Limiting** with Redis to prevent abuse
 - **Input validation** and sanitization
 - **CORS protection** and secure headers
-- **XSS and CSRF protection**
-- **Secure file upload** with validation
-- **Activity logging** and monitoring
+- **XSS and CSRF protection** with Next.js defaults
+- **Secure route protection** with Next.js middleware
 
 ## 🛠️ Tech Stack
 
@@ -76,7 +70,6 @@ CyberHub addresses the critical need for accessible cybersecurity education by p
 ### Frontend
 
 ![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Material UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)
 
