@@ -94,140 +94,15 @@ CyberHub addresses the critical need for accessible cybersecurity education by p
 
 </div>
 
-| Category           | Technologies                                                                           |
-| ------------------ | -------------------------------------------------------------------------------------- |
-| **Frontend**       | Next.js 14 (App Router), React 18, TypeScript, TailwindCSS, Material-UI, Framer Motion |
-| **Backend**        | Next.js API Routes, Node.js, Mongoose ODM                                              |
-| **Database**       | MongoDB (Primary), Redis (Caching & Rate Limiting)                                     |
-| **Authentication** | Clerk (OAuth, JWT, Session Management)                                                 |
-| **Email**          | Nodemailer with SMTP integration                                                       |
-| **Deployment**     | Vercel (Frontend), MongoDB Atlas (Database), Redis Cloud                               |
-| **Development**    | ESLint, Prettier, Husky (Git Hooks)                                                    |
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-Make sure you have the following installed:
-
-- **Node.js** (v18 or higher)
-- **npm** or **yarn**
-- **Git**
-- **MongoDB** (local or MongoDB Atlas)
-- **Redis** (local or Redis Cloud)
-
-### ⚙️ Installation
-
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/your-username/cyberhub.git
-   cd cyberhub
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Set up environment variables**
-
-   Create a `.env.local` file in the root directory:
-
-   ```env
-   # Database
-   MONGODB_URI=your_mongodb_connection_string
-
-   # Authentication (Clerk)
-   CLERK_SECRET_KEY=your_clerk_secret_key
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-
-   # Redis (Rate Limiting & Caching)
-   REDIS_URL=your_redis_connection_string
-
-   # Email Configuration
-   EMAIL_HOST=smtp.gmail.com
-   EMAIL_PORT=587
-   EMAIL_USER=your_email@gmail.com
-   EMAIL_PASS=your_app_password
-   EMAIL_FROM=noreply@cyberhub.com
-
-   # App Configuration
-   NEXTAUTH_URL=http://localhost:3000
-   NEXTAUTH_SECRET=your_nextauth_secret
-
-   # Optional: Analytics & Monitoring
-   GOOGLE_ANALYTICS_ID=your_ga_id
-   SENTRY_DSN=your_sentry_dsn
-   ```
-
-4. **Set up the database**
-
-   ```bash
-   # If using local MongoDB
-   npm run db:seed
-
-   # This will create initial admin user and sample data
-   ```
-
-5. **Run the development server**
-
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-6. **Open your browser**
-
-   Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
-
-### 🔧 Additional Setup
-
-<details>
-<summary><strong>🔑 Clerk Authentication Setup</strong></summary>
-
-1. Create a [Clerk](https://clerk.com) account
-2. Create a new application
-3. Copy the API keys to your `.env.local`
-4. Configure OAuth providers (Google, GitHub, etc.)
-5. Set up webhook endpoints for user synchronization
-
-</details>
-
-<details>
-<summary><strong>📧 Email Configuration</strong></summary>
-
-For Gmail SMTP:
-
-1. Enable 2-factor authentication
-2. Generate an App Password
-3. Use the app password in `EMAIL_PASS`
-
-For other providers, update the SMTP settings accordingly.
-
-</details>
-
-<details>
-<summary><strong>🗄️ Database Setup</strong></summary>
-
-**Local MongoDB:**
-
-```bash
-# Install MongoDB locally
-brew install mongodb/brew/mongodb-community
-brew services start mongodb/brew/mongodb-community
-```
-
-**MongoDB Atlas:**
-
-1. Create account at [MongoDB Atlas](https://www.mongodb.com/atlas)
-2. Create a cluster
-3. Get connection string
-4. Add to `.env.local`
+| Category           | Technologies                                                 |
+| ------------------ | ------------------------------------------------------------ |
+| **Frontend**       | Next.js 14 (App Router), React 18, TailwindCSS, Material-UI, |
+| **Backend**        | Next.js API Routes, Mongoose ODM                             |
+| **Database**       | MongoDB (Primary), Redis (Caching & Rate Limiting)           |
+| **Authentication** | Clerk (OAuth, JWT, Session Management)                       |
+| **Email**          | Nodemailer with SMTP integration                             |
+| **Deployment**     | Vercel (Frontend), MongoDB Atlas (Database), Redis Cloud     |
+| **Development**    | ESLint, Prettie                                              |
 
 </details>
 
@@ -270,7 +145,7 @@ CyberHub implements comprehensive security measures:
 <details>
 <summary><strong>🏠 Homepage & Navigation</strong></summary>
 
-![Homepage](https://via.placeholder.com/800x600/1e40af/ffffff?text=Homepage+Screenshot)
+![Homepage](<img width="1919" height="901" alt="Image" src="https://github.com/user-attachments/assets/f7596f9f-072f-42de-b574-b584134a0265" />)
 _Clean, intuitive interface with featured articles and quick access to resources_
 
 </details>
