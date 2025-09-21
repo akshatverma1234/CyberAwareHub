@@ -84,7 +84,7 @@ const HomePage = async ({ velocity }) => {
                 </p>
 
                 <div className="mt-8">
-                  <Link href="/case-studies">
+                  <Link href="/community-stories">
                     <Button
                       variant="outlined"
                       className="!text-[#00FFFF] !border-2 !border-[#00FFFF] !bg-transparent !font-semibold !px-6 !py-3 !rounded-lg hover:!bg-[#00FFFF] hover:!text-black !transition-all !duration-300 !ease-in-out"
