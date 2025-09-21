@@ -151,11 +151,13 @@ _Clean, intuitive interface showcasing featured articles and cybersecurity resou
 
 <br/>
 
+<summary><strong>📖 Articles</strong></summary>
+<br/>
+
 ![Articles](https://github.com/user-attachments/assets/5eadddf3-9e16-44da-8b46-3a671bf3dc85)
 
 _Comprehensive articles with search, filtering, and categorization_
 
-<details>
 <summary><strong>🕵️ Case Studies</strong></summary>
 <br/>
 
@@ -163,9 +165,6 @@ _Comprehensive articles with search, filtering, and categorization_
 
 _Detailed analysis of real-world cybersecurity incidents_
 
-</details>
-
-<details>
 <summary><strong>👨‍💼 Admin Dashboard</strong></summary>
 <br/>
 
@@ -173,53 +172,12 @@ _Detailed analysis of real-world cybersecurity incidents_
 
 _Powerful admin interface for content and user management_
 
-</details>
-
-<details>
 <summary><strong>👥 Community Submissions</strong></summary>
 <br/>
 
 ![Community](https://github.com/user-attachments/assets/d3807f37-a5fd-4c05-8fea-7f873c871538)
 
 _User-generated content with moderation workflow_
-
-</details>
-
-```
-cyberhub/
-├── 📁 app/                   # Next.js 14 App Router
-│   ├── 📁 (auth)/            # Authentication routes
-│   ├── 📁 admin/             # Admin dashboard
-│   ├── 📁 api/               # API endpoints
-│   ├── 📁 articles/          # Articles pages
-│   ├── 📁 case-studies/      # Case studies pages
-│   ├── 📁 community/         # Community features
-│   └── 📁 dashboard/         # User dashboard
-├── 📁 components/            # Reusable React components
-│   ├── 📁 ui/               # Basic UI components
-│   ├── 📁 forms/            # Form components
-│   ├── 📁 layout/           # Layout components
-│   └── 📁 features/         # Feature-specific components
-├── 📁 lib/                  # Utility libraries
-│   ├── 📄 auth.ts           # Authentication utilities
-│   ├── 📄 database.ts       # Database connection
-│   ├── 📄 redis.ts          # Redis configuration
-│   └── 📄 email.ts          # Email utilities
-├── 📁 models/               # Mongoose schemas
-│   ├── 📄 User.ts
-│   ├── 📄 Article.ts
-│   ├── 📄 CaseStudy.ts
-│   └── 📄 Community.ts
-├── 📁 middleware/           # Next.js middleware
-├── 📁 public/              # Static assets
-├── 📁 styles/              # Global styles
-├── 📁 types/               # TypeScript definitions
-├── 📄 .env.local           # Environment variables
-├── 📄 next.config.js       # Next.js configuration
-├── 📄 tailwind.config.js   # Tailwind configuration
-├── 📄 package.json         # Dependencies
-└── 📄 README.md           # This file
-```
 
 ## 🚀 Deployment
 
