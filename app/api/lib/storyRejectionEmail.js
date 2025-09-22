@@ -1,67 +1,154 @@
-const StoryRejectionEmail = (username, storyTitle) => {
+const CaseStudyRejectionEmail = (username, caseStudyTitle, aiText) => {
   return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Story Not Approved</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Case Study Submission Update</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-      color: #333;
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #2c3e50; 
+      line-height: 1.6;
+      padding: 20px 0;
     }
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .email-container { 
+      max-width: 650px; 
+      margin: 0 auto; 
+      background: #ffffff; 
+      border-radius: 12px; 
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
-    .header {
+    .header { 
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+      padding: 40px 30px;
       text-align: center;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
+      color: white;
     }
-    .header h1 {
-      color: #FF5252;
+    .header-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+      display: block;
     }
-    .content {
-      text-align: center;
+    .header h1 { 
+      font-size: 28px; 
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
     }
-    .content p {
+    .header p {
       font-size: 16px;
-      line-height: 1.5;
+      opacity: 0.9;
+      font-weight: 300;
     }
-    .highlight {
-      font-weight: bold;
-      color: #FF5252;
+    .content { 
+      padding: 40px 30px;
     }
-    .footer {
+    .greeting {
+      font-size: 18px;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      font-weight: 500;
+    }
+    .message-box {
+      background: #f8f9fa;
+      border-left: 4px solid #ff6b6b;
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .message-box p {
+      margin-bottom: 15px;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .title-highlight { 
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
       text-align: center;
+    }
+    .title-highlight strong {
+      color: #856404;
+      font-size: 16px;
+    }
+    .encouragement {
+      background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      padding: 25px;
+      border-radius: 10px;
+      margin: 25px 0;
+      text-align: center;
+    }
+    .encouragement p {
+      font-size: 16px;
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 10px;
+      transition: transform 0.2s ease;
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+    }
+    .footer { 
+      background: #2c3e50;
+      color: white;
+      text-align: center; 
+      padding: 25px 30px;
       font-size: 14px;
-      color: #777;
-      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .email-container { margin: 10px; }
+      .header, .content { padding: 25px 20px; }
+      .header h1 { font-size: 24px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="email-container">
     <div class="header">
-      <h1>⚠️ Story Not Approved</h1>
+      <span class="header-icon">📝</span>
+      <h1>Submission Update</h1>
+      <p>Thank you for contributing to our community</p>
     </div>
+    
     <div class="content">
-      <p>Hi ${username},</p>
-      <p>We appreciate your effort in submitting <span class="highlight">"${storyTitle}"</span>, but unfortunately, it was not approved this time.</p>
-      <p>Please don’t be discouraged—you’re welcome to refine your story and resubmit!</p>
+      <div class="greeting">Hello ${username},</div>
+      
+      <div class="message-box">
+        <p>${aiText}</p>
+      </div>
+      
+      <div class="title-highlight">
+        <strong>Submitted Case Study:</strong><br>
+        "${caseStudyTitle}"
+      </div>
+      
+      <div class="encouragement">
+        <p><strong>Don't let this discourage you!</strong></p>
+        <p>We believe in your potential and would love to see your revised submission or hear about another cybersecurity experience you'd like to share.</p>
+        <a href="https://cyber-aware-hub-cnm3.vercel.app/community-stories" class="cta-button">Submit Another Story</a>
+      </div>
     </div>
+    
     <div class="footer">
-      <p>&copy; ${new Date().getFullYear()} CyberSec Community. All rights reserved.</p>
+      <p>&copy; ${new Date().getFullYear()} CyberSec Community | Building Tomorrow's Security Experts</p>
+     
     </div>
   </div>
 </body>
@@ -69,4 +156,4 @@ const StoryRejectionEmail = (username, storyTitle) => {
   `;
 };
 
-module.exports = StoryRejectionEmail;
+export default CaseStudyRejectionEmail;

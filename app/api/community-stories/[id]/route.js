@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
+import xss from "xss";
 import dbConnect from "@/app/api/lib/connectDB";
 import Story from "@/app/api/model/communityCaseStudy.model";
 import sendEmail from "../../lib/emailService";
@@ -6,6 +8,13 @@ import CaseStudyApprovalEmail from "../../lib/storyApprovalEmail";
 import CaseStudyRejectionEmail from "../../lib/storyRejectionEmail";
 import checkAdmin from "../../lib/checkAdmin/checkAdmin";
 import { getAuth } from "@clerk/nextjs/server";
+import { generateRejectionNote, generateSummary } from "../../lib/aiService";
+
+const updateSchema = z.object({
+  status: z.enum(["pending", "approved", "rejected"]).optional(),
+  email: z.string().email("Invalid email address").optional(),
+  name: z.string().optional(),
+});
 
 export async function PATCH(req, { params }) {
   try {
@@ -16,8 +25,11 @@ export async function PATCH(req, { params }) {
     }
     await dbConnect();
 
-    const { id } = await params;
-    const { status, email, name } = await req.json();
+    const { id } = params;
+    const rawData = await req.json();
+
+    const validatedData = updateSchema.parse(rawData);
+    const { status, email, name } = validatedData;
 
     if (!status || !email) {
       return NextResponse.json(
@@ -42,24 +54,32 @@ export async function PATCH(req, { params }) {
     const caseStudyTitle = updated.title;
 
     if (status === "approved") {
+      const aiApprovalNote = await generateSummary(caseStudyTitle);
       await sendEmail(
         email,
         `Good news! Your case study "${caseStudyTitle}" is now live 🚀`,
-        "Congratulations! Your community case study has been approved and is now live on Cyber Awareness Hub.",
-        CaseStudyApprovalEmail(name || "User", caseStudyTitle)
+        aiApprovalNote,
+        CaseStudyApprovalEmail(name || "User", caseStudyTitle, aiApprovalNote)
       );
     } else if (status === "rejected") {
+      const aiRejectionNote = await generateRejectionNote(caseStudyTitle);
       await sendEmail(
         email,
         `Your case study "${caseStudyTitle}" was not approved this time`,
-        "Thank you for your submission. Unfortunately, your case study was not approved this time. Please try again with another case study.",
-        CaseStudyRejectionEmail(name || "User", caseStudyTitle)
+        aiRejectionNote,
+        CaseStudyRejectionEmail(name || "User", caseStudyTitle, aiRejectionNote)
       );
     }
 
     return NextResponse.json({ success: true, caseStudy: updated });
   } catch (error) {
     console.error("Error updating case study:", error);
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        { error: "Validation failed", issues: error.issues },
+        { status: 400 }
+      );
+    }
     return NextResponse.json({ error: "Failed to update" }, { status: 500 });
   }
 }
