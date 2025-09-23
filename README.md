@@ -4,7 +4,7 @@
 
 <strong>Cyber Awareness Hub</strong>
 
-**A comprehensive cybersecurity knowledge-sharing platform empowering communities through education, real-world case studies, and collaborative learning.**
+**An intelligent cybersecurity knowledge-sharing platform empowering communities through education, real-world case studies, AI-driven insights, and collaborative learning.**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?logo=next.js)](https://nextjs.org/)
@@ -18,7 +18,13 @@
 
 ## 📖 About The Project
 
-CyberHub addresses the critical need for accessible cybersecurity education by providing a centralized platform where experts share knowledge, analyze real-world cyber threats, and foster community-driven learning. Whether you're a cybersecurity professional, student, or someone looking to improve your digital security awareness, CyberHub offers comprehensive resources tailored to your needs.
+CyberHub addresses the critical need for accessible cybersecurity education by combining expert insights, real-world attack case studies, and community contributions with the power of AI.
+
+Whether you're a cybersecurity professional, student, or enthusiast, CyberHub delivers:
+
+**AI-generated summaries** for quick insights
+**Community-driven knowledge sharing**
+**Secure content moderation & management**
 
 ### 🎯 Why CyberHub?
 
@@ -29,6 +35,14 @@ CyberHub addresses the critical need for accessible cybersecurity education by p
 - **🚀 Scalable**: Modern tech stack designed for growth and performance
 
 ## ✨ Features
+
+## AI-Powered Capabilities
+
+**Automatic Summarization** AI condenses articles & case studies into bullet points for faster learning
+
+**AI-Powered Email Notifications** Smart, contextual email updates for approvals, rejections, and user submissions
+
+**Content Insights** Summaries highlight key threats, lessons, and best practices
 
 ### 🔐 **Authentication & Access Control**
 
