@@ -316,7 +316,7 @@ const ResponsibleDisclosure = () => {
                         Include the Google Drive link in your vulnerability
                         report.
                       </p>
-                    </div>  
+                    </div>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="w-2 h-2 rounded-full bg-green-500 mt-2 flex-shrink-0"></span>
@@ -353,7 +353,7 @@ const ResponsibleDisclosure = () => {
             </p>
           </div>
 
-          <div className="bg-gray-800/50 rounded-xl p-8 border border-gray-700 text-center">
+          <div className="bg-gray-800/50 rounded-md p-8 border border-gray-700 text-center">
             <div className="mb-6">
               <Shield className="text-blue-400 mx-auto mb-4" size={48} />
               <h3 className="text-xl font-semibold text-white mb-2">
