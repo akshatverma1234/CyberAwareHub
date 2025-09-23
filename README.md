@@ -38,11 +38,9 @@ Whether you're a cybersecurity professional, student, or enthusiast, CyberHub de
 
 ### 🧠 AI-Powered Capabilities
 
-- **Automatic Summarization** AI condenses articles & case studies into bullet points for faster learning
-
-- **AI-Powered Email Notifications** Smart, contextual email updates for approvals, rejections, and user submissions
-
-- **Content Insights** Summaries highlight key threats, lessons, and best practices
+- **Automatic Summarization** AI condenses articles & case studies into bullet points for faster learning.
+- **AI-Powered Email Notifications** Smart, contextual email updates for approvals, rejections, and user submissions.
+- **Content Insights** Summaries highlight key threats, lessons, and best practices.
 
 ### 🔐 **Authentication & Access Control**
 
