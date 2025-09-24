@@ -10,6 +10,7 @@ const responsibleDisclosureSchema = new mongoose.Schema(
     description: { type: String, required: true },
     reproduce: { type: String },
     poc: { type: String, required: true },
+    approvedDate: { type: String },
     status: { type: String, default: "pending" },
   },
   { timestamps: true }

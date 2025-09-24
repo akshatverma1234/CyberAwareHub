@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import Sidebar from "@/components/Admin/Sidebar";
+import Sidebar from "@/components/Admin/Sidebar/Sidebar";
 import AppProvider from "@/context/AdminAppContext";
 import { ClerkProvider } from "@clerk/nextjs";
 

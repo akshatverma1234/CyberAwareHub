@@ -14,7 +14,9 @@ import {
   Alert,
 } from "@mui/material";
 import axios from "axios";
+import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
+import { FaRegEye } from "react-icons/fa";
 
 const columns = [
   { id: "reporter", label: "Reporter", minWidth: 120 },
@@ -248,7 +250,20 @@ const ResponsibleDisclosurePage = () => {
                               </TableCell>
 
                               <TableCell>
-                                <div className="flex flex-wrap gap-1">
+                                <div className="flex flex-col sm:flex-row gap-2 items-center">
+                                  <Link
+                                    href={`/admin/report-detail/${row._id}`}
+                                  >
+                                    <Button
+                                      variant="contained"
+                                      size="small"
+                                      className="!min-w-[100px] !rounded-[15px] !bg-gray-200 mb-2 sm:mb-0"
+                                    >
+                                      <div className="flex gap-1 items-center text-black justify-center">
+                                        <FaRegEye size={20} /> Edit
+                                      </div>
+                                    </Button>
+                                  </Link>
                                   {isUpdating ? (
                                     <CircularProgress size={20} />
                                   ) : (
@@ -267,7 +282,7 @@ const ResponsibleDisclosurePage = () => {
                                             variant="contained"
                                             color="primary"
                                             size="small"
-                                            className="!rounded-lg !text-xs !min-w-0 !px-2"
+                                            className="!min-w-[100px] !rounded-[15px] !bg-blue mb-2 sm:mb-0"
                                             disabled={isUpdating}
                                           >
                                             Triage
@@ -284,7 +299,7 @@ const ResponsibleDisclosurePage = () => {
                                             variant="outlined"
                                             color="error"
                                             size="small"
-                                            className="!rounded-lg !text-xs !min-w-0 !px-2"
+                                            className="!min-w-[100px] !rounded-[15px] !bg-red-400 mb-2 sm:mb-0 !text-white"
                                             disabled={isUpdating}
                                           >
                                             Invalid
@@ -306,7 +321,7 @@ const ResponsibleDisclosurePage = () => {
                                             variant="contained"
                                             color="success"
                                             size="small"
-                                            className="!rounded-lg !text-xs !min-w-0 !px-2"
+                                            className="!min-w-[100px] !rounded-[15px] !bg-green-500 mb-2 sm:mb-0"
                                             disabled={isUpdating}
                                           >
                                             Resolve

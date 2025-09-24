@@ -7,7 +7,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import toast, { Toaster } from "react-hot-toast";
 import { Button, Slide } from "@mui/material";
-import Sidebar from "@/components/Admin/Sidebar";
+import Sidebar from "@/components/Admin/Sidebar/Sidebar";
 import Navbar from "@/components/Admin/Navbar/Navbar";
 
 const MyContext = createContext();

@@ -1,7 +1,7 @@
 const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-inline' 'unsafe-eval' https://magnetic-rattler-52.clerk.accounts.dev https://challenges.cloudflare.com https://lottie.host https://assets.lottiefiles.com;
-  connect-src 'self' https://magnetic-rattler-52.clerk.accounts.dev https://lottie.host https://assets.lottiefiles.com;
+  connect-src 'self' https://api.clerk.com https://magnetic-rattler-52.clerk.accounts.dev https://lottie.host https://assets.lottiefiles.com;
   img-src * data: blob: https://lottie.host https://assets.lottiefiles.com;
   style-src 'self' 'unsafe-inline';
   font-src 'self' data: blob:;

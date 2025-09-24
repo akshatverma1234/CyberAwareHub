@@ -30,7 +30,6 @@ export async function GET(req, { params }) {
       return NextResponse.json({ error: "Report not found" }, { status: 404 });
     }
 
-    // Fixed: Return report instead of caseStudy
     return NextResponse.json({ success: true, report }, { status: 200 });
   } catch (err) {
     console.error("Error fetching report:", err);
@@ -66,8 +65,15 @@ export async function PATCH(req, { params }) {
 
     const validatedData = statusSchema.parse({ status, email, name });
 
+    const updatePayload = {
+      status: validatedData.status,
+
+      ...(validatedData.status === "resolved" && { approvedDate: new Date() }),
+    };
+
     const updatedReport = await ResponsibleDisclosure.findByIdAndUpdate(
       id,
+      updatePayload,
       {
         status: validatedData.status,
         updatedAt: new Date(),
