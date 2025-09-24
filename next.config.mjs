@@ -6,13 +6,14 @@ const cspHeader = `
   style-src 'self' 'unsafe-inline';
   font-src 'self' data: blob:;
   frame-src 'self' https://challenges.cloudflare.com https://lottie.host https://assets.lottiefiles.com;
+  worker-src 'self' blob:;
   form-action 'self';
 `;
 
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ["png.pngtree.com", "img.clerk.com"], // add all external sources you use
+    domains: ["png.pngtree.com", "img.clerk.com"],
   },
   async headers() {
     return [

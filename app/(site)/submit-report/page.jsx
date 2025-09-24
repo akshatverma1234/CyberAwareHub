@@ -1,152 +1,223 @@
 "use client";
+import React, { useState, useContext } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import React, { useState } from "react";
-import { Box, Button, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  TextField,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
+import { MyContext } from "@/context/AppContext";
+
+const vulnerabilityTypes = [
+  "Broken Access Control",
+  "Cryptographic Failures",
+  "Injection",
+  "Insecure Design",
+  "Security Misconfiguration",
+  "Vulnerable and Outdated Components",
+  "Identification and Authentication Failures",
+  "Software and Data Integrity Failures",
+  "Security Logging and Monitoring Failures",
+  "Server-Side Request Forgery",
+  "Others...",
+];
 
 const SubmitReport = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [vulnType, setVulnType] = useState("");
-  const [vulnSummary, setVulnSummary] = useState("");
-  const [affectedUrl, setAffectedUrl] = useState("");
-  const [description, setDescription] = useState("");
-  const [reproduce, setReproduce] = useState("");
-  const [poc, setPoc] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    vulnerabilityType: "",
+    vulnSummary: "",
+    affectedUrl: "",
+    description: "",
+    reproduce: "",
+    poc: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const context = useContext(MyContext);
 
-  const handleChange = (event) => {
-    setVulnType(event.target.value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/disclosure", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to submit bug report");
+      }
+
+      context.openAlertBox(
+        "success",
+        "Bug report submitted successfully! It will be reviewed by our admin team before being published."
+      );
+
+      setFormData({
+        name: "",
+        email: "",
+        vulnerabilityType: "",
+        vulnSummary: "",
+        affectedUrl: "",
+        description: "",
+        reproduce: "",
+        poc: "",
+      });
+    } catch (error) {
+      context.openAlertBox("error", `Error: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#06080e] flex justify-center w-full">
-      <form className="p-6 sm:p-8 bg-white rounded shadow-md flex flex-col gap-4 rounded-[15px] w-[60%] mt-[100px] mb-4">
-        <div className="text-black text-[30px] font-bold">Submit a Report</div>
-        <div className="flex flex-wrap gap-4">
-          <TextField
-            label="Name"
-            variant="outlined"
-            className="flex-1 min-w-[200px] shadow-md"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <TextField
-            label="Email"
-            variant="outlined"
-            className="flex-1 min-w-[200px] shadow-md"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <form
+        onSubmit={handleSubmit}
+        className="p-6 sm:p-8 bg-white rounded shadow-md flex flex-col gap-4 rounded-[15px] max-w-3xl w-full mt-[100px] mb-4"
+      >
+        <Typography
+          variant="h4"
+          component="h2"
+          className="!text-black !font-bold"
+        >
+          Submit a Report
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          component="p"
+          className="!text-gray-600 !mb-4"
+        >
+          Thank you for helping us make the platform safer.
+        </Typography>
 
-          <Box sx={{ minWidth: 300 }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">
-                Vulnerability Type
-              </InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={vulnType}
-                label="Vulnerability Type"
-                onChange={handleChange}
-              >
-                <MenuItem value={10}>Broken Access Control</MenuItem>
-                <MenuItem value={20}>Cryptographic Failures</MenuItem>
-                <MenuItem value={30}>Injection</MenuItem>
-                <MenuItem value={40}>Insecure Design</MenuItem>
-                <MenuItem value={50}>Security Misconfiguration</MenuItem>
-                <MenuItem value={60}>
-                  Vulnerable and Outdated Components
-                </MenuItem>
-                <MenuItem value={70}>
-                  Identification and Authentication Failures
-                </MenuItem>
-                <MenuItem value={80}>
-                  Software and Data Integrity Failures
-                </MenuItem>
-                <MenuItem value={90}>
-                  Security Logging and Monitoring Failures
-                </MenuItem>
-                <MenuItem value={100}>Server-Side Request Forgery</MenuItem>
-                <MenuItem value={110}>Others...</MenuItem>
-              </Select>
-            </FormControl>
-          </Box>
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <TextField
-            id="outlined-textarea"
-            label="Vulnerability Summary"
-            multiline
-            rows={3}
-            value={vulnSummary}
-            onChange={(e) => setVulnSummary(e.target.value)}
-            placeholder="Brief description of vulnerability"
-            className="w-full shadow-md"
-          />
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <TextField
-            id="outlined-textarea"
-            label="Affected Url(s)"
-            multiline
-            rows={3}
-            value={affectedUrl}
-            onChange={(e) => setAffectedUrl(e.target.value)}
-            placeholder="List the URLs where this vulnerability exits"
-            className="w-full shadow-md"
-          />
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <TextField
-            id="outlined-textarea"
-            label="Detailed Description"
-            multiline
-            rows={5}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Provide a detailed technical description of the vulnerability"
-            className="w-full shadow-md"
-          />
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <TextField
-            id="outlined-textarea"
-            label="Steps to Reproduce"
-            multiline
-            rows={4}
-            value={reproduce}
-            onChange={(e) => setReproduce(e.target.value)}
-            placeholder="Eg. 1.Go to [URL] 2.Enter [payload/input] 3.Click [button/action] 4.Observe [result]"
-            className="w-full shadow-md"
-          />
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <p className="text-sm text-gray-500 mb-4">
-            <span className="font-bold text-red-500">*Important*</span> Upload
-            code snippets, screenshots, or other evidence to a Google Drive and
-            submit the link below.
-          </p>
-          <TextField
-            id="outlined-textarea"
-            label="Proof of Concept"
-            multiline
-            rows={4}
-            value={poc}
-            onChange={(e) => setPoc(e.target.value)}
-            placeholder="Upload the link of google drive here"
-            className="w-full shadow-md"
-          />
-        </div>
-        <div className="flex justify-center mt-4">
-          <Button className="!bg-black !text-white !shadow-md h-[50px] w-[50%] !text-[16px]">
-            Submit Report
-          </Button>
-        </div>
+        <TextField
+          label="Your Name"
+          name="name"
+          variant="outlined"
+          value={formData.name}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+        <TextField
+          label="Your Email"
+          name="email"
+          type="email"
+          variant="outlined"
+          value={formData.email}
+          onChange={handleChange}
+          fullWidth
+          required
+        />
+
+        <FormControl fullWidth>
+          <InputLabel id="vuln-type-label">Vulnerability Type</InputLabel>
+          <Select
+            labelId="vuln-type-label"
+            id="vuln-type-select"
+            name="vulnerabilityType"
+            value={formData.vulnerabilityType}
+            label="Vulnerability Type"
+            onChange={handleChange}
+            required
+          >
+            {vulnerabilityTypes.map((type) => (
+              <MenuItem key={type} value={type}>
+                {type}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <TextField
+          label="Vulnerability Summary"
+          name="vulnSummary"
+          multiline
+          rows={3}
+          value={formData.vulnSummary}
+          onChange={handleChange}
+          placeholder="Brief description of the vulnerability"
+          fullWidth
+          required
+        />
+
+        <TextField
+          label="Affected Url(s)"
+          name="affectedUrl"
+          multiline
+          rows={3}
+          value={formData.affectedUrl}
+          onChange={handleChange}
+          placeholder="List the URLs where this vulnerability exists"
+          fullWidth
+          required
+        />
+
+        <TextField
+          label="Detailed Description"
+          name="description"
+          multiline
+          rows={5}
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Provide a detailed technical description of the vulnerability"
+          fullWidth
+          required
+        />
+
+        <TextField
+          label="Steps to Reproduce"
+          name="reproduce"
+          multiline
+          rows={4}
+          value={formData.reproduce}
+          onChange={handleChange}
+          placeholder="Eg. 1.Go to [URL] 2.Enter [payload/input] 3.Click [button/action] 4.Observe [result]"
+          fullWidth
+          required
+        />
+
+        <Typography variant="body2" className="!text-gray-500 !mb-2">
+          <span className="font-bold text-red-500">*Important*</span> Upload
+          code snippets, screenshots, or other evidence to a Google Drive and
+          submit the link below.
+        </Typography>
+        <TextField
+          label="Proof of Concept (URL)"
+          name="poc"
+          value={formData.poc}
+          onChange={handleChange}
+          placeholder="Upload the link of google drive here"
+          fullWidth
+          required
+        />
+
+        <Button
+          type="submit"
+          variant="contained"
+          className="!bg-blue-600 hover:!bg-blue-700 !text-white !shadow-md !h-[50px] !mt-4"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Submit Report"
+          )}
+        </Button>
       </form>
     </div>
   );
