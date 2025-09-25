@@ -22,17 +22,14 @@ export async function GET(req) {
     if (adminCheck) {
       return adminCheck;
     }
-    const origin = req.headers.get("origin");
 
-    if (origin !== "http://localhost:3000/") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
     await dbConnect();
+
     const caseStudies = await CaseStudy.find().sort({ createdAt: -1 });
     return NextResponse.json(caseStudies, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Failed to fetch articles" },
+      { error: "Failed to fetch case studies" },
       { status: 500 }
     );
   }
@@ -40,7 +37,6 @@ export async function GET(req) {
 
 export async function POST(req) {
   try {
-    // ✅ Admin check
     const auth = getAuth(req);
     const adminCheck = checkAdmin(auth);
     if (adminCheck) {

@@ -3,7 +3,6 @@ import { z } from "zod";
 import xss from "xss";
 import { getAuth } from "@clerk/nextjs/server";
 import CaseStudy from "@/app/api/model/caseStudy.model";
-import { auth } from "@clerk/nextjs/server";
 import checkAdmin from "@/app/api/lib/checkAdmin/checkAdmin";
 import connectDB from "@/app/api/lib/connectDB";
 
@@ -24,13 +23,6 @@ export async function GET(req, { params }) {
     if (adminCheck) {
       return adminCheck;
     }
-
-    const origin = req.headers.get("origin");
-
-    if (origin !== "http://localhost:3000/") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
     await connectDB();
     const { id } = params;
     const caseStudy = await CaseStudy.findById(id);

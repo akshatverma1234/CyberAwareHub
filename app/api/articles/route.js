@@ -19,11 +19,12 @@ export async function GET(req) {
   try {
     const origin = req.headers.get("origin");
 
-    if (origin !== "http://localhost:3000/") {
+    if (origin && origin !== "http://localhost:3000") {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     await connectDB();
+
     const articles = await Article.find().sort({
       createdAt: -1,
     });
