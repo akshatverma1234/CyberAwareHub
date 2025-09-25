@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.com https://*.clerk.dev https://*.clerk.accounts.dev https://challenges.cloudflare.com https://lottie.host https://assets.lottiefiles.com;
@@ -16,6 +17,8 @@ const nextConfig = {
   images: {
     domains: ["png.pngtree.com", "img.clerk.com"],
   },
+
+  // Security headers
   async headers() {
     return [
       {
@@ -32,7 +35,29 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: cspHeader.replace(/\n/g, ""),
           },
+          {
+            key: "Permissions-Policy",
+            value: "geolocation=(), microphone=(), camera=()",
+          },
         ],
+      },
+    ];
+  },
+
+  // Redirects
+  async redirects() {
+    return [
+      {
+        source: "/admin",
+        has: [
+          {
+            type: "header",
+            key: "x-user-role", // You need to set this in middleware based on Clerk session
+            value: "user", // Non-admin users get redirected
+          },
+        ],
+        destination: "/",
+        permanent: false,
       },
     ];
   },
