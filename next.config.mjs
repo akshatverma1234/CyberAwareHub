@@ -18,7 +18,6 @@ const nextConfig = {
     domains: ["png.pngtree.com", "img.clerk.com"],
   },
 
-  // Security headers
   async headers() {
     return [
       {

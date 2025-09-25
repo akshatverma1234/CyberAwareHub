@@ -15,28 +15,6 @@ const articleSchema = z.object({
   publishedDate: z.string().optional(),
 });
 
-export async function GET(req) {
-  try {
-    const origin = req.headers.get("origin");
-
-    if (origin && origin !== "http://localhost:3000") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    await connectDB();
-
-    const articles = await Article.find().sort({
-      createdAt: -1,
-    });
-    return NextResponse.json(articles, { status: 200 });
-  } catch (err) {
-    return NextResponse.json(
-      { error: "Failed to fetch articles" },
-      { status: 500 }
-    );
-  }
-}
-
 function generateSlug(title) {
   return title
     .toLowerCase()

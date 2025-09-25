@@ -18,27 +18,6 @@ const caseStudySchema = z.object({
   status: z.enum(["pending", "approved", "rejected"]).default("pending"),
 });
 
-export async function GET(req) {
-  try {
-    const origin = req.headers.get("origin");
-
-    if (origin && origin !== "http://localhost:3000") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
-
-    await connectDB();
-    const stories = await Story.find({ status: "approved" }).sort({
-      createdAt: -1,
-    });
-    return NextResponse.json(stories, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Failed to fetch stories" },
-      { status: 500 }
-    );
-  }
-}
-
 export async function POST(req) {
   try {
     const { userId } = getAuth(req);
