@@ -10,6 +10,7 @@ import toast, { Toaster } from "react-hot-toast";
 import CommunityDialogBox from "@/components/communityDialogBox/CommunityDialogBox";
 import { ClerkProvider, useUser } from "@clerk/nextjs";
 import AOS from "aos";
+import { useRouter } from "next/navigation";
 
 const MyContext = createContext();
 
@@ -25,7 +26,6 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     AOS.init({
       duration: 1000,
-      once: true,
       once: true,
       mirror: false,
     });

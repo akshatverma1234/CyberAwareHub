@@ -7,8 +7,8 @@ const isPublicRoute = createRouteMatcher([
   "/",
   "/about",
   "/contact",
-  "/sign-in",
-  "/sign-up",
+  "/sign-in(.*)", // ✅ allow all sign-in routes
+  "/sign-up(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
@@ -17,9 +17,17 @@ export default clerkMiddleware(async (auth, req) => {
 
   const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip");
 
+  // ✅ Allow public routes without checks
+  if (isPublicRoute(req)) {
+    return NextResponse.next();
+  }
+
+  // ✅ Protect admin routes
   if (isAdminRoute(req)) {
     if (!session?.sessionId) {
-      return NextResponse.redirect(new URL("/", req.url));
+      const signInUrl = new URL("/sign-in", req.url);
+      signInUrl.searchParams.set("redirect_url", pathname);
+      return NextResponse.redirect(signInUrl);
     }
 
     if (session?.sessionClaims?.metadata?.role !== "cyberhub_admin") {
@@ -30,24 +38,21 @@ export default clerkMiddleware(async (auth, req) => {
     }
   }
 
-  // API route protection
+  // ✅ Protect admin API routes
   if (isApiRoute(req) && pathname.startsWith("/api/admin/")) {
     if (session?.sessionClaims?.metadata?.role !== "cyberhub_admin") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
   }
 
-  // Add security headers to response
+  // ✅ Add security headers
   const response = NextResponse.next();
-
-  // Add additional security headers
   response.headers.set(
     "X-Robots-Tag",
     "noindex, nofollow, nosnippet, noarchive"
   );
 
   if (isAdminRoute(req)) {
-    // Extra security for admin routes
     response.headers.set(
       "Cache-Control",
       "no-store, no-cache, must-revalidate"
@@ -59,5 +64,6 @@ export default clerkMiddleware(async (auth, req) => {
 });
 
 export const config = {
+  // Exclude static files and public assets from middleware
   matcher: ["/((?!_next/static|_next/image|favicon.ico|public/).*)"],
 };
