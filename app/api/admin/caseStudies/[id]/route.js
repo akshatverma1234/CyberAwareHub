@@ -25,6 +25,12 @@ export async function GET(req, { params }) {
       return adminCheck;
     }
 
+    const origin = req.headers.get("origin");
+
+    if (origin !== "http://localhost:3000/") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     await connectDB();
     const { id } = params;
     const caseStudy = await CaseStudy.findById(id);

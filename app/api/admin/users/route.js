@@ -9,13 +9,6 @@ export async function GET() {
   try {
     const { userId, sessionClaims, sessionId } = await auth();
 
-    console.log("Auth debug:", {
-      userId,
-      sessionId,
-      metadata: sessionClaims?.metadata,
-      publicMetadata: sessionClaims?.publicMetadata,
-    });
-
     if (!userId) {
       return NextResponse.json(
         {
@@ -31,15 +24,11 @@ export async function GET() {
       return NextResponse.json(
         {
           error: "Insufficient permissions",
-          debug: {
-            foundRole: userRole,
-            requiredRole: "cyberhub_admin",
-          },
         },
         { status: 403 }
       );
     }
-    console.log("Fetching users with manual clerkClient");
+
     const users = await clerkClient.users.getUserList({
       limit: 100,
     });
@@ -51,8 +40,6 @@ export async function GET() {
       message: "Users fetched successfully",
     });
   } catch (error) {
-    console.error("Error in GET /api/admin/users:", error);
-
     if (error instanceof Error) {
       console.error("Error message:", error.message);
       console.error("Error stack:", error.stack);

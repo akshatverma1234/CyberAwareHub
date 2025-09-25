@@ -16,8 +16,14 @@ const articleSchema = z.object({
 });
 
 export async function GET(req, { params }) {
-  await connectDB();
   try {
+    const origin = req.headers.get("origin");
+
+    if (origin !== "http://localhost:3000/") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    await connectDB();
     const article = await Article.findById(params.id);
     if (!article) {
       return NextResponse.json({ error: "Article not found" }, { status: 404 });

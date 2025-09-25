@@ -22,6 +22,11 @@ export async function GET(req) {
     if (adminCheck) {
       return adminCheck;
     }
+    const origin = req.headers.get("origin");
+
+    if (origin !== "http://localhost:3000/") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     await dbConnect();
     const caseStudies = await CaseStudy.find().sort({ createdAt: -1 });
     return NextResponse.json(caseStudies, { status: 200 });

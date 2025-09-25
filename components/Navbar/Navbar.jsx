@@ -59,7 +59,7 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
         <Link href="/">
-          <h1 className="text-2xl font-bold text-white">Cyber Hub</h1>
+          <h1 className="text-2xl font-bold text-white">CyAwareHub</h1>
         </Link>
 
         <ul className="hidden md:flex items-center gap-6 text-white font-medium">
@@ -126,7 +126,6 @@ const Navbar = () => {
             </li>
           </Link>
         </ul>
-        {/* Desktop Auth Buttons */}
         <div className="hidden md:flex items-center gap-2">
           <SignedOut>
             <SignInButton>
