@@ -3,13 +3,21 @@ import connectDB from "@/app/api/lib/connectDB";
 import View from "@/app/api/model/view.model";
 import Story from "@/app/api/model/communityCaseStudy.model";
 import { NextResponse } from "next/server";
+import checkAdmin from "../../lib/checkAdmin/checkAdmin";
+import { getAuth } from "@clerk/nextjs/server";
 
 const clerkClient = createClerkClient({
   secretKey: process.env.CLERK_SECRET_KEY,
 });
 
-export async function GET() {
+export async function GET(req) {
   try {
+    const auth = getAuth(req);
+    const adminCheck = checkAdmin(auth);
+    if (adminCheck) {
+      return adminCheck;
+    }
+
     await connectDB();
 
     const usersListResponse = await clerkClient.users.getUserList({

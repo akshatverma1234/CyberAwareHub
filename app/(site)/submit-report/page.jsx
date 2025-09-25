@@ -37,6 +37,7 @@ const SubmitReport = () => {
     description: "",
     reproduce: "",
     poc: "",
+    profileLink: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const context = useContext(MyContext);
@@ -75,6 +76,7 @@ const SubmitReport = () => {
         description: "",
         reproduce: "",
         poc: "",
+        profileLink: "",
       });
     } catch (error) {
       context.openAlertBox("error", `Error: ${error.message}`);
@@ -103,27 +105,27 @@ const SubmitReport = () => {
         >
           Thank you for helping us make the platform safer.
         </Typography>
-
-        <TextField
-          label="Your Name"
-          name="name"
-          variant="outlined"
-          value={formData.name}
-          onChange={handleChange}
-          fullWidth
-          required
-        />
-        <TextField
-          label="Your Email"
-          name="email"
-          type="email"
-          variant="outlined"
-          value={formData.email}
-          onChange={handleChange}
-          fullWidth
-          required
-        />
-
+        <div className="flex flex-col md:flex-row gap-4">
+          <TextField
+            label="Your Name"
+            name="name"
+            variant="outlined"
+            value={formData.name}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+          <TextField
+            label="Your Email"
+            name="email"
+            type="email"
+            variant="outlined"
+            value={formData.email}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+        </div>
         <FormControl fullWidth>
           <InputLabel id="vuln-type-label">Vulnerability Type</InputLabel>
           <Select
@@ -204,6 +206,14 @@ const SubmitReport = () => {
           placeholder="Upload the link of google drive here"
           fullWidth
           required
+        />
+        <TextField
+          label="Social Profile Link (e.g., LinkedIn, GitHub)"
+          name="profileLink"
+          value={formData.profileLink}
+          onChange={handleChange}
+          placeholder="https://linkedin.com/in/username"
+          fullWidth
         />
 
         <Button

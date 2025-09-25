@@ -20,14 +20,12 @@ const ReportDetail = () => {
     name: "",
     email: "",
     vulnerabilityType: "",
-    severity: "",
-    title: "",
     vulnSummary: "",
     affectedUrl: "",
     description: "",
     reproduce: "",
     poc: "",
-    impact: "",
+    profileLink: "",
     status: "",
     createdAt: "",
     updatedAt: "",
@@ -42,7 +40,7 @@ const ReportDetail = () => {
           return;
         }
 
-        console.log("Fetching report with ID:", id); // Debug log
+        console.log("Fetching report with ID:", id);
         setLoading(true);
         setError(null);
 
@@ -258,7 +256,19 @@ const ReportDetail = () => {
               rows={3}
               className="mb-6"
             />
-
+            <TextField
+              label="Social Link"
+              name="profileLink"
+              value={formData.profileLink}
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+              fullWidth
+              multiline
+              rows={3}
+              className="mb-6"
+            />
             {formData.impact && (
               <TextField
                 label="Impact Description"

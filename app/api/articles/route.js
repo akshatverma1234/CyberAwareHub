@@ -15,9 +15,9 @@ const articleSchema = z.object({
   publishedDate: z.string().optional(),
 });
 
-export async function GET() {
-  await connectDB();
+export async function GET(req) {
   try {
+    await connectDB();
     const articles = await Article.find().sort({
       createdAt: -1,
     });

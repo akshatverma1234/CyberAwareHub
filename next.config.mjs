@@ -1,11 +1,12 @@
 const cspHeader = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://magnetic-rattler-52.clerk.accounts.dev https://challenges.cloudflare.com https://lottie.host https://assets.lottiefiles.com;
-  connect-src 'self' https://api.clerk.com https://magnetic-rattler-52.clerk.accounts.dev https://lottie.host https://assets.lottiefiles.com;
-  img-src * data: blob: https://lottie.host https://assets.lottiefiles.com;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.com https://*.clerk.dev https://*.clerk.accounts.dev https://challenges.cloudflare.com https://lottie.host https://assets.lottiefiles.com;
+  connect-src 'self' https://*.clerk.com https://*.clerk.dev https://*.clerk.accounts.dev https://*.clerk.services https://lottie.host https://assets.lottiefiles.com wss://*.clerk.com wss://*.clerk.dev;
+  img-src * data: blob: https://img.clerk.com https://lottie.host https://assets.lottiefiles.com;
   style-src 'self' 'unsafe-inline';
   font-src 'self' data: blob:;
-  frame-src 'self' https://challenges.cloudflare.com https://lottie.host https://assets.lottiefiles.com;
+  frame-src 'self' https://*.clerk.com https://*.clerk.dev https://*.clerk.accounts.dev https://challenges.cloudflare.com https://lottie.host https://assets.lottiefiles.com;
+  media-src 'self' data: blob:;
   worker-src 'self' blob:;
   form-action 'self';
 `;

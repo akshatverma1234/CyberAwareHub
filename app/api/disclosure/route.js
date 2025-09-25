@@ -20,6 +20,12 @@ const disclosureSchema = z.object({
     .url("Proof of Concept must be a valid URL")
     .min(1, "Proof of Concept is required")
     .max(500),
+  profileLink: z
+    .string()
+    .url("Social profile link must be a valid URL")
+    .max(500)
+    .optional()
+    .or(z.literal("")),
   status: z
     .enum(["pending", "triaged", "resolved", "invalid"])
     .default("pending"),
@@ -41,6 +47,9 @@ export async function POST(req) {
       description: xss(validatedData.description),
       reproduce: xss(validatedData.reproduce),
       poc: xss(validatedData.poc),
+      profileLink: validatedData.profileLink
+        ? xss(validatedData.profileLink)
+        : undefined,
       status: "pending",
     };
 

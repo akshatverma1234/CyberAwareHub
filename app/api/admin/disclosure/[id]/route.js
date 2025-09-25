@@ -13,6 +13,11 @@ const statusSchema = z.object({
 
 export async function GET(req, { params }) {
   try {
+    const auth = getAuth(req);
+    const adminCheck = checkAdmin(auth);
+    if (adminCheck) {
+      return adminCheck;
+    }
     await connectDB();
 
     const { id } = params;
@@ -67,38 +72,23 @@ export async function PATCH(req, { params }) {
 
     const updatePayload = {
       status: validatedData.status,
-
-      ...(validatedData.status === "resolved" && { approvedDate: new Date() }),
+      updatedAt: new Date(),
     };
+
+    if (validatedData.status === "resolved") {
+      updatePayload.approvedDate = new Date();
+    }
 
     const updatedReport = await ResponsibleDisclosure.findByIdAndUpdate(
       id,
       updatePayload,
       {
-        status: validatedData.status,
-        updatedAt: new Date(),
-      },
-      {
         new: true,
         runValidators: true,
       }
     );
-
     if (!updatedReport) {
       return NextResponse.json({ error: "Report not found" }, { status: 404 });
-    }
-
-    // Optional: Send notification email to reporter
-    if (validatedData.email && validatedData.name) {
-      try {
-        // You can implement email notification here
-        console.log(
-          `Status updated to ${status} for ${validatedData.name} (${validatedData.email})`
-        );
-      } catch (emailError) {
-        console.error("Failed to send notification email:", emailError);
-        // Don't fail the request if email fails
-      }
     }
 
     return NextResponse.json(

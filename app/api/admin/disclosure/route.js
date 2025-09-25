@@ -14,7 +14,23 @@ export async function GET(req) {
 
     await connectDB();
 
-    const reports = await ResponsibleDisclosure.find().sort({ createdAt: -1 });
-    return NextResponse.json(reports, { status: 200 });
-  } catch (error) {}
+    const reports = await ResponsibleDisclosure.find()
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return NextResponse.json(
+      {
+        success: true,
+        reports: reports,
+        count: reports.length,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error fetching reports:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch reports" },
+      { status: 500 }
+    );
+  }
 }

@@ -1,4 +1,5 @@
 "use client";
+import ConfirmDialog from "@/components/Admin/ConfirmDialog/ConfirmDialog";
 import { MyContext } from "@/context/AdminAppContext";
 import {
   Button,
@@ -17,6 +18,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { FaRegEye } from "react-icons/fa";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 
 const columns = [
   { id: "reporter", label: "Reporter", minWidth: 120 },
@@ -40,6 +42,8 @@ const ResponsibleDisclosurePage = () => {
   const [error, setError] = useState(null);
   const [reportList, setReportList] = useState([]);
   const [updatingIds, setUpdatingIds] = useState(new Set());
+  const [selectedId, setSelectedId] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const context = useContext(MyContext);
 
@@ -50,6 +54,11 @@ const ResponsibleDisclosurePage = () => {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleDeleteReport = (id) => {
+    setSelectedId(id);
+    setConfirmOpen(true);
   };
 
   useEffect(() => {
@@ -125,14 +134,36 @@ const ResponsibleDisclosurePage = () => {
     }
   };
 
-  const getStatusChip = (status) => (
-    <Chip
-      label={status?.charAt(0).toUpperCase() + status?.slice(1) || "Unknown"}
-      color={statusColors[status] || "default"}
-      size="small"
-      variant="outlined"
-    />
-  );
+  const handleReportDelete = async () => {
+    if (!selectedId) return;
+    try {
+      setIsLoading(true);
+      const res = await fetch(`/api/admin/disclosure/${selectedId}`, {
+        method: "DELETE",
+      });
+
+      if (res.ok) {
+        setReportList((prev) => prev.filter((c) => c._id !== selectedId));
+        context.openAlertBox("success", "Report deleted!");
+      } else {
+        const errorData = await res.json();
+        context.openAlertBox(
+          "error",
+          `❌ Failed to delete: ${errorData.error || "Unknown error"}`
+        );
+      }
+    } catch (error) {
+      context.openAlertBox("error", `Error deleting report: ${error}`);
+    } finally {
+      setIsLoading(false);
+      setConfirmOpen(false);
+      setSelectedId(null);
+    }
+  };
+
+  const getStatusChipColor = (status) => {
+    return statusColors[status] || "default";
+  };
 
   if (isLoading) {
     return (
@@ -207,11 +238,11 @@ const ResponsibleDisclosurePage = () => {
                           return (
                             <TableRow key={row._id} hover>
                               <TableCell>
-                                <div className="flex flex-col">
+                                <div className="flex flex-col items-center">
                                   <span className="font-medium text-sm">
                                     {row.name || "Unknown"}
                                   </span>
-                                  <span className="text-xs text-gray-500 truncate max-w-[100px]">
+                                  <span className="text-xs text-gray-500 truncate max-w-[150px]">
                                     {row.email || "No email"}
                                   </span>
                                 </div>
@@ -237,7 +268,14 @@ const ResponsibleDisclosurePage = () => {
                                 </div>
                               </TableCell>
 
-                              <TableCell>{getStatusChip(row.status)}</TableCell>
+                              <TableCell>
+                                <Chip
+                                  label={row.status}
+                                  color={getStatusChipColor(row.status)}
+                                  size="large"
+                                  className="capitalize"
+                                />
+                              </TableCell>
 
                               <TableCell className="!whitespace-nowrap">
                                 <div className="text-sm">
@@ -252,7 +290,7 @@ const ResponsibleDisclosurePage = () => {
                               <TableCell>
                                 <div className="flex flex-col sm:flex-row gap-2 items-center">
                                   <Link
-                                    href={`/admin/report-detail/${row._id}`}
+                                    href={`/admin/responsible-disclosure/${row._id}`}
                                   >
                                     <Button
                                       variant="contained"
@@ -260,100 +298,120 @@ const ResponsibleDisclosurePage = () => {
                                       className="!min-w-[100px] !rounded-[15px] !bg-gray-200 mb-2 sm:mb-0"
                                     >
                                       <div className="flex gap-1 items-center text-black justify-center">
-                                        <FaRegEye size={20} /> Edit
+                                        <FaRegEye size={20} /> View
                                       </div>
                                     </Button>
                                   </Link>
-                                  {isUpdating ? (
-                                    <CircularProgress size={20} />
-                                  ) : (
+
+                                  {row.status === "pending" ? (
                                     <>
-                                      {row.status === "pending" && (
-                                        <>
-                                          <Button
-                                            onClick={() =>
-                                              handleStatusUpdate(
-                                                row._id,
-                                                "triaged",
-                                                row.email,
-                                                row.name
-                                              )
-                                            }
-                                            variant="contained"
-                                            color="primary"
-                                            size="small"
-                                            className="!min-w-[100px] !rounded-[15px] !bg-blue mb-2 sm:mb-0"
-                                            disabled={isUpdating}
-                                          >
-                                            Triage
-                                          </Button>
-                                          <Button
-                                            onClick={() =>
-                                              handleStatusUpdate(
-                                                row._id,
-                                                "invalid",
-                                                row.email,
-                                                row.name
-                                              )
-                                            }
-                                            variant="outlined"
-                                            color="error"
-                                            size="small"
-                                            className="!min-w-[100px] !rounded-[15px] !bg-red-400 mb-2 sm:mb-0 !text-white"
-                                            disabled={isUpdating}
-                                          >
-                                            Invalid
-                                          </Button>
-                                        </>
-                                      )}
-
-                                      {row.status === "triaged" && (
-                                        <>
-                                          <Button
-                                            onClick={() =>
-                                              handleStatusUpdate(
-                                                row._id,
-                                                "resolved",
-                                                row.email,
-                                                row.name
-                                              )
-                                            }
-                                            variant="contained"
-                                            color="success"
-                                            size="small"
-                                            className="!min-w-[100px] !rounded-[15px] !bg-green-500 mb-2 sm:mb-0"
-                                            disabled={isUpdating}
-                                          >
-                                            Resolve
-                                          </Button>
-                                          <Button
-                                            onClick={() =>
-                                              handleStatusUpdate(
-                                                row._id,
-                                                "invalid",
-                                                row.email,
-                                                row.name
-                                              )
-                                            }
-                                            variant="outlined"
-                                            color="error"
-                                            size="small"
-                                            className="!rounded-lg !text-xs !min-w-0 !px-2"
-                                            disabled={isUpdating}
-                                          >
-                                            Invalid
-                                          </Button>
-                                        </>
-                                      )}
-
-                                      {(row.status === "resolved" ||
-                                        row.status === "invalid") && (
-                                        <div className="text-gray-500 text-xs">
-                                          No actions
-                                        </div>
-                                      )}
+                                      <Button
+                                        onClick={() =>
+                                          handleStatusUpdate(
+                                            row._id,
+                                            "triaged",
+                                            row.email,
+                                            row.name
+                                          )
+                                        }
+                                        variant="contained"
+                                        color="primary"
+                                        size="small"
+                                        className="!min-w-[100px] !rounded-[15px] !bg-blue mb-2 sm:mb-0"
+                                        disabled={isUpdating}
+                                      >
+                                        {isUpdating ? (
+                                          <CircularProgress
+                                            size={16}
+                                            color="inherit"
+                                          />
+                                        ) : (
+                                          "Triage"
+                                        )}
+                                      </Button>
                                     </>
-                                  )}
+                                  ) : null}
+
+                                  {row.status === "triaged" ? (
+                                    <>
+                                      <Button
+                                        onClick={() =>
+                                          handleStatusUpdate(
+                                            row._id,
+                                            "resolved",
+                                            row.email,
+                                            row.name
+                                          )
+                                        }
+                                        variant="contained"
+                                        color="success"
+                                        size="small"
+                                        className="!min-w-[100px] !rounded-[15px] !bg-green-500 mb-2 sm:mb-0"
+                                        disabled={isUpdating}
+                                      >
+                                        {isUpdating ? (
+                                          <CircularProgress
+                                            size={16}
+                                            color="inherit"
+                                          />
+                                        ) : (
+                                          "Resolve"
+                                        )}
+                                      </Button>
+                                    </>
+                                  ) : null}
+
+                                  <Button
+                                    onClick={() =>
+                                      handleStatusUpdate(
+                                        row._id,
+                                        "invalid",
+                                        row.email,
+                                        row.name
+                                      )
+                                    }
+                                    variant="outlined"
+                                    color="error"
+                                    size="small"
+                                    className="!rounded-lg !text-xs !min-w-0 !px-2"
+                                    disabled={isUpdating}
+                                  >
+                                    {isUpdating ? (
+                                      <CircularProgress
+                                        size={16}
+                                        color="inherit"
+                                      />
+                                    ) : (
+                                      "Invalid"
+                                    )}
+                                  </Button>
+                                  <Button
+                                    onClick={() => handleDeleteReport(row._id)}
+                                    variant="contained"
+                                    color="error"
+                                    size="small"
+                                    className="!min-w-[30px] !rounded-[15px] w-[100px]"
+                                    disabled={isUpdating}
+                                  >
+                                    {isUpdating ? (
+                                      <CircularProgress
+                                        size={16}
+                                        color="inherit"
+                                      />
+                                    ) : (
+                                      <div className="flex gap-1 items-center">
+                                        <div className="bg-white rounded-[50%] p-1">
+                                          <MdOutlineDeleteOutline
+                                            size={18}
+                                            className="text-black"
+                                          />
+                                        </div>
+                                        <span className="hidden sm:inline">
+                                          Delete
+                                        </span>
+                                      </div>
+                                    )}
+                                  </Button>
                                 </div>
                               </TableCell>
                             </TableRow>
@@ -378,6 +436,14 @@ const ResponsibleDisclosurePage = () => {
           </div>
         </div>
       </div>
+      <ConfirmDialog
+        open={confirmOpen}
+        title="Confirm Delete"
+        message="Are you sure you want to delete this report? This action cannot be undone."
+        onConfirm={handleReportDelete}
+        isLoading={isLoading}
+        onCancel={() => setConfirmOpen(false)}
+      />
     </div>
   );
 };

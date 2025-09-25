@@ -7,6 +7,7 @@ import { z } from "zod";
 import xss from "xss";
 import { getAuth } from "@clerk/nextjs/server";
 import { ratelimit } from "../lib/rateLimiter";
+import checkAdmin from "../lib/checkAdmin/checkAdmin";
 
 const caseStudySchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
@@ -18,10 +19,12 @@ const caseStudySchema = z.object({
   status: z.enum(["pending", "approved", "rejected"]).default("pending"),
 });
 
-export async function GET() {
+export async function GET(req) {
   try {
     await connectDB();
-    const stories = await Story.find({}).sort({ createdAt: -1 });
+    const stories = await Story.find({ status: "approved" }).sort({
+      createdAt: -1,
+    });
     return NextResponse.json(stories, { status: 200 });
   } catch (error) {
     return NextResponse.json(
