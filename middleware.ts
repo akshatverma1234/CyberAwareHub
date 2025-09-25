@@ -25,16 +25,15 @@ export default clerkMiddleware(async (auth, req) => {
   // ✅ Protect admin routes
   if (isAdminRoute(req)) {
     if (!session?.sessionId) {
-      const signInUrl = new URL("/sign-in", req.url);
-      signInUrl.searchParams.set("redirect_url", pathname);
-      return NextResponse.redirect(signInUrl);
+      // Only add redirect_url if you want admins to return after login
+      return NextResponse.redirect(new URL("/sign-in", req.url));
     }
 
     if (session?.sessionClaims?.metadata?.role !== "cyberhub_admin") {
       console.warn(
         `Unauthorized admin access attempt from ${ip} to ${pathname}`
       );
-      return NextResponse.redirect(new URL("/", req.url));
+      return NextResponse.redirect(new URL("/", req.url)); // safe default
     }
   }
 
