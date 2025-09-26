@@ -4,17 +4,14 @@ import CaseStudyList from "@/components/ClientPages/CaseStudyList";
 import { getCaseStudies } from "@/app/api/lib/fetchingData/getCaseStudy";
 import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 
-export const revalidate = 60; // regenerate every 60 seconds
+export const revalidate = 60;
 
 async function CaseStudyListWrapper() {
-  // ⬅️ Fetch inside the child, so Suspense works
   const data = await getCaseStudies();
   return <CaseStudyList initialData={data} />;
 }
 
 const CaseStories = async () => {
-  const caseStudiesData = await getCaseStudies();
-
   return (
     <div className="w-full min-h-[100vh]">
       <div className="py-12 px-4 sm:px-8 lg:px-[80px] relative">

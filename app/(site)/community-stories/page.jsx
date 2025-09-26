@@ -1,12 +1,17 @@
-import React from "react";
+import React, { Suspense } from "react";
 import DotGrid from "@/components/Animation/DotGrid";
 import CommunityStoriesClient from "@/components/ClientPages/CommunityStoriesClient";
 import { getCommunityStories } from "@/app/api/lib/fetchingData/getCommunities";
+import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
+
+async function CommunityStudyListWrapper() {
+  const data = await getCommunityStories();
+  return <CommunityStoriesClient initialData={data} />;
+}
 
 const CommunityStoriesPage = async () => {
-  const caseStoriesData = await getCommunityStories();
   return (
     <div
       style={{ position: "relative", minHeight: "100vh", overflow: "hidden" }}
@@ -36,7 +41,17 @@ const CommunityStoriesPage = async () => {
       </div>
       <div className="w-full min-h-[100vh]">
         <div className="container mx-auto px-6 py-22">
-          <CommunityStoriesClient initialData={caseStoriesData} />
+          <Suspense
+            fallback={
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-8 lg:px-20">
+                {[...Array(3)].map((_, i) => (
+                  <SkeletonLoader type="communityStudy" key={`skeleton-${i}`} />
+                ))}
+              </div>
+            }
+          >
+            <CommunityStudyListWrapper />
+          </Suspense>
         </div>
       </div>
     </div>
