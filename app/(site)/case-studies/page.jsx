@@ -1,9 +1,16 @@
-import React from "react";
+import React, { Suspense } from "react";
 import DotGrid from "@/components/Animation/DotGrid";
 import CaseStudyList from "@/components/ClientPages/CaseStudyList";
 import { getCaseStudies } from "@/app/api/lib/fetchingData/getCaseStudy";
+import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60; // regenerate every 60 seconds
+
+async function CaseStudyListWrapper() {
+  // ⬅️ Fetch inside the child, so Suspense works
+  const data = await getCaseStudies();
+  return <CaseStudyList initialData={data} />;
+}
 
 const CaseStories = async () => {
   const caseStudiesData = await getCaseStudies();
@@ -24,7 +31,17 @@ const CaseStories = async () => {
         </div>
       </div>
       <div className="mt-1 flex items-center justify-center">
-        <CaseStudyList initialData={caseStudiesData} />
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-8 lg:px-20">
+              {[...Array(3)].map((_, i) => (
+                <SkeletonLoader type="caseStudy" key={`skeleton-${i}`} />
+              ))}
+            </div>
+          }
+        >
+          <CaseStudyListWrapper />
+        </Suspense>
       </div>
 
       <div
