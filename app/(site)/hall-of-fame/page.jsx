@@ -2,7 +2,7 @@ import { getReporterDetails } from "@/app/api/lib/fetchingData/getReporterDetail
 import Link from "next/link";
 import React from "react";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const HallOfFame = async () => {
   const reportedData = await getReporterDetails();
