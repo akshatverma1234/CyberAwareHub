@@ -11,6 +11,7 @@ import {
   Clock,
 } from "lucide-react";
 import { Button } from "@mui/material";
+import Link from "next/link";
 
 const ResponsibleDisclosure = () => {
   const ScopeItem = ({ title, items, type }) => (
@@ -54,9 +55,9 @@ const ResponsibleDisclosure = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/10 to-transparent"></div>
         <div className="relative flex items-center justify-center w-full h-[400px] px-4 mt-16">
           <div className="flex flex-col items-center justify-center gap-6 text-center max-w-4xl">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-2 mb-4">
               <Shield className="text-blue-400" size={48} />
-              <h1 className="text-4xl md:text-6xl text-white font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-6xl text-white font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent w-full text-[28px]">
                 Responsible Disclosure
               </h1>
             </div>
@@ -65,9 +66,11 @@ const ResponsibleDisclosure = () => {
               researchers to responsibly report vulnerabilities and contribute
               to our platform's security.
             </p>
-            <Button className="!text-gray-800 !rounded-[20px] !bg-white  !shadow-md !w-[35%] h-[45px] !text-[18px] !normal-case">
-              Report vulnerability
-            </Button>
+            <Link href="/submit-report">
+              <Button className="!text-gray-800 !rounded-[20px] !bg-white !shadow-md !w-full !max-w-xs md:!w-[200px] md:!max-w-none h-[45px] !text-[18px] !normal-case">
+                Report vulnerability
+              </Button>
+            </Link>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
@@ -213,53 +216,53 @@ const ResponsibleDisclosure = () => {
             </p>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-8">
-            <div class="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
-              <div class="flex items-center gap-3 mb-4">
-                <FileText class="text-blue-400" size="24"></FileText>
-                <h3 class="text-xl font-semibold text-white">
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
+              <div className="flex items-center gap-3 mb-4">
+                <FileText className="text-blue-400" size="24"></FileText>
+                <h3 className="text-xl font-semibold text-white">
                   Report Requirements
                 </h3>
               </div>
-              <ul class="text-gray-300 space-y-4">
-                <li class="flex items-start gap-2">
-                  <span class="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
+              <ul className="text-gray-300 space-y-4">
+                <li className="flex items-start gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
                   <div>
-                    <strong class="block text-white mb-1">
+                    <strong className="block text-white mb-1">
                       Clear Description:
                     </strong>
                     <p>Provide a detailed explanation of the vulnerability.</p>
                   </div>
                 </li>
-                <li class="flex items-start gap-2">
-                  <span class="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
+                <li className="flex items-start gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
                   <div>
-                    <strong class="block text-white mb-1">
+                    <strong className="block text-white mb-1">
                       Affected URLs:
                     </strong>
                     <p>List specific pages or endpoints affected.</p>
                   </div>
                 </li>
-                <li class="flex items-start gap-2">
-                  <span class="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
+                <li className="flex items-start gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
                   <div>
-                    <strong class="block text-white mb-1">
+                    <strong className="block text-white mb-1">
                       Reproduction Steps:
                     </strong>
                     <p>Step-by-step instructions to reproduce the issue.</p>
                   </div>
                 </li>
-                <li class="flex items-start gap-2">
-                  <span class="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
+                <li className="flex items-start gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
                   <div>
-                    <strong class="block text-white mb-1">
+                    <strong className="block text-white mb-1">
                       Impact Assessment:
                     </strong>
                     <p>Explain the potential security impact.</p>
                   </div>
                 </li>
-                <li class="flex items-start gap-2">
-                  <span class="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
+                <li className="flex items-start gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 mt-2 flex-shrink-0"></span>
                   <div>
                     <strong className="block text-white mb-1">
                       Browser/Environment:
@@ -334,10 +337,12 @@ const ResponsibleDisclosure = () => {
               </div>
             </div>
           </div>
-          <div className="mt-4">
-            <Button className="!text-gray-800 !rounded-[20px] !bg-white !shadow-md !w-[25%] h-[45px] !text-[18px] !normal-case">
-              Report vulnerability
-            </Button>
+          <div className="mt-8 text-center">
+            <Link href="/submit-report">
+              <Button className="!text-gray-800 !rounded-[20px] !bg-white !shadow-md !w-full !max-w-xs md:!w-[200px] md:!max-w-[25%] h-[45px] !text-[18px] !normal-case">
+                Report vulnerability
+              </Button>
+            </Link>
           </div>
         </section>
 
@@ -382,7 +387,6 @@ const ResponsibleDisclosure = () => {
           </div>
         </section>
 
-        {/* Footer Note */}
         <div className="text-center bg-gray-900/50 rounded-xl p-6 border border-gray-700">
           <p className="text-gray-400 text-sm">
             <strong className="text-white">Note:</strong> This responsible

@@ -22,10 +22,8 @@ export default clerkMiddleware(async (auth, req) => {
     return NextResponse.next();
   }
 
-  // ✅ Protect admin routes
   if (isAdminRoute(req)) {
     if (!session?.sessionId) {
-      // Only add redirect_url if you want admins to return after login
       return NextResponse.redirect(new URL("/sign-in", req.url));
     }
 
@@ -33,7 +31,7 @@ export default clerkMiddleware(async (auth, req) => {
       console.warn(
         `Unauthorized admin access attempt from ${ip} to ${pathname}`
       );
-      return NextResponse.redirect(new URL("/", req.url)); // safe default
+      return NextResponse.redirect(new URL("/", req.url));
     }
   }
 

@@ -12,12 +12,14 @@ import {
   useUser,
 } from "@clerk/nextjs";
 import { IoClose, IoMenu } from "react-icons/io5";
+import { FaAngleDown } from "react-icons/fa6";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { isLoaded, user } = useUser();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [isOpenResponsible, setIsOpenResponsible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -115,6 +117,37 @@ const Navbar = () => {
               News
             </li>
           </Link>
+          <li
+            className={`cursor-pointer relative group ${
+              isActive("/responsible-disclosure")
+                ? "text-cyan-400"
+                : "text-gray-200"
+            }`}
+            onMouseEnter={() => setIsOpenResponsible(true)}
+            onClick={closeMobileMenu}
+          >
+            <Link href="/responsible-disclosure" passHref>
+              <div className="flex items-center justify-center gap-2 hover:text-cyan-400">
+                Responsible Disclosure
+                <FaAngleDown className="transition-transform duration-200 group-hover:rotate-180" />
+              </div>
+            </Link>
+
+            {isOpenResponsible && (
+              <div
+                className="absolute top-full left-1/2 transform -translate-x-1/2 mt-1 
+                 bg-white w-full shadow-lg rounded-b z-50"
+                onMouseLeave={() => setIsOpenResponsible(false)}
+              >
+                <Link href="hall-of-fame" passHref>
+                  <Button className="!block !px-4 !py-2 hover:!bg-gray-200 !rounded-b !transition-colors w-full !text-black !text-[12px] text-left">
+                    Hall of Fame
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </li>
+
           <Link href="/about-us" passHref>
             <li
               className={`cursor-pointer hover:text-cyan-400 ${
@@ -229,6 +262,47 @@ const Navbar = () => {
               News
             </li>
           </Link>
+          <li
+            className={`block px-3 py-2 rounded-md transition-colors ${
+              isActive("/responsible-disclosure")
+                ? "bg-purple-600 text-white"
+                : "hover:bg-gray-700"
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <Link href="/responsible-disclosure" passHref>
+                <span
+                  className="flex-grow flex items-center gap-2"
+                  onClick={closeMobileMenu}
+                >
+                  Responsible Disclosure
+                </span>
+              </Link>
+
+              <FaAngleDown
+                className={`transition-transform duration-200 cursor-pointer ${
+                  isOpenResponsible ? "rotate-180" : ""
+                }`}
+                onClick={() => setIsOpenResponsible(!isOpenResponsible)}
+              />
+            </div>
+
+            {isOpenResponsible && (
+              <div className="bg-gray-800 text-white w-full mt-2 rounded-md">
+                <Link href="hall-of-fame" passHref>
+                  <Button
+                    className="!block !px-4 !py-2 hover:!bg-gray-700 !rounded-md !transition-colors w-full !text-white !text-left"
+                    onClick={() => {
+                      setIsOpenResponsible(false);
+                      closeMobileMenu();
+                    }}
+                  >
+                    Hall of Fame
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </li>
           <Link href="/about-us" passHref>
             <li
               className={`block px-3 py-2 rounded-md transition-colors ${

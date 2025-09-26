@@ -48,6 +48,7 @@ export const AppProvider = ({ children }) => {
     setOpenPanel,
     openAlertBox,
     handleClose,
+    isLoaded,
   };
 
   if (!isLoaded) {
