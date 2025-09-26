@@ -10,6 +10,8 @@ import toast, { Toaster } from "react-hot-toast";
 import CommunityDialogBox from "@/components/communityDialogBox/CommunityDialogBox";
 import { useUser } from "@clerk/nextjs";
 import AOS from "aos";
+import AddArticle from "@/components/AddArticle/AddArticle";
+import ArticleDialogBox from "@/components/articleDialogBox/articleDialogBox";
 
 const MyContext = createContext();
 
@@ -93,8 +95,12 @@ export const AppProvider = ({ children }) => {
         <DialogContent dividers>
           {isOpenPanel?.model === "caseStudy" && <CaseStudyDialog />}
           {isOpenPanel?.model === "addCaseStudy" && <AddCaseStudy />}
+          {isOpenPanel?.model === "addArticle" && <AddArticle />}
           {isOpenPanel?.model === "openCommunityDialogBox" && (
             <CommunityDialogBox />
+          )}
+          {isOpenPanel?.model === "openArticleDialogBox" && (
+            <ArticleDialogBox />
           )}
         </DialogContent>
       </Dialog>

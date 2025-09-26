@@ -1,6 +1,22 @@
 import Story from "../../model/communityCaseStudy.model";
 import connectDB from "../connectDB";
 
+let cachedAllCommunitiesStudies = null;
+
+export async function getAllCommunityStoriesForAdmin() {
+  await connectDB();
+
+  if (cachedAllCommunitiesStudies) {
+    return cachedAllCommunitiesStudies;
+  }
+
+  // This function fetches all stories, regardless of status
+  const stories = await Story.find({}).exec();
+  cachedAllCommunitiesStudies = JSON.parse(JSON.stringify(stories));
+
+  return cachedAllCommunitiesStudies;
+}
+
 let cachedCommunitiesStudies = null;
 
 export async function getCommunityStories() {

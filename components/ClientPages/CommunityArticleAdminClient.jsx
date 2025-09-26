@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState, useMemo } from "react";
+import React, { useContext, useEffect, useState, useMemo } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -45,6 +45,7 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
   const [error, setError] = useState(initialError);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const context = useContext(MyContext);
   const { getToken } = useAuth();
@@ -77,7 +78,7 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
     setError(null);
     try {
       const res = await axios.patch(
-        `/api/admin/community-articles/${id}`,
+        `/api/admin/articleCommunity/${id}`,
         {
           status,
           email,
@@ -123,20 +124,17 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
   const handleDeleteStory = async () => {
     if (!selectedId) return;
     setConfirmOpen(false);
-
-    // Set loading for the specific ID
-    setUpdatingIds((prev) => new Set([...prev, selectedId]));
-
     try {
+      setIsLoading(true);
       const token = await getToken();
-      const res = await fetch(`/api/admin/community-articles/${selectedId}`, {
+      const res = await fetch(`/api/admin/articleCommunity/${selectedId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (res.ok) {
         setReportList((prev) => prev.filter((c) => c._id !== selectedId));
-        context.openAlertBox("success", "Community article deleted!");
+        context.openAlertBox("success", "Article deleted!");
       } else {
         const errorData = await res.json();
         context.openAlertBox(
@@ -145,14 +143,11 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
         );
       }
     } catch (error) {
+      setIsLoading(false);
       context.openAlertBox("error", `Error deleting article: ${error.message}`);
     } finally {
       setSelectedId(null);
-      setUpdatingIds((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(selectedId);
-        return newSet;
-      });
+      setIsLoading(false);
     }
   };
 
@@ -168,6 +163,7 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
               <Box className="bg-white p-4 rounded-lg shadow-sm border">
                 <div className="text-sm text-gray-600">Pending Review</div>
+
                 <div className="text-2xl font-bold text-orange-600">
                   {pendingCount}
                 </div>
@@ -175,6 +171,7 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
 
               <Box className="bg-white p-4 rounded-lg shadow-sm border">
                 <div className="text-sm text-gray-600">Approved</div>
+
                 <div className="text-2xl font-bold text-green-600">
                   {approvedCount}
                 </div>
@@ -182,6 +179,7 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
 
               <Box className="bg-white p-4 rounded-lg shadow-sm border">
                 <div className="text-sm text-gray-600">Rejected</div>
+
                 <div className="text-2xl font-bold text-red-600">
                   {rejectedCount}
                 </div>
@@ -210,7 +208,9 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
                         align={column.align}
                         style={{
                           minWidth: column.minWidth,
+
                           backgroundColor: "#f8f9fa",
+
                           fontWeight: "bold",
                         }}
                         className="!whitespace-nowrap"
@@ -223,7 +223,9 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
 
                 <TableBody>
                   {reportList
+
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+
                     .map((row) => {
                       const isUpdating = updatingIds.has(row._id);
 
@@ -270,8 +272,11 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
                                 onClick={() =>
                                   handleStatusUpdate(
                                     row._id,
+
                                     "approved",
+
                                     row.email,
+
                                     row.name
                                   )
                                 }
@@ -294,8 +299,11 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
                                 onClick={() =>
                                   handleStatusUpdate(
                                     row._id,
+
                                     "rejected",
+
                                     row.email,
+
                                     row.name
                                   )
                                 }
@@ -348,7 +356,7 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
               </Table>
             </TableContainer>
 
-            {reportList.length === 0 && (
+            {reportList.length === 0 && !isLoading && (
               <div className="text-center py-8 text-gray-500">
                 No community stories found
               </div>
@@ -362,7 +370,6 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
               page={page}
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-              className="border-t"
             />
           </div>
         </div>
@@ -372,6 +379,7 @@ const CommunityArticleAdminClient = ({ initialStories, initialError }) => {
           title="Confirm Delete"
           message="Are you sure you want to delete this article? This action cannot be undone."
           onConfirm={handleDeleteStory}
+          isLoading={isLoading}
           onCancel={() => setConfirmOpen(false)}
         />
       </div>

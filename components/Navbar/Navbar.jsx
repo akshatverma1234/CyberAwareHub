@@ -20,6 +20,8 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const [isOpenResponsible, setIsOpenResponsible] = useState(false);
+  const [isOpenArticleResponsible, setIsOpenArticleResponsible] =
+    useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,16 +77,40 @@ const Navbar = () => {
               Home
             </li>
           </Link>
-          <Link href="/articles" passHref>
-            <li
-              className={`cursor-pointer hover:text-cyan-400 ${
-                isActive("/articles") ? "text-cyan-400" : "text-gray-200"
-              }`}
-              onClick={closeMobileMenu}
-            >
-              Articles
-            </li>
-          </Link>
+
+          <li
+            className={`relative group ${
+              isActive("/articles") ? "text-cyan-400" : "text-gray-200"
+            } hover:text-cyan-400 transition-colors duration-200`}
+            onMouseEnter={() => setIsOpenArticleResponsible(true)}
+          >
+            <Link href="/articles" passHref>
+              <div className="flex items-center gap-2 cursor-pointer py-2">
+                Articles
+                <FaAngleDown
+                  className={`transition-transform duration-200 ${
+                    isOpenArticleResponsible ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </div>
+            </Link>
+            {isOpenArticleResponsible && (
+              <div
+                className="absolute top-full left-1/2 transform -translate-x-1/2 mt-1 
+      bg-white min-w-[180px] shadow-lg rounded-md overflow-hidden z-50 transition-all"
+              >
+                <Link href="/community-articles" passHref>
+                  <Button
+                    className="!block !px-4 !py-2 hover:!bg-gray-200 !transition-colors !w-full !text-black !text-[12px] !justify-start"
+                    onMouseLeave={() => setIsOpenArticleResponsible(false)}
+                  >
+                    Community Articles
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </li>
+
           <Link href="/case-studies" passHref>
             <li
               className={`cursor-pointer hover:text-cyan-400 ${
@@ -136,11 +162,11 @@ const Navbar = () => {
             {isOpenResponsible && (
               <div
                 className="absolute top-full left-1/2 transform -translate-x-1/2 mt-1 
-                 bg-white w-full shadow-lg rounded-b z-50"
+      bg-white min-w-[180px] shadow-lg rounded-md overflow-hidden z-50 transition-all"
                 onMouseLeave={() => setIsOpenResponsible(false)}
               >
                 <Link href="hall-of-fame" passHref>
-                  <Button className="!block !px-4 !py-2 hover:!bg-gray-200 !rounded-b !transition-colors w-full !text-black !text-[12px] text-left">
+                  <Button className="!block !px-4 !py-2 hover:!bg-gray-200 !transition-colors !w-full !text-black !text-[12px] !justify-start">
                     Hall of Fame
                   </Button>
                 </Link>
