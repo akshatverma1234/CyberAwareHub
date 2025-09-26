@@ -16,6 +16,26 @@ const updateSchema = z.object({
   name: z.string().optional(),
 });
 
+export async function GET(req, { params }) {
+  try {
+    await dbConnect();
+    const { id } = params;
+
+    const story = await Story.findById(id).lean();
+
+    if (!story) {
+      return NextResponse.json({ error: "Story not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(story, { status: 200 });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      { error: "Failed to fetch story" },
+      { status: 500 }
+    );
+  }
+}
 export async function PATCH(req, { params }) {
   try {
     const auth = getAuth(req);

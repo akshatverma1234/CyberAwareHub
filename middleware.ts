@@ -7,7 +7,7 @@ const isPublicRoute = createRouteMatcher([
   "/",
   "/about",
   "/contact",
-  "/sign-in(.*)", // ✅ allow all sign-in routes
+  "/sign-in(.*)",
   "/sign-up(.*)",
 ]);
 
@@ -36,13 +36,12 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // ✅ Protect admin API routes
-  if (isApiRoute(req) && pathname.startsWith("/api/admin/")) {
-    if (session?.sessionClaims?.metadata?.role !== "cyberhub_admin") {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
-    }
-  }
+  // if (isApiRoute(req) && pathname.startsWith("/api/admin/")) {
+  //   if (session?.sessionClaims?.metadata?.role !== "cyberhub_admin") {
+  //     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+  //   }
+  // }
 
-  // ✅ Add security headers
   const response = NextResponse.next();
   response.headers.set(
     "X-Robots-Tag",

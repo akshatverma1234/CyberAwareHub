@@ -17,12 +17,6 @@ const caseStudySchema = z.object({
 
 export async function GET(req) {
   try {
-    const auth = getAuth(req);
-    const adminCheck = checkAdmin(auth);
-    if (adminCheck) {
-      return adminCheck;
-    }
-
     await dbConnect();
 
     const caseStudies = await CaseStudy.find().sort({ createdAt: -1 });

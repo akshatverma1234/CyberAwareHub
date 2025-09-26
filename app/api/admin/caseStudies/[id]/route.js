@@ -18,11 +18,6 @@ const caseStudySchema = z.object({
 
 export async function GET(req, { params }) {
   try {
-    const auth = getAuth(req);
-    const adminCheck = checkAdmin(auth);
-    if (adminCheck) {
-      return adminCheck;
-    }
     await connectDB();
     const { id } = params;
     const caseStudy = await CaseStudy.findById(id);
