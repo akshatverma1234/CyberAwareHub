@@ -1,143 +1,46 @@
-"use client";
-import React, { useContext, useEffect, useState } from "react";
-import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
-import { useParams, useRouter } from "next/navigation";
-import { MyContext } from "@/context/AdminAppContext";
-import axios from "axios";
+import React from "react";
+import EditArticlesAdminClient from "@/components/ClientPages/EditArticlesAdminClient";
+import { getArticleById } from "@/app/api/lib/fetchingData/getArticles";
 
-const EditArticles = () => {
-  const { id } = useParams();
-  const context = useContext(MyContext);
-  const router = useRouter();
+const EditArticlesPage = async ({ params }) => {
+  const { id } = params;
 
-  const [formData, setFormData] = useState({
-    title: "",
-    author: "",
-    publishedDate: "",
-    image: "",
-    summary: "",
-    content: "",
-  });
+  let articleData = null;
+  let error = null;
 
-  useEffect(() => {
-    const fetchArticleDetails = async () => {
-      try {
-        if (id) {
-          const res = await axios.get(`/api/articles/${id}`);
-          setFormData(res.data.article || res.data);
-        }
-      } catch (error) {
-        console.error("Fetch failed:", error);
-        context.openAlertBox("error", "Article not found!");
-      }
-    };
-    fetchArticleDetails();
-  }, [id]);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.patch(`/api/articles/${id}`, formData);
-      context.openAlertBox("success", "Article updated successfully!");
-      router.push("/admin/articles");
-    } catch (err) {
-      console.error("Update failed:", err);
-      context.openAlertBox("error", "Failed to update article!");
+  try {
+    if (!id) {
+      throw new Error("No article ID provided.");
     }
-  };
+    articleData = await getArticleById(id);
+    if (!articleData) {
+      error = "Article not found.";
+    }
+  } catch (err) {
+    console.error("Fetch failed:", err);
+    error = "Failed to fetch article details!";
+  }
+
+  // Handle the error state on the server
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[#f5f5f6] flex items-center justify-center p-4">
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong className="font-bold">Error:</strong>
+          <span className="block sm:inline ml-2">{error}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#f5f5f6] flex justify-center">
-      <div className="flex-1 md:ml-[18%] p-4 md:p-8">
-        <h1 className="text-2xl font-bold mb-6 text-center sm:text-left">
-          Edit Article
-        </h1>
-
-        <form
-          onSubmit={handleSubmit}
-          className="p-6 sm:p-8 bg-white rounded shadow-md flex flex-col gap-4"
-        >
-          <div className="flex flex-wrap gap-4">
-            <TextField
-              label="Title"
-              name="title"
-              variant="outlined"
-              className="flex-1 min-w-[200px] shadow-md"
-              value={formData.title}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Author"
-              name="author"
-              variant="outlined"
-              className="flex-1 min-w-[150px] shadow-md"
-              value={formData.author}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              label="Publish Date"
-              name="publishedDate"
-              variant="outlined"
-              type="date"
-              className="flex-1 min-w-[150px] shadow-md"
-              value={formData.publishedDate}
-              onChange={handleChange}
-              required
-              InputLabelProps={{ shrink: true }}
-            />
-            <TextField
-              label="Image URL"
-              name="image"
-              variant="outlined"
-              className="flex-1 min-w-[200px] shadow-md"
-              value={formData.image}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <TextField
-            label="Summary"
-            name="summary"
-            variant="outlined"
-            multiline
-            rows={4}
-            className="w-full shadow-md"
-            value={formData.summary}
-            onChange={handleChange}
-          />
-
-          <TextField
-            label="Content"
-            name="content"
-            multiline
-            rows={10}
-            className="w-full shadow-md"
-            value={formData.content}
-            onChange={handleChange}
-            required
-          />
-
-          <div className="flex justify-center mt-4">
-            <Button
-              type="submit"
-              variant="contained"
-              className="w-full sm:w-[40%] h-[50px] !text-[16px] !bg-gray-900"
-            >
-              Update Article
-            </Button>
-          </div>
-        </form>
-      </div>
+      <EditArticlesAdminClient initialData={articleData} />
     </div>
   );
 };
 
-export default EditArticles;
+export default EditArticlesPage;

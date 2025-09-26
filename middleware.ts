@@ -17,7 +17,6 @@ export default clerkMiddleware(async (auth, req) => {
 
   const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip");
 
-  // ✅ Allow public routes without checks
   if (isPublicRoute(req)) {
     return NextResponse.next();
   }
@@ -35,7 +34,6 @@ export default clerkMiddleware(async (auth, req) => {
     }
   }
 
-  // ✅ Protect admin API routes
   // if (isApiRoute(req) && pathname.startsWith("/api/admin/")) {
   //   if (session?.sessionClaims?.metadata?.role !== "cyberhub_admin") {
   //     return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
@@ -60,6 +58,5 @@ export default clerkMiddleware(async (auth, req) => {
 });
 
 export const config = {
-  // Exclude static files and public assets from middleware
   matcher: ["/((?!_next/static|_next/image|favicon.ico|public/).*)"],
 };

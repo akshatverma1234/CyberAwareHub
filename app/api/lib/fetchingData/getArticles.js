@@ -11,3 +11,17 @@ export async function getArticles() {
     return [];
   }
 }
+
+export async function getArticleById(id) {
+  try {
+    await connectDB();
+    const article = await Article.findById(id);
+    if (!article) {
+      return null;
+    }
+    return JSON.parse(JSON.stringify(article));
+  } catch (error) {
+    console.error("Error fetching article by ID:", error);
+    return null;
+  }
+}

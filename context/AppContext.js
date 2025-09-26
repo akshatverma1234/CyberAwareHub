@@ -8,9 +8,8 @@ import CaseStudyDialog from "@/components/CaseStudyDialog/CaseStudyDialog";
 import AddCaseStudy from "@/components/AddCaseStudy/AddCaseStudy";
 import toast, { Toaster } from "react-hot-toast";
 import CommunityDialogBox from "@/components/communityDialogBox/CommunityDialogBox";
-import { ClerkProvider, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import AOS from "aos";
-import { useRouter } from "next/navigation";
 
 const MyContext = createContext();
 

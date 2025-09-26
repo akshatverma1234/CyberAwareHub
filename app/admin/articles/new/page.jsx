@@ -118,7 +118,6 @@ const AddNewArticle = () => {
             required
           />
 
-          {/* Submit Button */}
           <div className="flex justify-center mt-4">
             <Button
               type="submit"
